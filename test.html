@@ -1,39 +1,64 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Swedish Word Lookup</title>
   <style>
     body { font-family: sans-serif; padding: 2rem; text-align: center; }
-    input, button { font-size: 1.2rem; padding: 0.5rem; margin: 1rem; }
-    pre { text-align: left; max-width: 600px; margin: 2rem auto; background: #f4f4f4; padding: 1rem; border-radius: 8px; }
+    input, button { font-size: 1.1rem; padding: 0.5rem; margin: 0.5rem; }
+    pre { background: #f4f4f4; padding: 1rem; border-radius: 8px; max-width: 600px; margin: 1rem auto; text-align: left; }
+    #tokenInputContainer { margin-bottom: 2rem; }
+    #output.error { color: red; }
   </style>
 </head>
 <body>
   <h1>Swedish Word Lookup</h1>
+
+  <div id="tokenInputContainer">
+    <input type="password" id="tokenInput" placeholder="Enter Bearer Token" />
+    <button onclick="saveToken()">Authorize</button>
+  </div>
+
   <input type="number" id="wordId" placeholder="Enter word ID" />
   <button onclick="getWord()">Get Word</button>
+
   <pre id="output">Result will appear here...</pre>
 
   <script>
+    function saveToken() {
+      const token = document.getElementById('tokenInput').value;
+      sessionStorage.setItem('bearerToken', token);
+      alert("Token saved for this session.");
+    }
+
     async function getWord() {
+      const token = sessionStorage.getItem('bearerToken');
       const id = document.getElementById('wordId').value;
       const output = document.getElementById('output');
 
+      if (!token) {
+        output.textContent = "❌ Please authorize first.";
+        output.classList.add("error");
+        return;
+      }
+
       output.textContent = "Loading...";
+      output.classList.remove("error");
 
       try {
         const res = await fetch(`https://213.89.2.214:7018/api/words/${id}`, {
           headers: {
-            'Authorization': 'Bearer your-long-token-here'
+            'Authorization': 'Bearer ' + token
           }
         });
 
         if (!res.ok) throw new Error("Unauthorized or Not Found");
+
         const data = await res.json();
         output.textContent = JSON.stringify(data, null, 2);
       } catch (err) {
         output.textContent = "❌ Error: " + err.message;
+        output.classList.add("error");
       }
     }
   </script>
