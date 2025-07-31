@@ -18,6 +18,7 @@
     <button onclick="saveToken()">Authorize</button>
   </div>
 
+  <button onclick="getPrevWord()">Get Previous Word</button>
   <input type="number" id="wordId" placeholder="Enter word ID" />
   <button onclick="getWord()">Get Word</button>
   <button onclick="getNextWord()">Get Next Word</button>
@@ -26,6 +27,14 @@
   <button id="saveBtn" onclick="saveTranslations()" style="display:none;">Save Translations</button>
 
   <script>
+    function getPrevWord() {
+      const input = document.getElementById('wordId');
+      let id = parseInt(input.value || '0', 10);
+      if (isNaN(id)) id = 0;
+      input.value = id - 1;
+      getWord();
+    }
+
     function getNextWord() {
       const input = document.getElementById('wordId');
       let id = parseInt(input.value || '0', 10);
