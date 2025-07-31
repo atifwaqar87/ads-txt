@@ -79,15 +79,17 @@
             'ur_PK sentence'
           ];
         
-          displayOrder.forEach(key => {
-            const value = parsed[key] ?? '';
-            const row = document.createElement('div');
-            row.innerHTML = `
-              <label>${key}</label>
-              <input type="text" name="${key}" value="${value}" />
-            `;
-            editor.appendChild(row);
-          });
+displayOrder.forEach(key => {
+  const value = parsed[key] ?? '';
+  const isReadOnly = key === 'wordClass' || key === 'en_US word';
+  const row = document.createElement('div');
+  row.innerHTML = `
+    <label>${key}</label>
+    <input type="text" name="${key}" value="${value}" ${isReadOnly ? 'readonly' : ''} />
+  `;
+  editor.appendChild(row);
+});
+
         
           editor.style.display = "flex";
           saveBtn.style.display = "inline-block";
