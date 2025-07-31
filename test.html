@@ -107,20 +107,46 @@ displayOrder.forEach(key => {
       }
     }
 
-    function saveTranslations() {
+    async function saveTranslations() {
       const inputs = document.querySelectorAll('#translationsEditor input');
       const updated = {};
       inputs.forEach(input => {
         updated[input.name] = input.value;
       });
-
-      const jsonString = JSON.stringify(updated, null, 2);
+    
+      const jsonString = JSON.stringify(updated);
       const output = document.getElementById('output');
-      output.textContent = "✅ New Translations JSON:\n" + jsonString;
-      output.classList.add('output-success');
-
-      // You can now send jsonString back to the API using fetch(POST) if needed.
-      console.log("Ready to POST:", jsonString);
+      const token = sessionStorage.getItem('bearerToken');
+      const id = parseInt(document.getElementById('wordId').value, 10);
+    
+      if (!token || !id || isNaN(id)) {
+        output.style.display = "block";
+        output.textContent = "❌ Cannot save: missing token or valid ID.";
+        return;
+      }
+    
+      try {
+        const res = await fetch("https://213.89.2.214:7018/api/words/update", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + token
+          },
+          body: JSON.stringify({
+            id: id,
+            translations: jsonString
+          })
+        });
+    
+        const resultText = await res.text();
+        output.style.display = "block";
+        output.textContent = res.ok
+          ? "✅ Translations saved: " + resultText
+          : "❌ Save failed: " + resultText;
+      } catch (err) {
+        output.style.display = "block";
+        output.textContent = "❌ Error: " + err.message;
+      }
     }
   </script>
   <pre id="output" style="display:none;"></pre>
