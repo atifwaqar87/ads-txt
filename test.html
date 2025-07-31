@@ -74,7 +74,8 @@
         if (!res.ok) throw new Error("Unauthorized or Not Found");
 
         const data = await res.json();
-
+        
+        document.getElementById('wordId').value = data.id;
         if (data.translations && typeof data.translations === 'string') {
           const parsed = JSON.parse(data.translations);
         
