@@ -10,23 +10,78 @@
     .edit-box div { display: flex; gap: 1rem; align-items: center; }
     .edit-box label { width: 180px; text-align: right; }
     .output-success { color: green; }
+    #mainControls, #translationsEditor, #saveBtn, #output { display: none; }
   </style>
 </head>
-<body>
+<body onload="initUI()">
+  <!-- Token input and auth -->
   <div id="tokenInputContainer">
     <input type="password" id="tokenInput" placeholder="Enter Bearer Token" />
     <button onclick="saveToken()">Authorize</button>
   </div>
 
-  <button onclick="getPrevWord()">Get Previous Word</button>
-  <input type="text" id="wordId" placeholder="Enter ID or Word" />
-  <button onclick="getWord()">Get Word</button>
-  <button onclick="getNextWord()">Get Next Word</button>
+  <!-- Controls (hidden initially) -->
+  <div id="mainControls">
+    <button onclick="getPrevWord()">Get Previous Word</button>
+    <input type="text" id="wordId" placeholder="Enter ID or Word" />
+    <button onclick="getWord()">Get Word</button>
+    <button onclick="getNextWord()">Get Next Word</button>
+  </div>
 
-  <div id="translationsEditor" class="edit-box" style="display:none;"></div>
-  <button id="saveBtn" onclick="saveTranslations()" style="display:none;">Save Translations</button>
+  <!-- Editor -->
+  <div id="translationsEditor" class="edit-box"></div>
+  <button id="saveBtn" onclick="saveTranslations()">Save Translations</button>
+
+  <!-- Status output -->
+  <div id="serverStatus" style="margin-top: 1rem;"></div>
+  <pre id="output"></pre>
 
   <script>
+    function initUI() {
+      document.getElementById("tokenInputContainer").style.display = "block";
+      document.getElementById("mainControls").style.display = "none";
+      document.getElementById("translationsEditor").style.display = "none";
+      document.getElementById("saveBtn").style.display = "none";
+      document.getElementById("output").style.display = "none";
+      document.getElementById("serverStatus").textContent = "";
+    }
+
+    function saveToken() {
+      const token = document.getElementById('tokenInput').value;
+      sessionStorage.setItem('bearerToken', token);
+      checkServerStatus();
+    }
+
+    async function checkServerStatus() {
+      const token = sessionStorage.getItem('bearerToken');
+      const status = document.getElementById('serverStatus');
+
+      if (!token) {
+        status.textContent = "⚠️ Token not set";
+        status.style.color = "orange";
+        return;
+      }
+
+      try {
+        const res = await fetch("https://213.89.2.214:7018/api/ping", {
+          headers: { "Authorization": "Bearer " + token }
+        });
+
+        if (res.ok) {
+          document.getElementById("tokenInputContainer").style.display = "none";
+          document.getElementById("mainControls").style.display = "block";
+          status.textContent = "✅ Connected to server.";
+          status.style.color = "green";
+        } else {
+          status.textContent = "❌ Server is down. Contact Atif the Admin.";
+          status.style.color = "red";
+        }
+      } catch (err) {
+        status.textContent = "❌ Server is down. Contact Atif the Admin.";
+        status.style.color = "red";
+      }
+    }
+
     function getPrevWord() {
       const input = document.getElementById('wordId');
       let id = parseInt(input.value || '0', 10);
@@ -43,11 +98,6 @@
       getWord();
     }
 
-    function saveToken() {
-      const token = document.getElementById('tokenInput').value;
-      sessionStorage.setItem('bearerToken', token);
-    }
-
     async function getWord() {
       const token = sessionStorage.getItem('bearerToken');
       const id = document.getElementById('wordId').value;
@@ -57,11 +107,13 @@
 
       if (!token) {
         output.textContent = "❌ Please authorize first.";
+        output.style.display = "block";
         return;
       }
 
       editor.style.display = "none";
       saveBtn.style.display = "none";
+      output.style.display = "none";
       editor.innerHTML = "";
 
       try {
@@ -74,11 +126,11 @@
         if (!res.ok) throw new Error("Unauthorized or Not Found");
 
         const data = await res.json();
-        
+
         document.getElementById('wordId').value = data.id;
+
         if (data.translations && typeof data.translations === 'string') {
           const parsed = JSON.parse(data.translations);
-        
           const displayOrder = [
             'wordClass',
             'en_US word',
@@ -86,24 +138,24 @@
             'en_US sentence',
             'ur_PK sentence'
           ];
-        
-displayOrder.forEach(key => {
-  const value = parsed[key] ?? '';
-  const isReadOnly = key === 'wordClass' || key === 'en_US word';
-  const row = document.createElement('div');
-  row.innerHTML = `
-    <label>${key}</label>
-    <input type="text" name="${key}" value="${value}" ${isReadOnly ? 'readonly' : ''} />
-  `;
-  editor.appendChild(row);
-});
 
-        
+          displayOrder.forEach(key => {
+            const value = parsed[key] ?? '';
+            const isReadOnly = key === 'wordClass' || key === 'en_US word';
+            const row = document.createElement('div');
+            row.innerHTML = `
+              <label>${key}</label>
+              <input type="text" name="${key}" value="${value}" ${isReadOnly ? 'readonly' : ''} />
+            `;
+            editor.appendChild(row);
+          });
+
           editor.style.display = "flex";
           saveBtn.style.display = "inline-block";
         }
       } catch (err) {
         output.textContent = "❌ Error: " + err.message;
+        output.style.display = "block";
       }
     }
 
@@ -113,18 +165,18 @@ displayOrder.forEach(key => {
       inputs.forEach(input => {
         updated[input.name] = input.value;
       });
-    
+
       const jsonString = JSON.stringify(updated);
       const output = document.getElementById('output');
       const token = sessionStorage.getItem('bearerToken');
       const id = parseInt(document.getElementById('wordId').value, 10);
-    
+
       if (!token || !id || isNaN(id)) {
         output.style.display = "block";
         output.textContent = "❌ Cannot save: missing token or valid ID.";
         return;
       }
-    
+
       try {
         const res = await fetch("https://213.89.2.214:7018/api/words/update", {
           method: "POST",
@@ -137,7 +189,7 @@ displayOrder.forEach(key => {
             translations: jsonString
           })
         });
-    
+
         const resultText = await res.text();
         output.style.display = "block";
         output.textContent = res.ok
@@ -149,6 +201,4 @@ displayOrder.forEach(key => {
       }
     }
   </script>
-  <pre id="output" style="display:none;"></pre>
-</body>
 </html>
