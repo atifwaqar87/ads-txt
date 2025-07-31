@@ -23,11 +23,20 @@
 
   <input type="number" id="wordId" placeholder="Enter word ID" />
   <button onclick="getWord()">Get Word</button>
+  <button onclick="getNextWord()">Get Next Word</button>
 
   <div id="translationsEditor" class="edit-box" style="display:none;"></div>
   <button id="saveBtn" onclick="saveTranslations()" style="display:none;">Save Translations</button>
 
   <script>
+    function getNextWord() {
+      const input = document.getElementById('wordId');
+      let id = parseInt(input.value || '0', 10);
+      if (isNaN(id)) id = 0;
+      input.value = id + 1;
+      getWord();
+    }
+
     function saveToken() {
       const token = document.getElementById('tokenInput').value;
       sessionStorage.setItem('bearerToken', token);
