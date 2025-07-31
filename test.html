@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Swedish Word Lookup</title>
+  <style>
+    body { font-family: sans-serif; padding: 2rem; text-align: center; }
+    input, button { font-size: 1.2rem; padding: 0.5rem; margin: 1rem; }
+    pre { text-align: left; max-width: 600px; margin: 2rem auto; background: #f4f4f4; padding: 1rem; border-radius: 8px; }
+  </style>
+</head>
+<body>
+  <h1>Swedish Word Lookup</h1>
+  <input type="number" id="wordId" placeholder="Enter word ID" />
+  <button onclick="getWord()">Get Word</button>
+  <pre id="output">Result will appear here...</pre>
+
+  <script>
+    async function getWord() {
+      const id = document.getElementById('wordId').value;
+      const output = document.getElementById('output');
+
+      output.textContent = "Loading...";
+
+      try {
+        const res = await fetch(`https://213.89.2.214:7018/api/words/${id}`, {
+          headers: {
+            'Authorization': 'Bearer your-long-token-here'
+          }
+        });
+
+        if (!res.ok) throw new Error("Unauthorized or Not Found");
+        const data = await res.json();
+        output.textContent = JSON.stringify(data, null, 2);
+      } catch (err) {
+        output.textContent = "❌ Error: " + err.message;
+      }
+    }
+  </script>
+</body>
+</html>
