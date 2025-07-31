@@ -200,5 +200,25 @@
         output.textContent = "❌ Error: " + err.message;
       }
     }
+
+    document.addEventListener("DOMContentLoaded", () => {
+  const tokenInput = document.getElementById("tokenInput");
+  const wordIdInput = document.getElementById("wordId");
+
+  tokenInput.addEventListener("keypress", function (e) {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      document.querySelector("#tokenInputContainer button").click();
+    }
+  });
+
+  wordIdInput.addEventListener("keypress", function (e) {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      document.querySelector("#mainControls button:nth-of-type(2)").click();
+    }
+  });
+});
+
   </script>
 </html>
