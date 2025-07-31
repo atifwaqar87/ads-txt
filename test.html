@@ -63,7 +63,7 @@
       }
 
       try {
-        const res = await fetch("https://213.89.2.214:7018/api/ping", {
+        const res = await fetch("https://213.89.2.214/api/ping", {
           headers: { "Authorization": "Bearer " + token }
         });
 
@@ -117,7 +117,7 @@
       editor.innerHTML = "";
 
       try {
-        const res = await fetch(`https://213.89.2.214:7018/api/words/${id}`, {
+        const res = await fetch(`https://213.89.2.214/api/words/${id}`, {
           headers: {
             'Authorization': 'Bearer ' + token
           }
@@ -178,7 +178,7 @@
       }
 
       try {
-        const res = await fetch("https://213.89.2.214:7018/api/words/update", {
+        const res = await fetch("https://213.89.2.214/api/words/update", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
