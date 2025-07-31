@@ -66,14 +66,25 @@
 
         if (data.translations && typeof data.translations === 'string') {
           const parsed = JSON.parse(data.translations);
-          for (const [key, value] of Object.entries(parsed)) {
+        
+          const displayOrder = [
+            'wordClass',
+            'en_US word',
+            'ur_PK word',
+            'en_US sentence',
+            'ur_PK sentence'
+          ];
+        
+          displayOrder.forEach(key => {
+            const value = parsed[key] ?? '';
             const row = document.createElement('div');
             row.innerHTML = `
               <label>${key}</label>
               <input type="text" name="${key}" value="${value}" />
             `;
             editor.appendChild(row);
-          }
+          });
+        
           editor.style.display = "flex";
           saveBtn.style.display = "inline-block";
         }
