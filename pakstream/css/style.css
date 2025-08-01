@@ -134,7 +134,7 @@ footer {
     width: 100%;
   }
   /* Show nav when checkbox is checked */
-  #nav-toggle:checked + .nav-toggle-label + nav ul {
+  #nav-toggle:checked ~ nav ul {
     display: flex;
   }
   nav li {
