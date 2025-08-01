@@ -1,16 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PakStream - TV Channels</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>PakStream – Live TV</title>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5427964157655690"
      crossorigin="anonymous"></script>
-  
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-  <!-- Header with site navigation -->
+  <!-- Header with navigation -->
   <header>
     <input type="checkbox" id="nav-toggle">
     <label for="nav-toggle" class="nav-toggle-label">☰</label>
@@ -31,36 +30,27 @@
     </nav>
   </header>
 
-  <!-- Main section with a table of TV channels -->
-  <section>
-    <h2>Pakistani TV Channels</h2>
-    <p>Watch live streams or learn more about major Pakistani news and entertainment channels.</p>
-    <table>
-      <tr>
-        <th>Channel</th>
-        <th>Description</th>
-        <th>Visit</th>
-      </tr>
-      <tr>
-        <td>Geo&nbsp;News</td>
-        <td>Geo&nbsp;News, launched in October&nbsp;2002, is one of Pakistan’s most popular Urdu‑language news channels.</td>
-        <td><a href="https://live.geo.tv/" target="_blank" rel="noopener">Watch Live</a></td>
-      </tr>
-      <tr>
-        <td>ARY&nbsp;News</td>
-        <td>ARY&nbsp;News started as ARY&nbsp;One and was rebranded to ARY&nbsp;News on 26&nbsp;September&nbsp;2004; it airs in Urdu and English and is part of the ARY&nbsp;Digital Network.</td>
-        <td><a href="https://arynews.tv/" target="_blank" rel="noopener">Official Site</a></td>
-      </tr>
-      <tr>
-        <td>PTV&nbsp;Home</td>
-        <td>PTV&nbsp;Home, launched on 26&nbsp;November&nbsp;1964, is a state‑owned channel broadcasting dramas, cultural shows and public service programming.</td>
-        <td><a href="https://www.ptv.com.pk/ptvHome" target="_blank" rel="noopener">Official Site</a></td>
-      </tr>
-    </table>
-    <p>More channels will be added as streaming options permit.</p>
+  <!-- YouTube section with channel list and livestream player -->
+  <section class="youtube-section">
+    <div class="channel-list">
+      <div class="channel-card active" data-channel-id="UCNye-wNBqNL5ZzHSJj3l8Bg">Geo&nbsp;News</div>
+      <div class="channel-card" data-channel-id="UCqJyq3jpGMe2EXvP9uoCD2Q">ARY&nbsp;News</div>
+      <div class="channel-card" data-channel-id="UCsXVk37bltHxD1rDPwtNM8Q">PTV&nbsp;News</div>
+      <div class="channel-card" data-channel-id="UCnkYymEbl1qZ0VhGrzH9guw">Dr&nbsp;Moeed&nbsp;Pirzada</div>
+      <div class="channel-card" data-channel-id="UCslugpmYWJiZK5rbvtcaV7Q">Mubasher&nbsp;Lucman</div>
+      <div class="channel-card" data-channel-id="UCY7eFg5TEMsk_aTqM0pVB4w">Sabir&nbsp;Shakir</div>
+    </div>
+    <div class="video-section">
+      <div class="player-wrapper">
+        <iframe id="playerFrame" src="" allowfullscreen title="Live stream player"></iframe>
+      </div>
+      <div class="video-list">
+        <p>Select a channel to view its live stream. Note: Only available if the channel is live.</p>
+      </div>
+    </div>
   </section>
 
-  <!-- Placeholder for advertising or extra content -->
+  <!-- Placeholder for advertising -->
   <div class="ad-container">
     <!-- Google AdSense: Insert your ad code here -->
   </div>
@@ -69,5 +59,35 @@
   <footer>
     <p>© 2025 PakStream.</p>
   </footer>
+
+  <script>
+    const cards = document.querySelectorAll('.channel-card');
+    const playerFrame = document.getElementById('playerFrame');
+
+    function setActiveCard(clickedCard) {
+      cards.forEach(c => c.classList.remove('active'));
+      clickedCard.classList.add('active');
+    }
+
+    function loadLiveStream(channelId) {
+      // Embed live stream for the channel
+      playerFrame.src = `https://www.youtube.com/embed/live_stream?channel=${channelId}&autoplay=1&rel=0`;
+    }
+
+    cards.forEach(card => {
+      card.addEventListener('click', () => {
+        const channelId = card.dataset.channelId;
+        setActiveCard(card);
+        loadLiveStream(channelId);
+      });
+    });
+
+    // Auto-load the first channel
+    if (cards.length > 0) {
+      const firstCard = cards[0];
+      setActiveCard(firstCard);
+      loadLiveStream(firstCard.dataset.channelId);
+    }
+  </script>
 </body>
 </html>
