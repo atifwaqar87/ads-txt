@@ -1,4 +1,3 @@
-<!-- youtube_dynamic.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,78 +5,62 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>PakStream – YouTube</title>
   <link rel="stylesheet" href="css/style.css">
-  <style>
-    section{display:flex;gap:20px;padding:20px;}
-    .channel-list{flex:1;max-width:280px;overflow-y:auto;height:calc(100vh-100px);}
-    .channel-card{background:#fff;border:1px solid #e5e5e5;border-radius:8px;
-                  padding:12px 16px;margin-bottom:12px;cursor:pointer;
-                  transition:background-color .2s;}
-    .channel-card:hover{background:#f0f0f0;}
-    .channel-card.active{background:#e8e8e8;}
-    .video-section{flex:2;display:flex;flex-direction:column;}
-    .player-wrapper{position:relative;width:100%;padding-bottom:56.25%;background:#000;}
-    .player-wrapper iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:0;}
-    .video-list{margin-top:10px;display:flex;flex-direction:column;gap:8px;
-                overflow-y:auto;max-height:400px;}
-    .video-item{display:flex;gap:8px;padding:6px;border-radius:4px;cursor:pointer;
-                transition:background-color .2s;align-items:center;}
-    .video-item:hover{background:#f0f0f0;}
-    .video-item.active{background:#e8e8e8;}
-    .video-item img{width:120px;height:67px;object-fit:cover;border-radius:4px;}
-    .video-title{flex:1;font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-    footer{text-align:center;padding:20px;background:#fff;border-top:1px solid #e5e5e5;color:#777;}
-    @media(max-width:768px){section{flex-direction:column;}
-      .channel-list{max-width:100%;height:auto;order:2;}
-      .video-section{order:1;}}
-  </style>
 </head>
 <body>
+  <!-- Header with navigation.  The hamburger menu appears on small screens. -->
   <header>
     <input type="checkbox" id="nav-toggle">
-    <label for="nav-toggle" class="nav-toggle-label">&#9776;</label>
+    <label for="nav-toggle" class="nav-toggle-label">☰</label>
     <div class="logo-title">
       <h1>PakStream</h1>
     </div>
     <nav>
       <ul>
         <li><a href="index.html">Home</a></li>
-        <li><a href="radio.html">Radio</a></li>
-        <li><a href="tv.html">TV</a></li>
         <li><a href="youtube.html">YouTube</a></li>
+        <li><a href="tv.html">TV</a></li>
+        <li><a href="radio.html">Radio</a></li>
         <li><a href="about.html">About</a></li>
         <li><a href="contact.html">Contact</a></li>
+        <li><a href="privacy.html">Privacy</a></li>
+        <li><a href="terms.html">Terms</a></li>
       </ul>
     </nav>
   </header>
-  <section>
+
+  <!-- YouTube section with channel list and video player -->
+  <section class="youtube-section">
+    <!-- List of Pakistani YouTube channels.  The active class highlights the selected channel. -->
     <div class="channel-list">
-      <!-- Example channel with a known ID; replace others with real UC IDs -->
-      <div class="channel-card" data-channel-id="UCaszgR2TH3qNw_CxLHAd2SQ">Imran Riaz Khan</div>
-      <div class="channel-card" data-channel-id="UCY7eFg5TEMsk_aTqM0pVB4w">Sabir Shakir</div>
-      <div class="channel-card" data-channel-id="UCFCzDl-XQq1TCo_fvBzCoyw">Sami Abraham</div>
-      <div class="channel-card" data-channel-id="UClDtMswg3muouH60XTKlVEw">Mansoor Ali Khan</div>
-      <div class="channel-card" data-channel-id="UCnkYymEbl1qZ0VhGrzH9guw">Dr Moeed Pirzada</div>
-      <div class="channel-card" data-channel-id="UCslugpmYWJiZK5rbvtcaV7Q">Mubasher Lucman</div>
-      <div class="channel-card" data-channel-id="UChOzmkBxTHbZNZdiiYolWoA">Faisal Warraich</div>
-      <div class="channel-card" data-channel-id="UCYdLgIyZnHVwlDkF3Y0G_cQ">Abdul Qadir</div>
-      <!-- <div class="channel-card" data-channel-id="UC-PoCqWxInxzN-9r9FxXJGg">Siddique Jaan</div>
-      <div class="channel-card" data-channel-id="UCfVYNG_5bTlN7wClnHbz4KQ">Syed Ali Haider</div>
-      <div class="channel-card" data-channel-id="UCAO1utA5OhesHBHWjXd1wMw">Usama Ghazi</div>
-      <div class="channel-card" data-channel-id="UCeqdeoG3nRSkkbBKT9u3wQQ">Jameel Farooqui</div>      
-      <div class="channel-card" data-handle="CharsaddaJournalists">Charsadda Journalist</div>
-      <div class="channel-card" data-handle="">Major (R) Adil Raja (channel unavailable)</div>
-      … add remaining channels with their UC IDs … -->
+      <div class="channel-card active" data-channel-id="UCaszgR2TH3qNw_CxLHAd2SQ">Imran&nbsp;Riaz&nbsp;Khan</div>
+      <div class="channel-card" data-channel-id="UCY7eFg5TEMsk_aTqM0pVB4w">Sabir&nbsp;Shakir</div>
+      <div class="channel-card" data-channel-id="UCFCzDl-XQq1TCo_fvBzCoyw">Sami&nbsp;Abraham</div>
+      <div class="channel-card" data-channel-id="UClDtMswg3muouH60XTKlVEw">Mansoor&nbsp;Ali&nbsp;Khan</div>
+      <div class="channel-card" data-channel-id="UCnkYymEbl1qZ0VhGrzH9guw">Dr&nbsp;Moeed&nbsp;Pirzada</div>
+      <div class="channel-card" data-channel-id="UCslugpmYWJiZK5rbvtcaV7Q">Mubasher&nbsp;Lucman</div>
+      <div class="channel-card" data-channel-id="UChOzmkBxTHbZNZdiiYolWoA">Faisal&nbsp;Warraich</div>
+      <div class="channel-card" data-channel-id="UCYdLgIyZnHVwlDkF3Y0G_cQ">Abdul&nbsp;Qadir</div>
     </div>
+    <!-- Video display area: a player for the selected video and a list of recent videos -->
     <div class="video-section">
       <div class="player-wrapper">
         <iframe id="playerFrame" src="" allowfullscreen title="Selected video player"></iframe>
       </div>
-      <div id="videoList" class="video-list"></div>
+      <div id="videoList" class="video-list"><p>Loading videos…</p></div>
     </div>
   </section>
 
-  <footer><p>© 2025 PakStream.</p></footer>
+  <!-- Placeholder for advertising or extra content -->
+  <div class="ad-container">
+    <!-- Google AdSense: Insert your ad code here -->
+  </div>
 
+  <!-- Footer -->
+  <footer>
+    <p>© 2025 PakStream.</p>
+  </footer>
+
+  <!-- JavaScript for dynamically loading latest videos from the selected channel -->
   <script>
     async function fetchLatestVideos(channelId) {
       const feedUrl = `https://www.youtube.com/feeds/videos.xml?channel_id=${channelId}`;
@@ -149,7 +132,7 @@
       }
     }
     cards.forEach(card => card.addEventListener('click', () => handleChannelClick(card)));
-    // auto-select the first card
+    // auto-select the first channel on load
     if (cards.length > 0) handleChannelClick(cards[0]);
   </script>
 </body>
