@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PakStream - Privacy Policy</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header>
+    <input type="checkbox" id="nav-toggle">
+    <label for="nav-toggle" class="nav-toggle-label">&#9776;</label>
+    <div class="logo-title">
+      <h1>PakStream</h1>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="radio.html">Radio</a></li>
+        <li><a href="tv.html">TV</a></li>
+        <li><a href="youtube.html">YouTube</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section>
+    <h2>Privacy Policy</h2>
+    <p>We respect your privacy. PakStream does not collect, store, or process any personal data from users.</p>
+    <p>We do not use cookies, analytics, or tracking technologies of any kind.</p>
+    <p>If you have any concerns or questions, please contact us at 
+      <a href="mailto:atif.sheikh87@gmail.com">atif.sheikh87@gmail.com</a>.
+    </p>
+  </section>
+
+  <div class="ad-container">
+    <!-- Google AdSense: Insert your ad code here -->
+  </div>
+
+  <footer>
+    <p>&copy; 2025 PakStream.</p>
+  </footer>
+</body>
+</html>
