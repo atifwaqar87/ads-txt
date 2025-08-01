@@ -4,8 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>PakStream – Live TV</title>
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5427964157655690"
-     crossorigin="anonymous"></script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5427964157655690" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="css/style.css">
   <style>
     .live-player iframe {
@@ -61,45 +60,44 @@
   <!-- TV Livestream section -->
   <section class="youtube-section">
     <div class="channel-list">
-      <div class="channel-card active" onclick="showStream('geo')">Geo News</div>
-      <div class="channel-card" onclick="showStream('ary')">ARY News</div>
-      <div class="channel-card" onclick="showStream('express')">Express News</div>
-      <div class="channel-card" onclick="showStream('bol')">BOL News</div>
-      <div class="channel-card" onclick="showStream('gnn')">GNN</div>
-      <div class="channel-card" onclick="showStream('sama')">SAMAA TV</div>
-      <div class="channel-card" onclick="showStream('24news')">24 News</div>
-      <div class="channel-card" onclick="showStream('ptv')">PTV News</div>
-      <div class="channel-card" onclick="showStream('aik')">Aik News</div>
+      <div class="channel-card active" onclick="showStream('geo', this)">Geo News</div>
+      <div class="channel-card" onclick="showStream('ary', this)">ARY News</div>
+      <div class="channel-card" onclick="showStream('express', this)">Express News</div>
+      <div class="channel-card" onclick="showStream('bol', this)">BOL News</div>
+      <div class="channel-card" onclick="showStream('gnn', this)">GNN</div>
+      <div class="channel-card" onclick="showStream('sama', this)">SAMAA TV</div>
+      <div class="channel-card" onclick="showStream('24news', this)">24 News</div>
+      <div class="channel-card" onclick="showStream('ptv', this)">PTV News</div>
+      <div class="channel-card" onclick="showStream('aik', this)">Aik News</div>
     </div>
     <div class="video-section">
       <div id="geo" class="live-player">
-        <iframe src="https://www.youtube.com/embed/O3DPVlynUM0?autoplay=1" allowfullscreen allow="autoplay; encrypted-media"></iframe>
+        <iframe id="geo-player" src="https://www.youtube.com/embed/O3DPVlynUM0?enablejsapi=1&autoplay=1" allowfullscreen></iframe>
       </div>
       <div id="ary" class="live-player" style="display:none;">
-        <iframe src="https://www.youtube.com/embed/live_stream?channel=UCMmpLL2ucRHAXbNHiCPyIyg&autoplay=1" allowfullscreen allow="autoplay; encrypted-media"></iframe>
+        <iframe id="ary-player" src="https://www.youtube.com/embed/live_stream?channel=UCMmpLL2ucRHAXbNHiCPyIyg&enablejsapi=1&autoplay=1" allowfullscreen></iframe>
       </div>
       <div id="express" class="live-player" style="display:none;">
-        <iframe src="https://www.youtube.com/embed/live_stream?channel=UCTur7oM6mLL0rM2k0znuZpQ&autoplay=1" allowfullscreen allow="autoplay; encrypted-media"></iframe>
+        <iframe id="express-player" src="https://www.youtube.com/embed/live_stream?channel=UCTur7oM6mLL0rM2k0znuZpQ&enablejsapi=1&autoplay=1" allowfullscreen></iframe>
       </div>
       <div id="bol" class="live-player" style="display:none;">
-        <iframe src="https://www.youtube.com/embed/NVgW3STsGzU?autoplay=1" allowfullscreen allow="autoplay; encrypted-media"></iframe>
+        <iframe id="bol-player" src="https://www.youtube.com/embed/NVgW3STsGzU?enablejsapi=1&autoplay=1" allowfullscreen></iframe>
       </div>
       <div id="gnn" class="live-player" style="display:none;">
-        <iframe allowfullscreen="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" src="https://www.youtube.com/embed/2bk3gVrO8aQ?enablejsapi=1&amp;origin=https%3A%2F%2Fgnnhd.tv&amp;widgetid=1&amp;forigin=https%3A%2F%2Fgnnhd.tv%2Flive&amp;aoriginsup=1&amp;gporigin=https%3A%2F%2Fwww.google.com%2F&amp;vf=6&amp;autoplay=1" allowfullscreen allow="autoplay; encrypted-media"></iframe>
+        <iframe id="gnn-player" src="https://www.youtube.com/embed/2bk3gVrO8aQ?enablejsapi=1&autoplay=1" allowfullscreen></iframe>
       </div>
       <div id="sama" class="live-player" style="display:none;">
-        <iframe src="https://www.youtube.com/embed/d9-ABo3E2sU?si=avmerTa1j-vVyGtf&amp;autoplay=1&amp;mute=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+        <iframe id="sama-player" src="https://www.youtube.com/embed/d9-ABo3E2sU?enablejsapi=1&autoplay=1" allowfullscreen></iframe>
       </div>
       <div id="24news" class="live-player" style="display:none;">
-        <iframe src="https://www.youtube.com/embed/1wECsnGZcfc? modestbranding=1&amp;autoplay=1" allowfullscreen allow="autoplay; encrypted-media"></iframe>
+        <iframe id="24news-player" src="https://www.youtube.com/embed/1wECsnGZcfc?enablejsapi=1&autoplay=1" allowfullscreen></iframe>
       </div>
       <div id="ptv" class="live-player" style="display:none;">
-        <iframe src="https://www.youtube.com/embed/iGOhgkuN-Mc?modestbranding=1&amp;autoplay=1&amp;mute=1" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
-                </iframe>
+        <iframe id="ptv-player" src="https://www.youtube.com/embed/iGOhgkuN-Mc?enablejsapi=1&autoplay=1" allowfullscreen></iframe>
       </div>
       <div id="aik" class="live-player" style="display:none;">
-        <iframe src="https://www.youtube.com/embed/NVgW3STsGzU?autoplay=1" allowfullscreen allow="autoplay; encrypted-media"></iframe>
-      </div>   
+        <iframe id="aik-player" src="https://www.youtube.com/embed/NVgW3STsGzU?enablejsapi=1&autoplay=1" allowfullscreen></iframe>
+      </div>
     </div>
   </section>
 
@@ -111,12 +109,31 @@
     <p>© 2025 PakStream.</p>
   </footer>
 
+  <!-- Load YouTube Iframe API -->
+  <script src="https://www.youtube.com/iframe_api"></script>
   <script>
-    function showStream(id) {
+    const players = {};
+
+    function onYouTubeIframeAPIReady() {
+      document.querySelectorAll('iframe[id$="-player"]').forEach(iframe => {
+        const id = iframe.id;
+        players[id] = new YT.Player(id);
+      });
+    }
+
+    function showStream(id, element) {
       document.querySelectorAll('.live-player').forEach(div => div.style.display = 'none');
       document.querySelectorAll('.channel-card').forEach(card => card.classList.remove('active'));
+
+      for (const key in players) {
+        if (players[key].pauseVideo) players[key].pauseVideo();
+      }
+
       document.getElementById(id).style.display = 'block';
-      event.target.classList.add('active');
+      element.classList.add('active');
+
+      const player = players[`${id}-player`];
+      if (player && player.playVideo) player.playVideo();
     }
   </script>
 </body>
