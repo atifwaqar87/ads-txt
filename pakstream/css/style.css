@@ -48,6 +48,20 @@ nav a:hover {
   background-color: #004d1a;
 }
 
+/* Hide the navigation menu toggle checkbox by default */
+#nav-toggle {
+  display: none;
+}
+
+/* Hidden by default; shows the hamburger icon only on small screens */
+.nav-toggle-label {
+  display: none;
+  font-size: 24px;
+  color: #fff;
+  padding: 10px;
+  cursor: pointer;
+}
+
 .hero {
   text-align: center;
   padding: 40px 20px;
@@ -106,12 +120,24 @@ footer {
 
 /* Responsive adjustments for mobile devices */
 @media (max-width: 768px) {
+  /* Show hamburger icon */
+  .nav-toggle-label {
+    display: block;
+  }
+  /* Hide the standard nav by default on small screens */
   nav ul {
+    display: none;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
+    background-color: #006400;
+    width: 100%;
+  }
+  /* Show nav when checkbox is checked */
+  #nav-toggle:checked + .nav-toggle-label + nav ul {
+    display: flex;
   }
   nav li {
-    margin: 5px 0;
+    margin: 5px 10px;
   }
   .hero {
     padding: 20px 10px;
