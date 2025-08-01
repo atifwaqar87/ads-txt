@@ -1,3 +1,4 @@
+/* Global styles for PakStream */
 /* Header and Navigation Bar with Hamburger Support */
 header {
   display: flex;
@@ -17,7 +18,7 @@ header h1 {
   color: #cc0000;
 }
 
-/* Hide checkbox */
+/* Hide checkbox for hamburger toggle */
 #nav-toggle {
   display: none;
 }
@@ -31,7 +32,7 @@ header h1 {
   cursor: pointer;
 }
 
-/* Desktop menu */
+/* Desktop navigation menu */
 nav ul {
   list-style: none;
   margin: 0;
@@ -55,12 +56,6 @@ nav a {
 
 nav a:hover {
   color: #cc0000;
-}
-
-
-/* Hide the navigation menu toggle checkbox by default */
-#nav-toggle {
-  display: none;
 }
 
 .hero {
@@ -142,10 +137,6 @@ footer {
     width: 100%;
   }
 
-  nav li {
-    margin: 0;
-  }
-
   nav a {
     padding: 12px 20px;
     color: white;
@@ -165,3 +156,184 @@ footer {
   }
 }
 
+/* Styles specific to the YouTube page */
+.youtube-section {
+  display: flex;
+  gap: 20px;
+  padding: 20px;
+}
+
+.youtube-section .channel-list {
+  flex: 1;
+  max-width: 280px;
+  overflow-y: auto;
+  height: calc(100vh - 100px);
+}
+
+.youtube-section .channel-card {
+  background: #fff;
+  border: 1px solid #e5e5e5;
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.youtube-section .channel-card:hover {
+  background: #f0f0f0;
+}
+
+.youtube-section .channel-card.active {
+  background: #e8e8e8;
+}
+
+.youtube-section .video-section {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+}
+
+.youtube-section .player-wrapper {
+  position: relative;
+  width: 100%;
+  padding-bottom: 56.25%;
+  background: #000;
+}
+
+.youtube-section .player-wrapper iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.youtube-section .video-list {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  overflow-y: auto;
+  max-height: 400px;
+}
+
+.youtube-section .video-item {
+  display: flex;
+  gap: 8px;
+  padding: 6px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  align-items: center;
+}
+
+.youtube-section .video-item:hover {
+  background: #f0f0f0;
+}
+
+.youtube-section .video-item.active {
+  background: #e8e8e8;
+}
+
+.youtube-section .video-item img {
+  width: 120px;
+  height: 67px;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+.youtube-section .video-title {
+  flex: 1;
+  font-size: 14px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+  .youtube-section {
+    flex-direction: column;
+  }
+  .youtube-section .channel-list {
+    max-width: 100%;
+    height: auto;
+    order: 2;
+  }
+  .youtube-section .video-section {
+    order: 1;
+  }
+}
+
+/* Styles specific to the radio list page */
+.radio-list {
+  font-family: Arial, sans-serif;
+  background-color: #f7f7f7;
+  color: #333;
+  margin: 0;
+  padding: 20px;
+}
+
+.radio-list h1 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.radio-list p {
+  text-align: center;
+  max-width: 800px;
+  margin: auto;
+  line-height: 1.5;
+}
+
+.radio-list table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.radio-list th,
+.radio-list td {
+  padding: 10px;
+  border: 1px solid #ddd;
+  vertical-align: top;
+}
+
+.radio-list th {
+  background-color: #fafafa;
+  font-weight: bold;
+}
+
+.radio-list audio {
+  display: none;
+}
+
+.radio-list .play-btn {
+  padding: 6px 12px;
+  font-size: 0.9em;
+  cursor: pointer;
+  background-color: #0066cc;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+}
+
+.radio-list .play-btn:hover {
+  background-color: #0052a3;
+}
+
+.radio-list .station-name {
+  font-weight: bold;
+}
+
+.radio-list .source-note {
+  margin-top: 30px;
+  font-size: 0.9em;
+  text-align: center;
+}
+
+/* Styles for embedded radio list frame */
+.radio-list-frame {
+  border: none;
+}
