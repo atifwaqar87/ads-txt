@@ -36,8 +36,22 @@
     background-color: #fafafa;
     font-weight: bold;
   }
+  /* hide default audio players */
   audio {
-    width: 100%;
+    display: none;
+  }
+  /* custom play/stop button */
+  .play-btn {
+    padding: 6px 12px;
+    font-size: 0.9em;
+    cursor: pointer;
+    background-color: #0066cc;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+  }
+  .play-btn:hover {
+    background-color: #0052a3;
   }
   .station-name {
     font-weight: bold;
@@ -46,7 +60,7 @@
 </head>
 <body>
 <h1>Online Pakistani Radio Stations</h1>
-<p>This page lists several online radio stations from Pakistan. Each stream below has been verified as active using the Radio Browser API (data checked on August 1 2025). Click the play button to listen. To avoid mixed‑content warnings, all streams are served over HTTPS.</p>
+<p>This page lists several online radio stations from Pakistan. Each stream below has been verified as active using the Radio Browser API (data checked on August 1 2025). Click the play button to listen. To avoid mixed‑content warnings, all streams are served over HTTPS.</p>
 <table>
   <tr>
     <th>Station</th>
@@ -55,80 +69,115 @@
   </tr>
   <tr>
     <td class="station-name">101 Peshawar</td>
-    <td><audio controls src="https://whmsonic.radio.gov.pk:8070/relay?type=http&nocache=9"></audio></td>
+    <td><audio id="audio1" src="https://whmsonic.radio.gov.pk:8070/relay?type=http&nocache=9"></audio><button class="play-btn">Play</button></td>
     <td>Pashto/Urdu service from Radio Pakistan【725578683390339†L19-L27】.</td>
   </tr>
   <tr>
     <td class="station-name">FM 101 Islamabad</td>
-    <td><audio controls src="https://whmsonic.radio.gov.pk:7008/stream"></audio></td>
+    <td><audio id="audio2" src="https://whmsonic.radio.gov.pk:7008/stream"></audio><button class="play-btn">Play</button></td>
     <td>National station broadcasting from Islamabad【725578683390339†L313-L320】.</td>
   </tr>
   <tr>
     <td class="station-name">FM 101 Karachi</td>
-    <td><audio controls src="https://whmsonic.radio.gov.pk:8048/stream"></audio></td>
+    <td><audio id="audio3" src="https://whmsonic.radio.gov.pk:8048/stream"></audio><button class="play-btn">Play</button></td>
     <td>FM 101 outlet serving Karachi【725578683390339†L328-L334】.</td>
   </tr>
   <tr>
     <td class="station-name">FM 101 Larkana</td>
-    <td><audio controls src="https://whmsonic.radio.gov.pk:8050/stream"></audio></td>
+    <td><audio id="audio4" src="https://whmsonic.radio.gov.pk:8050/stream"></audio><button class="play-btn">Play</button></td>
     <td>Radio Pakistan’s Larkana stream【725578683390339†L343-L350】.</td>
   </tr>
   <tr>
     <td class="station-name">FM 101 Mithi</td>
-    <td><audio controls src="https://whmsonic.radio.gov.pk:8052/stream"></audio></td>
+    <td><audio id="audio5" src="https://whmsonic.radio.gov.pk:8052/stream"></audio><button class="play-btn">Play</button></td>
     <td>Serving the town of Mithi in Sindh【725578683390339†L358-L366】.</td>
   </tr>
   <tr>
     <td class="station-name">FM 93 Chitral</td>
-    <td><audio controls src="https://whmsonic.radio.gov.pk:8066/relay"></audio></td>
+    <td><audio id="audio6" src="https://whmsonic.radio.gov.pk:8066/relay"></audio><button class="play-btn">Play</button></td>
     <td>FM 93 network station from Chitral【725578683390339†L374-L380】.</td>
   </tr>
   <tr>
     <td class="station-name">FM 93 Faisalabad</td>
-    <td><audio controls src="https://whmsonic.radio.gov.pk:8022/relay"></audio></td>
+    <td><audio id="audio7" src="https://whmsonic.radio.gov.pk:8022/relay"></audio><button class="play-btn">Play</button></td>
     <td>Broadcasts for Faisalabad and surrounding areas【725578683390339†L388-L395】.</td>
   </tr>
   <tr>
     <td class="station-name">FM 93 Karachi</td>
-    <td><audio controls src="https://whmsonic.radio.gov.pk:7022/stream"></audio></td>
+    <td><audio id="audio8" src="https://whmsonic.radio.gov.pk:7022/stream"></audio><button class="play-btn">Play</button></td>
     <td>Karachi‑based FM 93 service【725578683390339†L403-L410】.</td>
   </tr>
   <tr>
     <td class="station-name">FM 93 Lahore</td>
-    <td><audio controls src="https://whmsonic.radio.gov.pk:8088/stream"></audio></td>
+    <td><audio id="audio9" src="https://whmsonic.radio.gov.pk:8088/stream"></audio><button class="play-btn">Play</button></td>
     <td>Lahore edition of Radio Pakistan’s FM 93 network【725578683390339†L419-L425】.</td>
   </tr>
   <tr>
     <td class="station-name">FM 94.4</td>
-    <td><audio controls src="https://whmsonic.radio.gov.pk:7002/stream?type=http&nocache=12"></audio></td>
+    <td><audio id="audio10" src="https://whmsonic.radio.gov.pk:7002/stream?type=http&nocache=12"></audio><button class="play-btn">Play</button></td>
     <td>Classical music and talk from FM 94.4【725578683390339†L526-L533】.</td>
   </tr>
   <tr>
     <td class="station-name">Hum FM 106.2</td>
-    <td><audio controls src="https://server.mediacast4u.stream/8002/stream"></audio></td>
+    <td><audio id="audio11" src="https://server.mediacast4u.stream/8002/stream"></audio><button class="play-btn">Play</button></td>
     <td>Popular music on Hum FM 106.2【725578683390339†L572-L581】.</td>
   </tr>
   <tr>
     <td class="station-name">AK Radio Trarkhal</td>
-    <td><audio controls src="https://whmsonic.radio.gov.pk:8076/relay?type=http&nocache=9"></audio></td>
+    <td><audio id="audio12" src="https://whmsonic.radio.gov.pk:8076/relay?type=http&nocache=9"></audio><button class="play-btn">Play</button></td>
     <td>Urdu service from Azad Kashmir【725578683390339†L52-L60】.</td>
   </tr>
   <tr>
     <td class="station-name">Aladin Radio Network</td>
-    <td><audio controls src="https://cc.vmakerhost.com/proxy/magic?mp=/live"></audio></td>
+    <td><audio id="audio13" src="https://cc.vmakerhost.com/proxy/magic?mp=/live"></audio><button class="play-btn">Play</button></td>
     <td>Entertainment stream from Aladin Radio Network【725578683390339†L84-L90】.</td>
   </tr>
   <tr>
     <td class="station-name">Mera FM 107.4 Lahore</td>
-    <td><audio controls src="https://samaalhr107-itelservices.radioca.st/stream"></audio></td>
+    <td><audio id="audio14" src="https://samaalhr107-itelservices.radioca.st/stream"></audio><button class="play-btn">Play</button></td>
     <td>Private station in Lahore broadcasting contemporary hits【725578683390339†L675-L683】.</td>
   </tr>
   <tr>
     <td class="station-name">Abdulbasit Abdulsamad</td>
-    <td><audio controls src="https://radio.mp3islam.com/listen/abdulbasit/radio.mp3"></audio></td>
+    <td><audio id="audio15" src="https://radio.mp3islam.com/listen/abdulbasit/radio.mp3"></audio><button class="play-btn">Play</button></td>
     <td>Islamic recitation stream【725578683390339†L36-L44】.</td>
   </tr>
 </table>
 <p style="margin-top:30px; font-size:0.9em; text-align:center;">Source data from <a href="https://fi1.api.radio-browser.info/json/stations/bycountry/pakistan">Radio Browser API</a>. Streams may be subject to change by broadcasters. If a station fails to play, please try again later.</p>
+
+<script>
+// Custom audio player controls: only one station plays at a time.
+document.addEventListener('DOMContentLoaded', function() {
+  const players = document.querySelectorAll('audio');
+  players.forEach(function(audio) {
+    const button = audio.nextElementSibling;
+    if (!button) return;
+    button.addEventListener('click', function() {
+      // pause all other audio streams and reset their buttons
+      players.forEach(function(other) {
+        if (other !== audio) {
+          other.pause();
+          const otherBtn = other.nextElementSibling;
+          if (otherBtn && otherBtn.classList.contains('play-btn')) {
+            otherBtn.textContent = 'Play';
+          }
+        }
+      });
+      // toggle play/pause on selected audio
+      if (audio.paused) {
+        audio.play();
+        button.textContent = 'Stop';
+      } else {
+        audio.pause();
+        button.textContent = 'Play';
+      }
+    });
+    // when audio ends naturally, reset button label
+    audio.addEventListener('ended', function() {
+      button.textContent = 'Play';
+    });
+  });
+});
+</script>
 </body>
 </html>
