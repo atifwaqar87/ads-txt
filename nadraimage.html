@@ -20,6 +20,7 @@
   <button id="downloadBtn" style="display:none;">🪄 Resize & Download</button>
 
   <script src="https://cdn.jsdelivr.net/npm/file-saver@2.0.5/dist/FileSaver.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/piexifjs"></script>
 
   <script>
     const video = document.getElementById("video");
@@ -46,7 +47,7 @@
       downloadBtn.style.display = "inline-block";
     };
 
-    // Resize and download image
+    // Resize, embed DPI, and download
     downloadBtn.onclick = () => {
       const tempCanvas = document.createElement("canvas");
       tempCanvas.width = TARGET_WIDTH;
@@ -56,9 +57,28 @@
       const img = new Image();
       img.onload = () => {
         ctx.drawImage(img, 0, 0, TARGET_WIDTH, TARGET_HEIGHT);
-        tempCanvas.toBlob(blob => {
-          saveAs(blob, "passport_photo.jpg");
-        }, 'image/jpeg', 0.85);
+        const jpegData = tempCanvas.toDataURL("image/jpeg", 0.85);
+
+        const exifObj = {
+          "0th": {
+            [piexif.ImageIFD.XResolution]: [300, 1],
+            [piexif.ImageIFD.YResolution]: [300, 1],
+            [piexif.ImageIFD.ResolutionUnit]: 2 // 2 means inches
+          }
+        };
+
+        const exifBytes = piexif.dump(exifObj);
+        const finalDataUrl = piexif.insert(exifBytes, jpegData);
+
+        const byteString = atob(finalDataUrl.split(',')[1]);
+        const arrayBuffer = new ArrayBuffer(byteString.length);
+        const intArray = new Uint8Array(arrayBuffer);
+        for (let i = 0; i < byteString.length; i++) {
+          intArray[i] = byteString.charCodeAt(i);
+        }
+
+        const finalBlob = new Blob([intArray], { type: "image/jpeg" });
+        saveAs(finalBlob, "passport_photo.jpg");
       };
       img.src = preview.src;
     };
