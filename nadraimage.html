@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Passport Photo Resizer</title>
+  <title>Passport Photo Resizer new</title>
   <style>
     body { font-family: sans-serif; text-align: center; padding: 2rem; background: #f9f9f9; }
     video, canvas, img { max-width: 100%; border: 1px solid #ccc; margin-top: 1rem; }
@@ -42,31 +42,51 @@
       processBtn.style.display = 'inline-block';
     };
 
-    // Initialize ImageMagick WASM
+    // Wait for Magick to initialize
     Magick().then(m => {
       MagickModule = m;
-      console.log('ImageMagick is ready');
+      console.log('✅ ImageMagick.js ready');
     });
 
-    // Resize and download
     processBtn.onclick = async () => {
-      if (!MagickModule) {
-        alert("ImageMagick is still loading. Please wait a moment.");
-        return;
+      try {
+        if (!MagickModule) {
+          alert(\"ImageMagick is still loading. Please wait.\");
+          return;
+        }
+
+        if (!preview.src) {
+          alert(\"No image captured\");
+          return;
+        }
+
+        const response = await fetch(preview.src);
+        const blob = await response.blob();
+        const buffer = await blob.arrayBuffer();
+        const inputFile = new Uint8Array(buffer);
+
+        const result = await MagickModule.Call([
+          \"convert\", \"input.jpg\",
+          \"-resize\", \"413x531!\",
+          \"-density\", \"300\",
+          \"-quality\", \"85\",
+          \"output.jpg\"
+        ], {
+          \"input.jpg\": inputFile
+        });
+
+        if (!result[\"output.jpg\"]) {
+          console.error(\"❌ No output file returned by ImageMagick\");
+          alert(\"Failed to generate the image. Try again.\");
+          return;
+        }
+
+        const outputBlob = new Blob([result[\"output.jpg\"]], { type: 'image/jpeg' });
+        saveAs(outputBlob, \"passport_photo.jpg\");
+      } catch (e) {
+        console.error(\"❌ Error during processing:\", e);
+        alert(\"An error occurred: \" + e.message);
       }
-
-      const response = await fetch(preview.src);
-      const blob = await response.blob();
-      const buffer = await blob.arrayBuffer();
-      const inputFile = new Uint8Array(buffer);
-
-      const result = await MagickModule.Call(
-        ["convert", "input.jpg", "-resize", "413x531!", "-density", "300", "-quality", "85", "output.jpg"],
-        { "input.jpg": inputFile }
-      );
-
-      const outputBlob = new Blob([result["output.jpg"]], { type: 'image/jpeg' });
-      saveAs(outputBlob, 'passport_photo.jpg');
     };
   </script>
 </body>
