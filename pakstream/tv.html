@@ -7,9 +7,37 @@
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5427964157655690"
      crossorigin="anonymous"></script>
   <link rel="stylesheet" href="css/style.css">
+  <style>
+    .live-player iframe {
+      width: 100%;
+      height: 500px;
+      border: none;
+    }
+    .channel-list {
+      max-width: 250px;
+      overflow-y: auto;
+    }
+    .channel-card {
+      cursor: pointer;
+      padding: 12px;
+      border-bottom: 1px solid #ddd;
+    }
+    .channel-card.active {
+      background: #f0f0f0;
+      font-weight: bold;
+    }
+    .video-section {
+      flex: 1;
+      padding-left: 20px;
+    }
+    .youtube-section {
+      display: flex;
+      flex-direction: row;
+      padding: 20px;
+    }
+  </style>
 </head>
 <body>
-  <!-- Header with navigation -->
   <header>
     <input type="checkbox" id="nav-toggle">
     <label for="nav-toggle" class="nav-toggle-label">☰</label>
@@ -30,77 +58,44 @@
     </nav>
   </header>
 
-  <!-- YouTube section with channel list and livestream player -->
+  <!-- TV Livestream section -->
   <section class="youtube-section">
     <div class="channel-list">
-
-      <div class="live-player">
-                                                                                                            
-                                                                            <style type="text/css">
-                                        .video-js.vjs-fluid {
-                                          min-height: 300px;
-                                          min-width: 390px;
-                                        }
-                                        </style>
-                                        <iframe width="100%" height="550" src="https://www.youtube.com/embed/O3DPVlynUM0?autoplay=1&amp;cc_load_policy=1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
-                                        
-
-                                                                        </div>
-
-      <div class="channel-card active" data-channel-id="UCNye-wNBqNL5ZzHSJj3l8Bg">Geo&nbsp;News</div>
-      <div class="channel-card" data-channel-id="UCqJyq3jpGMe2EXvP9uoCD2Q">ARY&nbsp;News</div>
-      <div class="channel-card" data-channel-id="UCsXVk37bltHxD1rDPwtNM8Q">PTV&nbsp;News</div>
-      <div class="channel-card" data-channel-id="UCnkYymEbl1qZ0VhGrzH9guw">Dr&nbsp;Moeed&nbsp;Pirzada</div>
-      <div class="channel-card" data-channel-id="UCslugpmYWJiZK5rbvtcaV7Q">Mubasher&nbsp;Lucman</div>
-      <div class="channel-card" data-channel-id="UC_vt34wimdCzdkrzVejwX9g">Sabir&nbsp;Shakir</div>
+      <div class="channel-card active" onclick="showStream('geo')">Geo News</div>
+      <div class="channel-card" onclick="showStream('ary')">ARY News</div>
+      <div class="channel-card" onclick="showStream('ptv')">PTV News</div>
+      <div class="channel-card" onclick="showStream('moeed')">Moeed Pirzada</div>
     </div>
     <div class="video-section">
-      <div class="player-wrapper">
-        <iframe id="playerFrame" src="" allowfullscreen title="Live stream player"></iframe>
+      <div id="geo" class="live-player">
+        <iframe src="https://www.youtube.com/embed/O3DPVlynUM0?autoplay=1" allowfullscreen allow="autoplay; encrypted-media"></iframe>
       </div>
-      <div class="video-list">
-        <p>Select a channel to view its live stream. Note: Only available if the channel is live.</p>
+      <div id="ary" class="live-player" style="display:none;">
+        <iframe src="https://www.youtube.com/embed/Jf8pNRvU1C4?autoplay=1" allowfullscreen allow="autoplay; encrypted-media"></iframe>
+      </div>
+      <div id="ptv" class="live-player" style="display:none;">
+        <iframe src="https://www.youtube.com/embed/Soh4AkkvZ6I?autoplay=1" allowfullscreen allow="autoplay; encrypted-media"></iframe>
+      </div>
+      <div id="moeed" class="live-player" style="display:none;">
+        <iframe src="https://www.youtube.com/embed/NVgW3STsGzU?autoplay=1" allowfullscreen allow="autoplay; encrypted-media"></iframe>
       </div>
     </div>
   </section>
 
-  <!-- Placeholder for advertising -->
   <div class="ad-container">
-    <!-- Google AdSense: Insert your ad code here -->
+    <!-- AdSense area -->
   </div>
 
-  <!-- Footer -->
   <footer>
     <p>© 2025 PakStream.</p>
   </footer>
 
   <script>
-    const cards = document.querySelectorAll('.channel-card');
-    const playerFrame = document.getElementById('playerFrame');
-
-    function setActiveCard(clickedCard) {
-      cards.forEach(c => c.classList.remove('active'));
-      clickedCard.classList.add('active');
-    }
-
-    function loadLiveStream(channelId) {
-      // Embed live stream for the channel
-      playerFrame.src = `https://www.youtube.com/embed/live_stream?channel=${channelId}&autoplay=1&rel=0`;
-    }
-
-    cards.forEach(card => {
-      card.addEventListener('click', () => {
-        const channelId = card.dataset.channelId;
-        setActiveCard(card);
-        loadLiveStream(channelId);
-      });
-    });
-
-    // Auto-load the first channel
-    if (cards.length > 0) {
-      const firstCard = cards[0];
-      setActiveCard(firstCard);
-      loadLiveStream(firstCard.dataset.channelId);
+    function showStream(id) {
+      document.querySelectorAll('.live-player').forEach(div => div.style.display = 'none');
+      document.querySelectorAll('.channel-card').forEach(card => card.classList.remove('active'));
+      document.getElementById(id).style.display = 'block';
+      event.target.classList.add('active');
     }
   </script>
 </body>
