@@ -1,26 +1,37 @@
-/*
- * Basic styles for the PakStream static website.
- * Colors draw on the Pakistani flag: green and white.
- */
-
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background-color: #f9f9f9;
-  color: #333;
-}
+/* Header and Navigation Bar with Hamburger Support */
 header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: #fff;
+  background: #fff;
   border-bottom: 1px solid #e5e5e5;
   padding: 10px 20px;
   position: sticky;
   top: 0;
   z-index: 1000;
 }
-header h1 { margin: 0; font-size: 24px; color: #cc0000; }
+
+header h1 {
+  margin: 0;
+  font-size: 24px;
+  color: #cc0000;
+}
+
+/* Hide checkbox */
+#nav-toggle {
+  display: none;
+}
+
+/* Hamburger icon */
+.nav-toggle-label {
+  display: none;
+  font-size: 28px;
+  color: #cc0000;
+  padding: 10px;
+  cursor: pointer;
+}
+
+/* Desktop menu */
 nav ul {
   list-style: none;
   margin: 0;
@@ -28,19 +39,25 @@ nav ul {
   display: flex;
   gap: 20px;
 }
+
+nav li {
+  margin: 0;
+}
+
 nav a {
-  color: #333;
   text-decoration: none;
-  font-weight: bold;
+  color: #333;
+  font-weight: 500;
   padding: 8px 12px;
   display: block;
   border-radius: 4px;
 }
-nav a:hover { color: #cc0000; }
 
 nav a:hover {
-  background-color: #004d1a;
+  color: #cc0000;
 }
+
+
 /* Hide the navigation menu toggle checkbox by default */
 #nav-toggle {
   display: none;
