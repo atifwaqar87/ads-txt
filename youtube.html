@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PakStream – YouTube</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- Header with navigation.  The hamburger menu appears on small screens. -->
+  <header>
+    <input type="checkbox" id="nav-toggle">
+    <label for="nav-toggle" class="nav-toggle-label">☰</label>
+    <div class="logo-title">
+      <h1>PakStream</h1>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="youtube.html">YouTube</a></li>
+        <li><a href="tv.html">TV</a></li>
+        <li><a href="radio.html">Radio</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="privacy.html">Privacy</a></li>
+        <li><a href="terms.html">Terms</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- YouTube section with channel list and video player -->
+  <section class="youtube-section">
+    <!-- List of Pakistani YouTube channels.  The active class highlights the selected channel. -->
+    <div class="channel-list">
+      <div class="channel-card active" data-channel-id="UCaszgR2TH3qNw_CxLHAd2SQ">Imran&nbsp;Riaz&nbsp;Khan</div>
+      <div class="channel-card" data-channel-id="UCY7eFg5TEMsk_aTqM0pVB4w">Sabir&nbsp;Shakir</div>
+      <div class="channel-card" data-channel-id="UCFCzDl-XQq1TCo_fvBzCoyw">Sami&nbsp;Abraham</div>
+      <div class="channel-card" data-channel-id="UClDtMswg3muouH60XTKlVEw">Mansoor&nbsp;Ali&nbsp;Khan</div>
+      <div class="channel-card" data-channel-id="UCnkYymEbl1qZ0VhGrzH9guw">Dr&nbsp;Moeed&nbsp;Pirzada</div>
+      <div class="channel-card" data-channel-id="UCslugpmYWJiZK5rbvtcaV7Q">Mubasher&nbsp;Lucman</div>
+      <div class="channel-card" data-channel-id="UChOzmkBxTHbZNZdiiYolWoA">Faisal&nbsp;Warraich</div>
+      <div class="channel-card" data-channel-id="UCYdLgIyZnHVwlDkF3Y0G_cQ">Abdul&nbsp;Qadir</div>
+    </div>
+    <!-- Video display area: a player for the selected video and a list of recent videos -->
+    <div class="video-section">
+      <div class="player-wrapper">
+        <iframe id="playerFrame" src="" allowfullscreen title="Selected video player"></iframe>
+      </div>
+      <div id="videoList" class="video-list"><p>Loading videos…</p></div>
+    </div>
+  </section>
+
+  <!-- Placeholder for advertising or extra content -->
+  <div class="ad-container">
+    <!-- Google AdSense: Insert your ad code here -->
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <p>© 2025 PakStream.</p>
+  </footer>
+
+  <!-- JavaScript for dynamically loading latest videos from the selected channel -->
+  <script>
+    async function fetchLatestVideos(channelId) {
+      const feedUrl = `https://www.youtube.com/feeds/videos.xml?channel_id=${channelId}`;
+      const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(feedUrl)}`;
+      const resp = await fetch(apiUrl);
+      const data = await resp.json();
+      if (data.status !== 'ok') throw new Error('Failed to load RSS feed');
+      return data.items;
+    }
+    const cards = document.querySelectorAll('.channel-card');
+    const videoListEl = document.getElementById('videoList');
+    const playerFrame = document.getElementById('playerFrame');
+
+    function setActiveCard(clickedCard) {
+      cards.forEach(c => c.classList.remove('active'));
+      clickedCard.classList.add('active');
+    }
+    function setActiveVideo(clickedItem) {
+      document.querySelectorAll('.video-item').forEach(item => item.classList.remove('active'));
+      clickedItem.classList.add('active');
+    }
+    function loadVideo(videoId) {
+      playerFrame.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`;
+    }
+    async function handleChannelClick(card) {
+      const channelId = card.dataset.channelId;
+      setActiveCard(card);
+      videoListEl.innerHTML = '<p>Loading videos…</p>';
+      if (!channelId) {
+        videoListEl.innerHTML = '<p>No channel ID provided. Edit the HTML and add the channel’s UC ID to the data-channel-id attribute.</p>';
+        return;
+      }
+      try {
+        const videos = await fetchLatestVideos(channelId);
+        if (!videos || videos.length === 0) {
+          videoListEl.innerHTML = '<p>No videos found for this channel.</p>';
+          return;
+        }
+        videoListEl.innerHTML = '';
+        videos.forEach((video, index) => {
+          // Extract video ID from the guid or link
+          let videoId = '';
+          if (video.guid && video.guid.startsWith('yt:video:')) {
+            videoId = video.guid.split(':').pop();
+          } else if (video.link) {
+            const vMatch = video.link.match(/[?&]v=([^&]+)/);
+            if (vMatch) videoId = vMatch[1];
+          }
+          if (!videoId) return;
+          const itemEl = document.createElement('div');
+          itemEl.className = 'video-item';
+          itemEl.innerHTML = `
+            <img src="${video.thumbnail}" alt="${video.title}">
+            <div class="video-title">${video.title}</div>
+          `;
+          itemEl.addEventListener('click', () => {
+            loadVideo(videoId);
+            setActiveVideo(itemEl);
+          });
+          videoListEl.appendChild(itemEl);
+          if (index === 0) {
+            loadVideo(videoId);
+            setActiveVideo(itemEl);
+          }
+        });
+      } catch (err) {
+        console.error(err);
+        videoListEl.innerHTML = '<p>Error loading videos. Please try again later.</p>';
+      }
+    }
+    cards.forEach(card => card.addEventListener('click', () => handleChannelClick(card)));
+    // auto-select the first channel on load
+    if (cards.length > 0) handleChannelClick(cards[0]);
+  </script>
+</body>
+</html>
