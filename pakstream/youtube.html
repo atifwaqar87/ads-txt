@@ -3,14 +3,90 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PakStream - YouTube</title>
-  <link rel="stylesheet" href="css/style.css">
+  <title>PakStream – YouTube</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f9f9f9;
+      color: #333;
+    }
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background-color: #fff;
+      border-bottom: 1px solid #e5e5e5;
+      padding: 10px 20px;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+    header h1 { margin: 0; font-size: 24px; color: #cc0000; }
+    nav ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      gap: 20px;
+    }
+    nav a {
+      text-decoration: none;
+      color: #333;
+      font-weight: 500;
+    }
+    nav a:hover { color: #cc0000; }
+
+    /* Layout for channel list and player */
+    section {
+      display: flex;
+      gap: 20px;
+      padding: 20px;
+    }
+    .channel-list {
+      flex: 1;
+      max-width: 300px;
+    }
+    .channel-card {
+      background-color: #fff;
+      border: 1px solid #e5e5e5;
+      border-radius: 8px;
+      padding: 12px 16px;
+      margin-bottom: 12px;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+    .channel-card:hover { background-color: #f0f0f0; }
+    .channel-card.active { background-color: #e8e8e8; }
+
+    .video-player-container {
+      flex: 2;
+      position: relative;
+      padding-bottom: 56.25%; /* 16:9 aspect ratio */
+      height: 0;
+      background-color: #000;
+    }
+    .video-player-container iframe {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      border: 0;
+    }
+    footer {
+      text-align: center;
+      padding: 20px;
+      background-color: #fff;
+      border-top: 1px solid #e5e5e5;
+      color: #777;
+    }
+    @media (max-width: 768px) {
+      section { flex-direction: column; }
+    }
+  </style>
 </head>
 <body>
   <header>
     <h1>PakStream</h1>
-    <input type="checkbox" id="nav-toggle">
-    <label for="nav-toggle" class="nav-toggle-label">&#9776;</label>
     <nav>
       <ul>
         <li><a href="index.html">Home</a></li>
@@ -26,26 +102,61 @@
   </header>
 
   <section>
-    <h2>Pakistani YouTube Content</h2>
-    <p>Discover Pakistani journalists, vloggers and content creators. You can embed videos directly from YouTube using the <code>&lt;iframe&gt;</code> tag. Follow the steps below:</p>
-    <ol>
-      <li>Find a YouTube video you want to share. Note its video ID (the part after <code>v=</code> in the URL).</li>
-      <li>Add an <code>&lt;iframe&gt;</code> to your HTML with the video URL. For example:</li>
-    </ol>
-    <pre>&lt;iframe width="560" height="315" src="https://www.youtube.com/embed/VIDEO_ID" frameborder="0" allowfullscreen&gt;&lt;/iframe&gt;</pre>
-    <p>This technique, recommended by W3Schools, allows you to embed a video on a web page【466934421848503†L740-L747】. Replace <code>VIDEO_ID</code> with the ID of the video you wish to feature.</p>
-    <p>Below is a sample embed of a Pakistani news report (replace the ID to use your own videos):</p>
-    <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
-      <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" frameborder="0" allowfullscreen></iframe>
+    <!-- Left column: list of channels -->
+    <div class="channel-list">
+      <!-- Each card’s data-handle corresponds to the channel’s @handle without the “@” -->
+      <div class="channel-card" data-handle="imranriazkhan1">Imran Riaz Khan</div>
+      <div class="channel-card" data-handle="SabirShakir786">Sabir Shakir</div>
+      <div class="channel-card" data-handle="SamiAbrahamYT">Sami Abraham</div>
+      <div class="channel-card" data-handle="MansoorAliKhanLive">Mansoor Ali Khan</div>
+      <div class="channel-card" data-handle="DrMoeedPirzadaOfficial">Dr Moeed Pirzada</div>
+      <div class="channel-card" data-handle="MubasherLucmanOfficial">Mubasher Lucman</div>
+      <div class="channel-card" data-handle="SdqJaan">Siddique Jaan</div>
+      <div class="channel-card" data-handle="SyedAliHaider">Syed Ali Haider</div>
+      <div class="channel-card" data-handle="UsamaGhazi">Usama Ghazi</div>
+      <div class="channel-card" data-handle="JameelFarooquiOfficial">Jameel Farooqui</div>
+      <div class="channel-card" data-handle="DekhoSunoJano">Faisal Warraich</div>
+      <div class="channel-card" data-handle="AbdulQadir">Abdul Qadir</div>
+      <div class="channel-card" data-handle="CharsaddaJournalists">Charsadda Journalist</div>
+      <!-- For channels with uncertain or inactive handles, omit the handle; script will blank the player -->
+      <div class="channel-card" data-handle="">Major (R) Adil Raja (channel unavailable)</div>
+    </div>
+
+    <!-- Right column: video player -->
+    <div class="video-player-container">
+      <iframe id="videoPlayer" src="" allowfullscreen title="Latest uploads player"></iframe>
     </div>
   </section>
 
-  <div class="ad-container">
-    <!-- Google AdSense: Insert your ad code here -->
-  </div>
-
   <footer>
-    <p>&copy; 2025 PakStream.</p>
+    <p>&copy; 2025 PakStream.</p>
   </footer>
+
+  <script>
+    // Retrieve all cards and the player iframe
+    const cards = document.querySelectorAll('.channel-card');
+    const player = document.getElementById('videoPlayer');
+
+    cards.forEach(card => {
+      card.addEventListener('click', () => {
+        // Remove active state from all cards
+        cards.forEach(c => c.classList.remove('active'));
+        // Activate the selected card
+        card.classList.add('active');
+
+        const handle = card.dataset.handle;
+        // If handle is missing or channel unavailable, clear player
+        if (!handle) {
+          player.src = '';
+          return;
+        }
+        // Build embed URL using YouTube’s user_uploads listType parameter:contentReference[oaicite:1]{index=1}
+        player.src = `https://www.youtube.com/embed?listType=user_uploads&list=${encodeURIComponent(handle)}&rel=0`;
+      });
+    });
+
+    // Optionally auto-select the first channel on page load
+    if (cards.length > 0) cards[0].click();
+  </script>
 </body>
 </html>
