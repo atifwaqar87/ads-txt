@@ -2,45 +2,32 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Pakistani Radio Station new</title>
+  <title>Pakistani Radio - Stream</title>
   <style>
     body {
-      background: #f0f4f8;
-      font-family: Arial, sans-serif;
+      font-family: sans-serif;
       text-align: center;
       padding: 2rem;
+      background: #f0f4f8;
     }
-
     h1 {
       color: #2c3e50;
     }
-
-    iframe {
+    audio {
       margin-top: 2rem;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-    }
-
-    .note {
-      margin-top: 1rem;
-      font-size: 0.9rem;
-      color: #555;
+      width: 300px;
     }
   </style>
 </head>
 <body>
-  <h1>🎧 Listen to City FM 89 – Live from Pakistan</h1>
+  <h1>🎧 Listen to Pakistani Radio</h1>
 
-  <!-- Embed Radio Station -->
-<iframe 
-  src="https://zeno.fm/radio/fm-100-pakistan/" 
-  width="100%" 
-  height="150" 
-  frameborder="0" 
-  allow="autoplay">
-</iframe>
+  <!-- Working HTTPS stream from Radio Pakistan -->
+  <audio controls autoplay>
+    <source src="https://stream.radio.co/s0d62090f2/listen" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
 
-  <p class="note">Streaming provided by <a href="http://www.fmradios.pk" target="_blank">fmradios.pk</a></p>
+  <p>Streaming from Radio Pakistan (via radio.co)</p>
 </body>
 </html>
