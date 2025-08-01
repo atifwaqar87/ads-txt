@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Passport Photo Resizer</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
     body {
       font-family: sans-serif;
@@ -25,97 +25,96 @@
   </style>
 </head>
 <body>
-  <h1>Passport Photo Resizer new</h1>
+  <h1>Passport Photo Resizer</h1>
 
-  <!-- Live webcam feed -->
   <video id="video" autoplay playsinline width="400"></video><br>
   <button id="captureBtn">📸 Capture</button>
 
-  <!-- Canvas for processing -->
   <canvas id="canvas" width="640" height="480" style="display:none;"></canvas>
-
-  <!-- Preview -->
-  <img id="preview" alt="Captured image appears here"><br>
+  <img id="preview" alt="Captured image will appear here" /><br>
   <button id="processBtn" style="display:none;">🪄 Resize & Download</button>
 
   <!-- JS Libraries -->
   <script src="https://cdn.jsdelivr.net/npm/file-saver@2.0.5/dist/FileSaver.min.js"></script>
-  <script src="https://knicknic.github.io/WASM-ImageMagick/magick.js"></script>
 
+  <!-- Load ImageMagick.js dynamically and wait -->
   <script>
-    const video = document.getElementById('video');
-    const canvas = document.getElementById('canvas');
-    const preview = document.getElementById('preview');
-    const captureBtn = document.getElementById('captureBtn');
-    const processBtn = document.getElementById('processBtn');
+    const script = document.createElement("script");
+    script.src = "https://knicknic.github.io/WASM-ImageMagick/magick.js";
+    document.head.appendChild(script);
 
     let MagickModule = null;
 
-    // Initialize webcam
-    navigator.mediaDevices.getUserMedia({ video: true })
-      .then(stream => {
-        video.srcObject = stream;
-      })
-      .catch(error => {
-        alert('Camera access denied or not available');
-        console.error(error);
-      });
+    script.onload = async () => {
+      MagickModule = await window.Magick(); // Wait for WASM to load
+      console.log("✅ ImageMagick loaded and ready");
+    };
+  </script>
 
-    // Capture button logic
+  <!-- Main App Logic -->
+  <script>
+    const video = document.getElementById("video");
+    const canvas = document.getElementById("canvas");
+    const preview = document.getElementById("preview");
+    const captureBtn = document.getElementById("captureBtn");
+    const processBtn = document.getElementById("processBtn");
+
+    // Start camera
+    navigator.mediaDevices.getUserMedia({ video: true })
+      .then(stream => video.srcObject = stream)
+      .catch(err => alert("Camera access denied: " + err));
+
+    // Capture image
     captureBtn.onclick = () => {
-      const ctx = canvas.getContext('2d');
+      const ctx = canvas.getContext("2d");
       canvas.width = video.videoWidth;
       canvas.height = video.videoHeight;
       ctx.drawImage(video, 0, 0);
-      preview.src = canvas.toDataURL('image/jpeg');
-      processBtn.style.display = 'inline-block';
+      preview.src = canvas.toDataURL("image/jpeg");
+      processBtn.style.display = "inline-block";
     };
 
-    // Load ImageMagick
-    Magick().then(m => {
-      MagickModule = m;
-      console.log('✅ ImageMagick is ready');
-    });
+    // Resize and Download
+    processBtn.onclick = async () => {
+      if (!MagickModule) {
+        alert("Please wait... ImageMagick is still loading.");
+        return;
+      }
 
-    // Resize and download
-processBtn.onclick = async () => {
-  if (!MagickModule) {
-    alert("ImageMagick is still loading. Please wait.");
-    return;
-  }
+      if (!preview.src) {
+        alert("Please capture an image first.");
+        return;
+      }
 
-  if (!preview.src) {
-    alert("Please capture an image first.");
-    return;
-  }
+      try {
+        const response = await fetch(preview.src);
+        const blob = await response.blob();
+        const buffer = await blob.arrayBuffer();
+        const inputBytes = new Uint8Array(buffer);
 
-  try {
-    const response = await fetch(preview.src);
-    const blob = await response.blob();
-    const buffer = await blob.arrayBuffer();
-    const inputBytes = new Uint8Array(buffer);
+        const result = await MagickModule.Call([
+          "convert", "input.jpg",
+          "-resize", "413x531!",
+          "-density", "300",
+          "-quality", "85",
+          "output.jpg"
+        ], {
+          "input.jpg": inputBytes
+        });
 
-    const result = await MagickModule.Call([
-      "convert", "input.jpg",
-      "-resize", "413x531!",
-      "-density", "300",
-      "-quality", "85",
-      "output.jpg"
-    ], {
-      "input.jpg": inputBytes
-    });
+        if (!result["output.jpg"]) {
+          alert("Image processing failed.");
+          return;
+        }
 
-    if (!result["output.jpg"]) {
-      throw new Error("No output image returned from ImageMagick");
-    }
+        const outputBlob = new Blob([result["output.jpg"]], { type: "image/jpeg" });
+        saveAs(outputBlob, "passport_photo.jpg");
 
-    const outputBlob = new Blob([result["output.jpg"]], { type: 'image/jpeg' });
-    saveAs(outputBlob, "passport_photo.jpg");
-  } catch (e) {
-    console.error("❌ Error processing image:", e);
-    alert("Failed to generate photo. Try again.");
-  }
-};
+      } catch (err) {
+        console.error("❌ Processing error:", err);
+        alert("Something went wrong. See console for details.");
+      }
+    };
   </script>
 </body>
 </html>
