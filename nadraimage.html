@@ -78,44 +78,44 @@
     });
 
     // Resize and download
-    processBtn.onclick = async () => {
-      if (!MagickModule) {
-        alert("ImageMagick is still loading. Please wait.");
-        return;
-      }
+processBtn.onclick = async () => {
+  if (!MagickModule) {
+    alert("ImageMagick is still loading. Please wait.");
+    return;
+  }
 
-      if (!preview.src) {
-        alert("Please capture an image first.");
-        return;
-      }
+  if (!preview.src) {
+    alert("Please capture an image first.");
+    return;
+  }
 
-      try {
-        const response = await fetch(preview.src);
-        const blob = await response.blob();
-        const buffer = await blob.arrayBuffer();
-        const inputBytes = new Uint8Array(buffer);
+  try {
+    const response = await fetch(preview.src);
+    const blob = await response.blob();
+    const buffer = await blob.arrayBuffer();
+    const inputBytes = new Uint8Array(buffer);
 
-        const result = await MagickModule.Call([
-          "convert", "input.jpg",
-          "-resize", "413x531!",
-          "-density", "300",
-          "-quality", "85",
-          "output.jpg"
-        ], {
-          "input.jpg": inputBytes
-        });
+    const result = await MagickModule.Call([
+      "convert", "input.jpg",
+      "-resize", "413x531!",
+      "-density", "300",
+      "-quality", "85",
+      "output.jpg"
+    ], {
+      "input.jpg": inputBytes
+    });
 
-        if (!result["output.jpg"]) {
-          throw new Error("No output image returned from ImageMagick");
-        }
+    if (!result["output.jpg"]) {
+      throw new Error("No output image returned from ImageMagick");
+    }
 
-        const outputBlob = new Blob([result["output.jpg"]], { type: 'image/jpeg' });
-        saveAs(outputBlob, "passport_photo.jpg");
-      } catch (e) {
-        console.error("❌ Error processing image:", e);
-        alert("Failed to generate photo. Try again.");
-      }
-    };
+    const outputBlob = new Blob([result["output.jpg"]], { type: 'image/jpeg' });
+    saveAs(outputBlob, "passport_photo.jpg");
+  } catch (e) {
+    console.error("❌ Error processing image:", e);
+    alert("Failed to generate photo. Try again.");
+  }
+};
   </script>
 </body>
 </html>
