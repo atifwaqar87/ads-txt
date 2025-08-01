@@ -63,15 +63,6 @@ nav a:hover {
   display: none;
 }
 
-/* Hidden by default; shows the hamburger icon only on small screens */
-.nav-toggle-label {
-  display: none;
-  font-size: 24px;
-  color: #fff;
-  padding: 10px;
-  cursor: pointer;
-}
-
 .hero {
   text-align: center;
   padding: 40px 20px;
