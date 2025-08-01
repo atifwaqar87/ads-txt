@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Passport Photo Resizer</title>
   <style>
     body { font-family: sans-serif; text-align: center; padding: 2rem; background: #f9f9f9; }
@@ -15,7 +15,7 @@
   <video id="video" autoplay playsinline width="400"></video><br>
   <button id="captureBtn">Capture</button>
   <canvas id="canvas" width="1280" height="720" style="display:none;"></canvas>
-  <img id="preview" alt="Captured image will appear here" /><br>
+  <img id="preview" alt="Captured image will appear here"/><br>
   <button id="processBtn" style="display:none;">Resize & Download</button>
 
   <script src="https://cdn.jsdelivr.net/npm/file-saver@2.0.5/dist/FileSaver.min.js"></script>
@@ -27,12 +27,14 @@
     const captureBtn = document.getElementById('captureBtn');
     const processBtn = document.getElementById('processBtn');
 
-    // Start webcam
+    let MagickModule = null;
+
+    // Initialize webcam
     navigator.mediaDevices.getUserMedia({ video: true })
       .then(stream => video.srcObject = stream)
       .catch(err => alert('Camera access denied: ' + err));
 
-    // Capture image
+    // Capture from webcam
     captureBtn.onclick = () => {
       const ctx = canvas.getContext('2d');
       ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
@@ -40,19 +42,28 @@
       processBtn.style.display = 'inline-block';
     };
 
-    // Resize & Download with ImageMagick.js
+    // Initialize ImageMagick WASM
+    Magick().then(m => {
+      MagickModule = m;
+      console.log('ImageMagick is ready');
+    });
+
+    // Resize and download
     processBtn.onclick = async () => {
-      const imgBlob = await (await fetch(preview.src)).blob();
-      const arrayBuffer = await imgBlob.arrayBuffer();
+      if (!MagickModule) {
+        alert("ImageMagick is still loading. Please wait a moment.");
+        return;
+      }
 
-      const inputFile = new Uint8Array(arrayBuffer);
+      const response = await fetch(preview.src);
+      const blob = await response.blob();
+      const buffer = await blob.arrayBuffer();
+      const inputFile = new Uint8Array(buffer);
 
-      const result = await Magick.Call(["convert", "input.jpg",
-        "-resize", "413x531!",
-        "-density", "300",
-        "-quality", "85",
-        "output.jpg"],
-        { "input.jpg": inputFile });
+      const result = await MagickModule.Call(
+        ["convert", "input.jpg", "-resize", "413x531!", "-density", "300", "-quality", "85", "output.jpg"],
+        { "input.jpg": inputFile }
+      );
 
       const outputBlob = new Blob([result["output.jpg"]], { type: 'image/jpeg' });
       saveAs(outputBlob, 'passport_photo.jpg');
