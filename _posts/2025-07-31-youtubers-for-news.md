@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Why I Curated Pakistani YouTubers for News on PakStream"
-date: 2025-08-03
+date: 2025-07-31
 author: Atif Waqar
 image: /pakstream/images/blog-youtube-news.png  # optional
 ---
