@@ -1,7 +1,9 @@
 ---
-layout: default
+layout: post
 title: "Why Pakistani FM Radio Still Matters in 2025"
 date: 2025-08-02
+author: Atif Waqar
+image: /pakstream/images/blog-banner.png  # optional
 ---
 
 In an age of Spotify playlists, YouTube shorts, and AI-generated podcasts, it might surprise some people that **Pakistani FM radio is still alive — and kicking**.
