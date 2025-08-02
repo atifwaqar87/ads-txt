@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{{ page.title }} - PakStream</title>
+  <link rel="stylesheet" href="/pakstream/css/style.css" />
+</head>
+<body>
+  <header>
+    <input type="checkbox" id="nav-toggle">
+    <label for="nav-toggle" class="nav-toggle-label">☰</label>
+    <div class="logo-title">
+      <h1>PakStream</h1>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="/index.html">Home</a></li>
+        <li><a href="/pakstream/youtube.html">YouTube</a></li>
+        <li><a href="/pakstream/tv.html">TV</a></li>
+        <li><a href="/pakstream/radio.html">Radio</a></li>
+        <li><a href="/blog.html">Blog</a></li>
+        <li><a href="/pakstream/about.html">About</a></li>
+        <li><a href="/pakstream/contact.html">Contact</a></li>
+        <li><a href="/pakstream/privacy.html">Privacy</a></li>
+        <li><a href="/pakstream/terms.html">Terms</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="post-container">
+    <article class="post">
+      <h1>{{ page.title }}</h1>
+
+      {% if page.date %}
+        <p class="post-meta">
+          📅 {{ page.date | date: "%B %d, %Y" }} 
+          · 🕓 {% assign words = content | number_of_words %}
+          {% assign read_time = words | divided_by: 200 | ceil %}
+          {{ read_time }} min read
+        </p>
+      {% endif %}
+
+      {% if page.author %}
+        <p class="post-author">By {{ page.author }}</p>
+      {% endif %}
+
+      {% if page.image %}
+        <img src="{{ page.image }}" alt="Featured image" class="post-featured-image" />
+      {% endif %}
+
+      <div class="post-content">
+        {{ content }}
+      </div>
+
+      <!-- Social Sharing -->
+      <div class="post-share">
+        <p>Share:</p>
+        <a href="https://www.facebook.com/sharer/sharer.php?u={{ page.url | absolute_url }}" target="_blank">Facebook</a> |
+        <a href="https://twitter.com/intent/tweet?url={{ page.url | absolute_url }}&text={{ page.title }}" target="_blank">Twitter</a> |
+        <a href="https://wa.me/?text={{ page.title }}%20{{ page.url | absolute_url }}" target="_blank">WhatsApp</a>
+      </div>
+
+      <!-- Comments -->
+      <div id="hyvor-talk-view"></div>
+      <script async src="https://talk.hyvor.com/embed/embed.js" type="module"></script>
+      <hyvor-talk-comments
+        website-id="13824"
+        page-id="{{ page.url | slugify }}"
+      ></hyvor-talk-comments>
+    </article>
+  </main>
+
+  <footer>
+    <p>© 2025 PakStream. All rights reserved.</p>
+  </footer>
+</body>
+</html>
