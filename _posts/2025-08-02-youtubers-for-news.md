@@ -20,10 +20,10 @@ Like many Pakistanis, I’ve found myself turning more and more toward **indepen
 
 For example:
 
-- Imran Riaz Khan talks about judiciary and civil-military issues with courage.
-- Sabir Shakir often breaks political developments before they even make the headlines.
-- Sami Abraham, Mansoor Ali Khan, Moeed Pirzada — each of them brings their own style and credibility.
-- And then there are rising voices like Syed Ali Haider, Siddique Jaan, and Usama Ghazi, who cover ground realities that mainstream channels often ignore.
+- [Imran Riaz Khan](https://neurolingo.cc/pakstream/youtube.html?newsanchor=ImranRiazKhan) talks about judiciary and civil-military issues with courage.  
+- [Sabir Shakir](https://neurolingo.cc/pakstream/youtube.html?newsanchor=SabirShakir) often breaks political developments before they even make the headlines.  
+- [Sami Abraham](https://neurolingo.cc/pakstream/youtube.html?newsanchor=SamiAbraham), [Mansoor Ali Khan](https://neurolingo.cc/pakstream/youtube.html?newsanchor=MansoorAliKhan), [Moeed Pirzada](https://neurolingo.cc/pakstream/youtube.html?newsanchor=MoeedPirzada) — each of them brings their own style and credibility.  
+- And then there are rising voices like [Syed Ali Haider](https://neurolingo.cc/pakstream/youtube.html?newsanchor=AliHaider), [Siddique Jaan](https://neurolingo.cc/pakstream/youtube.html?newsanchor=SiddiqueJaan), and [Usama Ghazi](https://neurolingo.cc/pakstream/youtube.html?newsanchor=UsamaGhazi), who cover ground realities that mainstream channels often ignore.
 
 These journalists are not just sources of information — they’ve become part of our daily lives.
 
@@ -49,30 +49,30 @@ And if you want to jump straight to a specific journalist’s section, you can u
 
 It’s super simple, fast, and organized.
 
-Here’s a list of some of the anchors and analysts featured:
+Here’s a list of some of the anchors and analysts featured — each one linked to their section:
 
-- Imran Riaz Khan  
-- Sabir Shakir  
-- Sami Abraham  
-- Mansoor Ali Khan  
-- Dr. Moeed Pirzada  
-- Mubasher Lucman  
-- Faisal Warraich  
-- Abdul Qadir  
-- Ansar Abbasi  
-- Asma Shirazi  
-- Arshad Sharif (may Allah bless his soul)  
-- Nasim Zehra  
-- Rauf Klasra  
-- Syed Zaid Zaman Hamid  
-- Taimur Rahman (Laal)  
-- Syed Ali Haider  
-- Siddique Jaan  
-- Usama Ghazi  
-- Jameel Farooqui  
-- Waqar Malik  
-- Syed Muzammil  
-- Naya Daur TV  
+- [Imran Riaz Khan](https://neurolingo.cc/pakstream/youtube.html?newsanchor=ImranRiazKhan)  
+- [Sabir Shakir](https://neurolingo.cc/pakstream/youtube.html?newsanchor=SabirShakir)  
+- [Sami Abraham](https://neurolingo.cc/pakstream/youtube.html?newsanchor=SamiAbraham)  
+- [Mansoor Ali Khan](https://neurolingo.cc/pakstream/youtube.html?newsanchor=MansoorAliKhan)  
+- [Dr. Moeed Pirzada](https://neurolingo.cc/pakstream/youtube.html?newsanchor=MoeedPirzada)  
+- [Mubasher Lucman](https://neurolingo.cc/pakstream/youtube.html?newsanchor=MubasherLucman)  
+- [Faisal Warraich](https://neurolingo.cc/pakstream/youtube.html?newsanchor=FaisalWarraich)  
+- [Abdul Qadir](https://neurolingo.cc/pakstream/youtube.html?newsanchor=AbdulQadir)  
+- [Ansar Abbasi](https://neurolingo.cc/pakstream/youtube.html?newsanchor=AnsarAbbasi)  
+- [Asma Shirazi](https://neurolingo.cc/pakstream/youtube.html?newsanchor=AsmaShirazi)  
+- [Arshad Sharif](https://neurolingo.cc/pakstream/youtube.html?newsanchor=ArshadSharif) (may Allah bless his soul)  
+- [Nasim Zehra](https://neurolingo.cc/pakstream/youtube.html?newsanchor=NasimZehra)  
+- [Rauf Klasra](https://neurolingo.cc/pakstream/youtube.html?newsanchor=RaufKlasra)  
+- [Syed Zaid Zaman Hamid](https://neurolingo.cc/pakstream/youtube.html?newsanchor=ZaidHamid)  
+- [Taimur Rahman (Laal)](https://neurolingo.cc/pakstream/youtube.html?newsanchor=TaimurRahman)  
+- [Syed Ali Haider](https://neurolingo.cc/pakstream/youtube.html?newsanchor=AliHaider)  
+- [Siddique Jaan](https://neurolingo.cc/pakstream/youtube.html?newsanchor=SiddiqueJaan)  
+- [Usama Ghazi](https://neurolingo.cc/pakstream/youtube.html?newsanchor=UsamaGhazi)  
+- [Jameel Farooqui](https://neurolingo.cc/pakstream/youtube.html?newsanchor=JameelFarooqui)  
+- [Waqar Malik](https://neurolingo.cc/pakstream/youtube.html?newsanchor=WaqarMalik)  
+- [Syed Muzammil](https://neurolingo.cc/pakstream/youtube.html?newsanchor=Muzammil)  
+- [Naya Daur TV](https://neurolingo.cc/pakstream/youtube.html?newsanchor=NayaDaurTV)  
 
 Each name links to the latest videos, so you can just open the page and watch what’s new — no searching, no subscriptions required.
 
