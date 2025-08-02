@@ -72,31 +72,31 @@
     </div>
     <div class="video-section">
       <div id="geo" class="live-player">
-        <iframe id="geo-player" src="https://www.youtube.com/embed/O3DPVlynUM0?enablejsapi=1&autoplay=1" allowfullscreen></iframe>
+        <iframe id="geo-player" src="https://www.youtube.com/embed/O3DPVlynUM0?enablejsapi=1" allowfullscreen></iframe>
       </div>
       <div id="ary" class="live-player" style="display:none;">
-        <iframe id="ary-player" src="https://www.youtube.com/embed/live_stream?channel=UCMmpLL2ucRHAXbNHiCPyIyg&enablejsapi=1&autoplay=1" allowfullscreen></iframe>
+        <iframe id="ary-player" src="https://www.youtube.com/embed/live_stream?channel=UCMmpLL2ucRHAXbNHiCPyIyg&enablejsapi=1" allowfullscreen></iframe>
       </div>
       <div id="express" class="live-player" style="display:none;">
-        <iframe id="express-player" src="https://www.youtube.com/embed/live_stream?channel=UCTur7oM6mLL0rM2k0znuZpQ&enablejsapi=1&autoplay=1" allowfullscreen></iframe>
+        <iframe id="express-player" src="https://www.youtube.com/embed/live_stream?channel=UCTur7oM6mLL0rM2k0znuZpQ&enablejsapi=1" allowfullscreen></iframe>
       </div>
       <div id="bol" class="live-player" style="display:none;">
-        <iframe id="bol-player" src="https://www.youtube.com/embed/NVgW3STsGzU?enablejsapi=1&autoplay=1" allowfullscreen></iframe>
+        <iframe id="bol-player" src="https://www.youtube.com/embed/NVgW3STsGzU?enablejsapi=1" allowfullscreen></iframe>
       </div>
       <div id="gnn" class="live-player" style="display:none;">
-        <iframe id="gnn-player" src="https://www.youtube.com/embed/2bk3gVrO8aQ?enablejsapi=1&autoplay=1" allowfullscreen></iframe>
+        <iframe id="gnn-player" src="https://www.youtube.com/embed/2bk3gVrO8aQ?enablejsapi=1" allowfullscreen></iframe>
       </div>
       <div id="sama" class="live-player" style="display:none;">
-        <iframe id="sama-player" src="https://www.youtube.com/embed/d9-ABo3E2sU?enablejsapi=1&autoplay=1" allowfullscreen></iframe>
+        <iframe id="sama-player" src="https://www.youtube.com/embed/d9-ABo3E2sU?enablejsapi=1" allowfullscreen></iframe>
       </div>
       <div id="24news" class="live-player" style="display:none;">
-        <iframe id="24news-player" src="https://www.youtube.com/embed/1wECsnGZcfc?enablejsapi=1&autoplay=1" allowfullscreen></iframe>
+        <iframe id="24news-player" src="https://www.youtube.com/embed/1wECsnGZcfc?enablejsapi=1" allowfullscreen></iframe>
       </div>
       <div id="ptv" class="live-player" style="display:none;">
-        <iframe id="ptv-player" src="https://www.youtube.com/embed/iGOhgkuN-Mc?enablejsapi=1&autoplay=1" allowfullscreen></iframe>
+        <iframe id="ptv-player" src="https://www.youtube.com/embed/iGOhgkuN-Mc?enablejsapi=1" allowfullscreen></iframe>
       </div>
       <div id="aik" class="live-player" style="display:none;">
-        <iframe id="aik-player" src="https://www.youtube.com/embed/NVgW3STsGzU?enablejsapi=1&autoplay=1" allowfullscreen></iframe>
+        <iframe id="aik-player" src="https://www.youtube.com/embed/NVgW3STsGzU?enablejsapi=1" allowfullscreen></iframe>
       </div>
     </div>
   </section>
@@ -109,43 +109,43 @@
     <p>© 2025 PakStream.</p>
   </footer>
 
-  <!-- Load YouTube Iframe API -->
+  <!-- YouTube API and Control -->
   <script src="https://www.youtube.com/iframe_api"></script>
-<script>
-  const players = {};
-  let apiReady = false;
+  <script>
+    const players = {};
+    let apiReady = false;
 
-  function onYouTubeIframeAPIReady() {
-    document.querySelectorAll('iframe[id$="-player"]').forEach(iframe => {
-      const id = iframe.id;
-      players[id] = new YT.Player(id, {
-        events: {
-          'onReady': () => {
-            // When all players are ready, play the default one
-            if (!apiReady) {
-              apiReady = true;
-              showStream('geo', document.querySelector('.channel-card.active'));
+    function onYouTubeIframeAPIReady() {
+      document.querySelectorAll('iframe[id$="-player"]').forEach(iframe => {
+        const id = iframe.id;
+        players[id] = new YT.Player(id, {
+          events: {
+            'onReady': () => {
+              if (!apiReady) {
+                apiReady = true;
+                // Play default active video
+                showStream('geo', document.querySelector('.channel-card.active'));
+              }
             }
           }
-        }
+        });
       });
-    });
-  }
-
-  function showStream(id, element) {
-    document.querySelectorAll('.live-player').forEach(div => div.style.display = 'none');
-    document.querySelectorAll('.channel-card').forEach(card => card.classList.remove('active'));
-
-    for (const key in players) {
-      if (players[key].pauseVideo) players[key].pauseVideo();
     }
 
-    document.getElementById(id).style.display = 'block';
-    if (element) element.classList.add('active');
+    function showStream(id, element) {
+      document.querySelectorAll('.live-player').forEach(div => div.style.display = 'none');
+      document.querySelectorAll('.channel-card').forEach(card => card.classList.remove('active'));
 
-    const player = players[`${id}-player`];
-    if (player && player.playVideo) player.playVideo();
-  }
-</script>
+      for (const key in players) {
+        if (players[key].pauseVideo) players[key].pauseVideo();
+      }
+
+      document.getElementById(id).style.display = 'block';
+      if (element) element.classList.add('active');
+
+      const player = players[`${id}-player`];
+      if (player && player.playVideo) player.playVideo();
+    }
+  </script>
 </body>
 </html>
