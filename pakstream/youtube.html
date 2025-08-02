@@ -83,79 +83,124 @@
   </footer>
 
   <!-- JavaScript for dynamically loading latest videos from the selected channel -->
-  <script>
-    async function fetchLatestVideos(channelId) {
-      const feedUrl = `https://www.youtube.com/feeds/videos.xml?channel_id=${channelId}`;
-      const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(feedUrl)}`;
-      const resp = await fetch(apiUrl);
-      const data = await resp.json();
-      if (data.status !== 'ok') throw new Error('Failed to load RSS feed');
-      return data.items;
-    }
-    const cards = document.querySelectorAll('.channel-card');
-    const videoListEl = document.getElementById('videoList');
-    const playerFrame = document.getElementById('playerFrame');
+<script>
+  const anchorMap = {
+    ImranRiazKhan: "UCaszgR2TH3qNw_CxLHAd2SQ",
+    SabirShakir: "UCY7eFg5TEMsk_aTqM0pVB4w",
+    SamiAbraham: "UCFCzDl-XQq1TCo_fvBzCoyw",
+    MansoorAliKhan: "UClDtMswg3muouH60XTKlVEw",
+    MoeedPirzada: "UCnkYymEbl1qZ0VhGrzH9guw",
+    MubasherLucman: "UCslugpmYWJiZK5rbvtcaV7Q",
+    FaisalWarraich: "UChOzmkBxTHbZNZdiiYolWoA",
+    AbdulQadir: "UCYdLgIyZnHVwlDkF3Y0G_cQ",
+    AnsarAbbasi: "UCw6Gt_4bm-n4yLNUaqon_qA",
+    AsmaShirazi: "UCYAIiV0G2ups3CyiFcPeBlg",
+    ArshadSharif: "UC0UiDwKaevYAOTmVzXkrHSQ",
+    NasimZehra: "UCKtRaClqV6naRHzuxrsDPnA",
+    RaufKlasra: "UCreAj2r67xRSmf3EQxM5KuQ",
+    ZaidHamid: "UCpjldgul1pMZJpiL09j8JxA",
+    TaimurRahman: "UCIyAy8lIQwnj-2CGt9e-N3g",
+    AliHaider: "UCep38ldld-DjkOJt9Oh0gOA",
+    SiddiqueJaan: "UC-PoCqWxInxzN-9r9FxXJGg",
+    UsamaGhazi: "UCAO1utA5OhesHBHWjXd1wMw",
+    JameelFarooqui: "UCeqdeoG3nRSkkbBKT9u3wQQ",
+    WaqarMalik: "UCFqjOGv7tON3rY9kHPLa-OQ",
+    Muzammil: "UCAyd8kYxON-KM0UuRuK_sIg",
+    NayaDaurTV: "UCzVdIJeAwQfBZbG_8AOXgBw"
+  };
 
-    function setActiveCard(clickedCard) {
-      cards.forEach(c => c.classList.remove('active'));
-      clickedCard.classList.add('active');
+  const cards = document.querySelectorAll('.channel-card');
+  const videoListEl = document.getElementById('videoList');
+  const playerFrame = document.getElementById('playerFrame');
+
+  function setActiveCard(clickedCard) {
+    cards.forEach(c => c.classList.remove('active'));
+    clickedCard.classList.add('active');
+  }
+
+  function setActiveVideo(clickedItem) {
+    document.querySelectorAll('.video-item').forEach(item => item.classList.remove('active'));
+    clickedItem.classList.add('active');
+  }
+
+  function loadVideo(videoId) {
+    playerFrame.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`;
+  }
+
+  async function fetchLatestVideos(channelId) {
+    const feedUrl = `https://www.youtube.com/feeds/videos.xml?channel_id=${channelId}`;
+    const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(feedUrl)}`;
+    const resp = await fetch(apiUrl);
+    const data = await resp.json();
+    if (data.status !== 'ok') throw new Error('Failed to load RSS feed');
+    return data.items;
+  }
+
+  async function handleChannelClick(card) {
+    const channelId = card.dataset.channelId;
+    setActiveCard(card);
+    videoListEl.innerHTML = '<p>Loading videos…</p>';
+    if (!channelId) {
+      videoListEl.innerHTML = '<p>No channel ID provided.</p>';
+      return;
     }
-    function setActiveVideo(clickedItem) {
-      document.querySelectorAll('.video-item').forEach(item => item.classList.remove('active'));
-      clickedItem.classList.add('active');
-    }
-    function loadVideo(videoId) {
-      playerFrame.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`;
-    }
-    async function handleChannelClick(card) {
-      const channelId = card.dataset.channelId;
-      setActiveCard(card);
-      videoListEl.innerHTML = '<p>Loading videos…</p>';
-      if (!channelId) {
-        videoListEl.innerHTML = '<p>No channel ID provided. Edit the HTML and add the channel’s UC ID to the data-channel-id attribute.</p>';
+    try {
+      const videos = await fetchLatestVideos(channelId);
+      if (!videos || videos.length === 0) {
+        videoListEl.innerHTML = '<p>No videos found for this channel.</p>';
         return;
       }
-      try {
-        const videos = await fetchLatestVideos(channelId);
-        if (!videos || videos.length === 0) {
-          videoListEl.innerHTML = '<p>No videos found for this channel.</p>';
-          return;
+      videoListEl.innerHTML = '';
+      videos.forEach((video, index) => {
+        let videoId = '';
+        if (video.guid && video.guid.startsWith('yt:video:')) {
+          videoId = video.guid.split(':').pop();
+        } else if (video.link) {
+          const vMatch = video.link.match(/[?&]v=([^&]+)/);
+          if (vMatch) videoId = vMatch[1];
         }
-        videoListEl.innerHTML = '';
-        videos.forEach((video, index) => {
-          // Extract video ID from the guid or link
-          let videoId = '';
-          if (video.guid && video.guid.startsWith('yt:video:')) {
-            videoId = video.guid.split(':').pop();
-          } else if (video.link) {
-            const vMatch = video.link.match(/[?&]v=([^&]+)/);
-            if (vMatch) videoId = vMatch[1];
-          }
-          if (!videoId) return;
-          const itemEl = document.createElement('div');
-          itemEl.className = 'video-item';
-          itemEl.innerHTML = `
-            <img src="${video.thumbnail}" alt="${video.title}">
-            <div class="video-title">${video.title}</div>
-          `;
-          itemEl.addEventListener('click', () => {
-            loadVideo(videoId);
-            setActiveVideo(itemEl);
-          });
-          videoListEl.appendChild(itemEl);
-          if (index === 0) {
-            loadVideo(videoId);
-            setActiveVideo(itemEl);
-          }
+        if (!videoId) return;
+        const itemEl = document.createElement('div');
+        itemEl.className = 'video-item';
+        itemEl.innerHTML = `
+          <img src="${video.thumbnail}" alt="${video.title}">
+          <div class="video-title">${video.title}</div>
+        `;
+        itemEl.addEventListener('click', () => {
+          loadVideo(videoId);
+          setActiveVideo(itemEl);
         });
-      } catch (err) {
-        console.error(err);
-        videoListEl.innerHTML = '<p>Error loading videos. Please try again later.</p>';
-      }
+        videoListEl.appendChild(itemEl);
+        if (index === 0) {
+          loadVideo(videoId);
+          setActiveVideo(itemEl);
+        }
+      });
+    } catch (err) {
+      console.error(err);
+      videoListEl.innerHTML = '<p>Error loading videos.</p>';
     }
-    cards.forEach(card => card.addEventListener('click', () => handleChannelClick(card)));
-    // auto-select the first channel on load
-    if (cards.length > 0) handleChannelClick(cards[0]);
-  </script>
+  }
+
+  cards.forEach(card => {
+    card.addEventListener('click', () => handleChannelClick(card));
+  });
+
+  // Read anchor from URL
+  const urlParams = new URLSearchParams(window.location.search);
+  const anchorKey = urlParams.get('newsanchor');
+
+  if (anchorKey && anchorMap[anchorKey]) {
+    const targetId = anchorMap[anchorKey];
+    const matchedCard = Array.from(cards).find(card => card.dataset.channelId === targetId);
+    if (matchedCard) {
+      handleChannelClick(matchedCard);
+    } else {
+      handleChannelClick(cards[0]);
+    }
+  } else {
+    handleChannelClick(cards[0]);
+  }
+</script>
 </body>
 </html>
