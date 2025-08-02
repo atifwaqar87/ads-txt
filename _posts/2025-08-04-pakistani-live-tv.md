@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Why I Added Pakistani Live TV Channels to PakStream"
-date: 2025-08-02
+date: 2025-08-04
 author: Atif Waqar
 image: /pakstream/images/blog-tv-news.png  # optional
 ---
