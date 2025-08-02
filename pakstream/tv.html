@@ -49,7 +49,7 @@
         <li><a href="youtube.html">YouTube</a></li>
         <li><a href="tv.html">TV</a></li>
         <li><a href="radio.html">Radio</a></li>
-	<li><a href="blog.html">Blog</a></li>
+        <li><a href="blog.html">Blog</a></li>
         <li><a href="about.html">About</a></li>
         <li><a href="contact.html">Contact</a></li>
         <li><a href="privacy.html">Privacy</a></li>
@@ -61,7 +61,7 @@
   <!-- TV Livestream section -->
   <section class="youtube-section">
     <div class="channel-list">
-      <div class="channel-card active" onclick="showStream('geo', this)">Geo News</div>
+      <div class="channel-card" onclick="showStream('geo', this)">Geo News</div>
       <div class="channel-card" onclick="showStream('ary', this)">ARY News</div>
       <div class="channel-card" onclick="showStream('express', this)">Express News</div>
       <div class="channel-card" onclick="showStream('bol', this)">BOL News</div>
@@ -84,7 +84,7 @@
         <iframe id="express-player" src="https://www.youtube.com/embed/live_stream?channel=UCTur7oM6mLL0rM2k0znuZpQ&enablejsapi=1&autoplay=1&origin=https://neurolingo.cc" allowfullscreen></iframe>
       </div>
       <div id="bol" class="live-player" style="display:none;">
-	<iframe id="bol-player" src="https://www.youtube.com/embed/YirtbHvyaxY?enablejsapi=1&autoplay=1&origin=https://neurolingo.cc" allowfullscreen></iframe>
+        <iframe id="bol-player" src="https://www.youtube.com/embed/YirtbHvyaxY?enablejsapi=1&autoplay=1&origin=https://neurolingo.cc" allowfullscreen></iframe>
       </div>
       <div id="gnn" class="live-player" style="display:none;">
         <iframe id="gnn-player" src="https://www.youtube.com/embed/2bk3gVrO8aQ?enablejsapi=1&autoplay=1&origin=https://neurolingo.cc" allowfullscreen></iframe>
@@ -121,48 +121,62 @@
   <!-- Load YouTube Iframe API -->
   <script src="https://www.youtube.com/iframe_api"></script>
   <script>
-  const players = {};
-  let playersReadyCount = 0;
-  const totalPlayers = 8; // Update if you add/remove channels
+    const players = {};
+    const tvAnchorMap = {
+      geo: 'geo',
+      ary: 'ary',
+      express: 'express',
+      bol: 'bol',
+      gnn: 'gnn',
+      sama: 'sama',
+      '24news': '24news',
+      ptv: 'ptv',
+      hum: 'hum',
+      dunya: 'dunya',
+      '92': '92'
+    };
 
-  function onYouTubeIframeAPIReady() {
-    document.querySelectorAll('iframe[id$="-player"]').forEach(iframe => {
-      const id = iframe.id;
-      players[id] = new YT.Player(id, {
-        events: {
-          'onReady': () => {
-            playersReadyCount++;
-            if (playersReadyCount === totalPlayers) {
-              showStream('geo', document.querySelector('.channel-card.active'));
-            }
-          }
-        }
+    function onYouTubeIframeAPIReady() {
+      document.querySelectorAll('iframe[id$="-player"]').forEach(iframe => {
+        const id = iframe.id;
+        players[id] = new YT.Player(id);
       });
-    });
-  }
+    }
 
-  function showStream(id, element) {
-    // Hide all video divs and remove 'active' class
-    document.querySelectorAll('.live-player').forEach(div => div.style.display = 'none');
-    document.querySelectorAll('.channel-card').forEach(card => card.classList.remove('active'));
-
-    // Pause all players
-    for (const key in players) {
-      if (players[key].pauseVideo) {
-        players[key].pauseVideo();
+    function showStream(id, element) {
+      // Hide all video divs
+      document.querySelectorAll('.live-player').forEach(div => div.style.display = 'none');
+      // Remove active class
+      document.querySelectorAll('.channel-card').forEach(card => card.classList.remove('active'));
+      // Pause all players
+      for (const key in players) {
+        if (players[key].pauseVideo) {
+          players[key].pauseVideo();
+        }
+      }
+      // Show selected stream
+      document.getElementById(id).style.display = 'block';
+      if (element) element.classList.add('active');
+      // Play selected stream
+      const player = players[`${id}-player`];
+      if (player && player.playVideo) {
+        player.playVideo();
       }
     }
 
-    // Show selected stream
-    document.getElementById(id).style.display = 'block';
-    if (element) element.classList.add('active');
-
-    // Play selected stream
-    const player = players[`${id}-player`];
-    if (player && player.playVideo) {
-      player.playVideo();
-    }
-  }
-</script>
+    // Auto-select based on ?tvchannel=ary etc.
+    window.addEventListener('DOMContentLoaded', () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const anchorKey = urlParams.get('tvchannel');
+      if (anchorKey && tvAnchorMap[anchorKey]) {
+        const streamId = tvAnchorMap[anchorKey];
+        const matchedCard = Array.from(document.querySelectorAll('.channel-card'))
+          .find(card => card.textContent.toLowerCase().includes(anchorKey));
+        showStream(streamId, matchedCard);
+      } else {
+        showStream('geo', document.querySelector('.channel-card'));
+      }
+    });
+  </script>
 </body>
 </html>
