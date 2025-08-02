@@ -104,7 +104,7 @@
     }
 
     async function getWord() {
-      const token = sessionStorage.getItem('bearerToken');
+      const token = localStorage.getItem('bearerToken');
       const id = document.getElementById('wordId').value;
       const output = document.getElementById('output');
       const editor = document.getElementById('translationsEditor');
@@ -173,7 +173,7 @@
 
       const jsonString = JSON.stringify(updated);
       const output = document.getElementById('output');
-      const token = sessionStorage.getItem('bearerToken');
+      const token = localStorage.getItem('bearerToken');
       const id = parseInt(document.getElementById('wordId').value, 10);
 
       if (!token || !id || isNaN(id)) {
