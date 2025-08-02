@@ -1,5 +1,6 @@
 ---
-title: "Welcome to the Blog"
+layout: default
+title: "Welcome to PakStream Blog"
 date: 2025-08-02
 ---
 
