@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Why I Created PakStream: A Digital Taste of Pakistan for Those Living Abroad"
-date: 2025-08-02
+date: 2025-07-30
 author: Atif Waqar
 image: /pakstream/images/blog-banner.png  # optional
 ---
