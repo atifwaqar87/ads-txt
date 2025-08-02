@@ -132,6 +132,7 @@
           data-src="https://www.youtube.com/embed/O3DPVlynUM0?enablejsapi=1&origin=https://neurolingo.cc"
           src=""
           loading="lazy"
+          allow="autoplay"
           allowfullscreen></iframe>
       </div>
       <div id="ary" class="live-player" style="display:none;">
@@ -140,6 +141,7 @@
           data-src="https://www.youtube.com/embed/live_stream?channel=UCMmpLL2ucRHAXbNHiCPyIyg&enablejsapi=1&origin=https://neurolingo.cc"
           src=""
           loading="lazy"
+          allow="autoplay"
           allowfullscreen></iframe>
       </div>
       <div id="express" class="live-player" style="display:none;">
@@ -148,6 +150,7 @@
           data-src="https://www.youtube.com/embed/live_stream?channel=UCTur7oM6mLL0rM2k0znuZpQ&enablejsapi=1&origin=https://neurolingo.cc"
           src=""
           loading="lazy"
+          allow="autoplay"
           allowfullscreen></iframe>
       </div>
       <div id="bol" class="live-player" style="display:none;">
@@ -156,6 +159,7 @@
           data-src="https://www.youtube.com/embed/YirtbHvyaxY?enablejsapi=1&origin=https://neurolingo.cc"
           src=""
           loading="lazy"
+          allow="autoplay"
           allowfullscreen></iframe>
       </div>
       <div id="gnn" class="live-player" style="display:none;">
@@ -164,6 +168,7 @@
           data-src="https://www.youtube.com/embed/2bk3gVrO8aQ?enablejsapi=1&origin=https://neurolingo.cc"
           src=""
           loading="lazy"
+          allow="autoplay"
           allowfullscreen></iframe>
       </div>
       <div id="sama" class="live-player" style="display:none;">
@@ -172,6 +177,7 @@
           data-src="https://www.youtube.com/embed/d9-ABo3E2sU?enablejsapi=1&origin=https://neurolingo.cc"
           src=""
           loading="lazy"
+          allow="autoplay"
           allowfullscreen></iframe>
       </div>
       <div id="24news" class="live-player" style="display:none;">
@@ -180,6 +186,7 @@
           data-src="https://www.youtube.com/embed/tG2nE5C5TUk?enablejsapi=1&origin=https://neurolingo.cc"
           src=""
           loading="lazy"
+          allow="autoplay"
           allowfullscreen></iframe>
       </div>
       <div id="ptv" class="live-player" style="display:none;">
@@ -188,6 +195,7 @@
           data-src="https://www.youtube.com/embed/iGOhgkuN-Mc?enablejsapi=1&origin=https://neurolingo.cc"
           src=""
           loading="lazy"
+          allow="autoplay"
           allowfullscreen></iframe>
       </div>
       <div id="hum" class="live-player" style="display:none;">
@@ -196,6 +204,7 @@
           data-src="https://www.youtube.com/embed/-6o5mV_5wGw?enablejsapi=1&origin=https://neurolingo.cc"
           src=""
           loading="lazy"
+          allow="autoplay"
           allowfullscreen></iframe>
       </div>
       <div id="dunya" class="live-player" style="display:none;">
@@ -204,6 +213,7 @@
           data-src="https://www.youtube.com/embed/GlHSFtTFfJE?enablejsapi=1&origin=https://neurolingo.cc"
           src=""
           loading="lazy"
+          allow="autoplay"
           allowfullscreen></iframe>
       </div>
       <div id="92" class="live-player" style="display:none;">
@@ -212,6 +222,7 @@
           data-src="https://www.youtube.com/embed/LnD0uWQ2MR0?enablejsapi=1&origin=https://neurolingo.cc"
           src=""
           loading="lazy"
+          allow="autoplay"
           allowfullscreen></iframe>
       </div>
     </div>
@@ -242,13 +253,14 @@
       dunya: 'dunya',
       '92': '92'
     };
-    let initialChannel = 'geo';
-    let initialCard = document.querySelector('.channel-card');
+    const urlParams = new URLSearchParams(window.location.search);
+    const initialChannel = tvAnchorMap[urlParams.get('tvchannel')] || 'geo';
 
     function loadPlayer(id) {
       const iframe = document.getElementById(`${id}-player`);
       iframe.src = iframe.dataset.src;
       players[iframe.id] = new YT.Player(iframe.id, {
+        playerVars: { autoplay: 1 },
         events: {
           onReady: event => event.target.playVideo()
         }
@@ -256,6 +268,8 @@
     }
 
     function onYouTubeIframeAPIReady() {
+      const initialCard = document.querySelector(`.channel-card[onclick*="${initialChannel}"]`) ||
+        document.querySelector('.channel-card');
       showStream(initialChannel, initialCard);
     }
 
