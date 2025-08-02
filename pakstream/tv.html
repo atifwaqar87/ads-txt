@@ -110,42 +110,60 @@
   </footer>
 
   <!-- YouTube API and Control -->
-  <script src="https://www.youtube.com/iframe_api"></script>
-  <script>
-    const players = {};
-    let apiReady = false;
+<!-- Load YouTube API -->
+<script src="https://www.youtube.com/iframe_api"></script>
+<script>
+  const players = {};
+  let activePlayerId = null;
 
-    function onYouTubeIframeAPIReady() {
-      document.querySelectorAll('iframe[id$="-player"]').forEach(iframe => {
-        const id = iframe.id;
-        players[id] = new YT.Player(id, {
-          events: {
-            'onReady': () => {
-              if (!apiReady) {
-                apiReady = true;
-                // Play default active video
-                showStream('geo', document.querySelector('.channel-card.active'));
-              }
+  function onYouTubeIframeAPIReady() {
+    const ids = [
+      "geo", "ary", "express", "bol",
+      "gnn", "sama", "24news", "ptv", "aik"
+    ];
+
+    ids.forEach(id => {
+      const playerId = `${id}-player`;
+      players[playerId] = new YT.Player(playerId, {
+        events: {
+          'onReady': function () {
+            // Automatically play the default active stream
+            if (id === 'geo' && !activePlayerId) {
+              showStream('geo', document.querySelector('.channel-card.active'));
             }
           }
-        });
+        }
       });
+    });
+  }
+
+  function showStream(id, element) {
+    // Hide all video divs
+    document.querySelectorAll('.live-player').forEach(div => div.style.display = 'none');
+    // Remove active class from all cards
+    document.querySelectorAll('.channel-card').forEach(card => card.classList.remove('active'));
+
+    // Pause all players
+    for (const key in players) {
+      try {
+        players[key].pauseVideo();
+      } catch (e) {}
     }
 
-    function showStream(id, element) {
-      document.querySelectorAll('.live-player').forEach(div => div.style.display = 'none');
-      document.querySelectorAll('.channel-card').forEach(card => card.classList.remove('active'));
+    // Show selected video container
+    const videoDiv = document.getElementById(id);
+    if (videoDiv) videoDiv.style.display = 'block';
 
-      for (const key in players) {
-        if (players[key].pauseVideo) players[key].pauseVideo();
-      }
+    // Highlight the selected channel card
+    if (element) element.classList.add('active');
 
-      document.getElementById(id).style.display = 'block';
-      if (element) element.classList.add('active');
-
-      const player = players[`${id}-player`];
-      if (player && player.playVideo) player.playVideo();
+    // Play the selected video
+    const player = players[`${id}-player`];
+    if (player && player.playVideo) {
+      player.playVideo();
+      activePlayerId = id;
     }
-  </script>
+  }
+</script>
 </body>
 </html>
