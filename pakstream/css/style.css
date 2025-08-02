@@ -1,3 +1,4 @@
+
 /* Global styles for PakStream */
 /* Header and Navigation Bar with Hamburger Support */
 header {
@@ -156,7 +157,7 @@ footer {
   }
 }
 
-/* Styles specific to the YouTube page */
+/* Styles specific to YouTube page */
 .youtube-section {
   display: flex;
   gap: 20px;
@@ -333,13 +334,7 @@ footer {
   text-align: center;
 }
 
-/* Styles for embedded radio list frame */
-.radio-list-frame {
-  border: none;
-}
-
-
-/* Post container */
+/* Blog Post Styles */
 .post-container {
   padding: 20px;
   max-width: 800px;
@@ -347,22 +342,19 @@ footer {
   box-sizing: border-box;
 }
 
-/* Post title */
 .post h1 {
   font-size: 2em;
   margin-bottom: 10px;
   color: #263238;
 }
 
-/* Meta info and author */
 .post-meta,
 .post-author {
-  color: #777;
+  color: #555;
   font-size: 0.9em;
   margin-bottom: 8px;
 }
 
-/* Featured image */
 .post-featured-image {
   width: 100%;
   height: auto;
@@ -370,14 +362,12 @@ footer {
   border-radius: 8px;
 }
 
-/* Post content */
 .post-content {
   line-height: 1.7;
   font-size: 1em;
   color: #333;
 }
 
-/* Social share section */
 .post-share {
   margin-top: 30px;
   font-size: 0.9em;
@@ -395,7 +385,7 @@ footer {
   text-decoration: underline;
 }
 
-/* Responsive adjustments */
+/* Responsive for post layout */
 @media (max-width: 600px) {
   .post h1 {
     font-size: 1.5em;
@@ -411,5 +401,11 @@ footer {
 
   .post-featured-image {
     margin: 15px 0;
+  }
+
+  .post-meta,
+  .post-author,
+  .post-share {
+    margin-top: 10px;
   }
 }
