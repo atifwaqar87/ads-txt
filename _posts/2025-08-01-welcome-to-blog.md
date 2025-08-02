@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Welcome to PakStream Blog"
-date: 2025-08-02
+date: 2025-08-01
 author: Atif Waqar
 image: /pakstream/images/blog-banner.png  # optional
 ---
