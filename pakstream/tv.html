@@ -111,30 +111,41 @@
 
   <!-- Load YouTube Iframe API -->
   <script src="https://www.youtube.com/iframe_api"></script>
-  <script>
-    const players = {};
+<script>
+  const players = {};
+  let apiReady = false;
 
-    function onYouTubeIframeAPIReady() {
-      document.querySelectorAll('iframe[id$="-player"]').forEach(iframe => {
-        const id = iframe.id;
-        players[id] = new YT.Player(id);
+  function onYouTubeIframeAPIReady() {
+    document.querySelectorAll('iframe[id$="-player"]').forEach(iframe => {
+      const id = iframe.id;
+      players[id] = new YT.Player(id, {
+        events: {
+          'onReady': () => {
+            // When all players are ready, play the default one
+            if (!apiReady) {
+              apiReady = true;
+              showStream('geo', document.querySelector('.channel-card.active'));
+            }
+          }
+        }
       });
+    });
+  }
+
+  function showStream(id, element) {
+    document.querySelectorAll('.live-player').forEach(div => div.style.display = 'none');
+    document.querySelectorAll('.channel-card').forEach(card => card.classList.remove('active'));
+
+    for (const key in players) {
+      if (players[key].pauseVideo) players[key].pauseVideo();
     }
 
-    function showStream(id, element) {
-      document.querySelectorAll('.live-player').forEach(div => div.style.display = 'none');
-      document.querySelectorAll('.channel-card').forEach(card => card.classList.remove('active'));
+    document.getElementById(id).style.display = 'block';
+    if (element) element.classList.add('active');
 
-      for (const key in players) {
-        if (players[key].pauseVideo) players[key].pauseVideo();
-      }
-
-      document.getElementById(id).style.display = 'block';
-      element.classList.add('active');
-
-      const player = players[`${id}-player`];
-      if (player && player.playVideo) player.playVideo();
-    }
-  </script>
+    const player = players[`${id}-player`];
+    if (player && player.playVideo) player.playVideo();
+  }
+</script>
 </body>
 </html>
