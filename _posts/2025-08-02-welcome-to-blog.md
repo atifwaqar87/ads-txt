@@ -1,8 +1,11 @@
 ---
-layout: default
+layout: post
 title: "Welcome to PakStream Blog"
 date: 2025-08-02
+author: Atif Waqar
+image: /pakstream/images/blog-banner.png  # optional
 ---
+
 
 This is your first blog post! 🎉
 
