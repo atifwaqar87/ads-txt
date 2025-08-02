@@ -138,18 +138,29 @@
 
   async function handleChannelClick(card) {
     const channelId = card.dataset.channelId;
+  
+    // 👇 Update URL
+    const anchorKey = Object.keys(anchorMap).find(key => anchorMap[key] === channelId);
+    if (anchorKey) {
+      const newUrl = `${window.location.pathname}?newsanchor=${anchorKey}`;
+      history.replaceState(null, '', newUrl);
+    }
+  
     setActiveCard(card);
     videoListEl.innerHTML = '<p>Loading videos…</p>';
+  
     if (!channelId) {
       videoListEl.innerHTML = '<p>No channel ID provided.</p>';
       return;
     }
+  
     try {
       const videos = await fetchLatestVideos(channelId);
       if (!videos || videos.length === 0) {
         videoListEl.innerHTML = '<p>No videos found for this channel.</p>';
         return;
       }
+  
       videoListEl.innerHTML = '';
       videos.forEach((video, index) => {
         let videoId = '';
@@ -160,6 +171,7 @@
           if (vMatch) videoId = vMatch[1];
         }
         if (!videoId) return;
+  
         const itemEl = document.createElement('div');
         itemEl.className = 'video-item';
         itemEl.innerHTML = `
