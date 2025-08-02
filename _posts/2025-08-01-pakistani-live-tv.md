@@ -19,7 +19,6 @@ Even in the age of social media and YouTube, **live news coverage has its own ch
 But watching Pakistani TV channels abroad is harder than it should be. You either:
 
 - Get stuck searching random websites  
-- Click shady pop-ups  
 - Land on pages that don’t even work anymore
 
 It’s frustrating, especially when all you want is to quickly catch up on what’s happening back home.
@@ -31,7 +30,6 @@ Since I was already building [PakStream](https://www.pakstream.com) to stream Pa
 Just like the radio and YouTube sections, I wanted this to be:
 
 - **Clean**  
-- **Ad-free**  
 - **One-click easy**  
 
 No spammy redirects. No broken players. Just working links to the **most popular Pakistani news channels**, all in one place.
