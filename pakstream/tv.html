@@ -7,6 +7,18 @@
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5427964157655690" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="css/style.css">
   <style>
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+    
     .live-player iframe {
       width: 100%;
       height: 500px;
@@ -38,8 +50,10 @@
 </head>
 <body>
   <header>
-    <input type="checkbox" id="nav-toggle">
-    <label for="nav-toggle" class="nav-toggle-label">☰</label>
+    <input type="checkbox" id="nav-toggle" aria-label="Toggle navigation menu">
+    <label for="nav-toggle" class="nav-toggle-label">
+      ☰ <span class="sr-only">Toggle Menu</span>
+    </label>
     <div class="logo-title">
       <h1>PakStream</h1>
     </div>
@@ -57,6 +71,7 @@
       </ul>
     </nav>
   </header>
+
 
   <!-- TV Livestream section -->
   <section class="youtube-section">
