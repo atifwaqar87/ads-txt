@@ -4,9 +4,11 @@ body {
   color: #333;
   padding: 20px;
 }
+
 header {
   margin-bottom: 20px;
 }
+
 nav a {
   margin-right: 10px;
 }
@@ -27,7 +29,8 @@ nav a {
 }
 
 /* Meta info and author */
-.post-meta, .post-author {
+.post-meta,
+.post-author {
   color: #777;
   font-size: 0.9em;
   margin-bottom: 8px;
@@ -83,10 +86,4 @@ nav a {
   .post-featured-image {
     margin: 15px 0;
   }
-}
-
-
-.post-share {
-  margin-top: 30px;
-  font-size: 0.9em;
 }
