@@ -142,26 +142,34 @@
         players[id] = new YT.Player(id);
       });
     }
-
+    
     function showStream(id, element) {
       // Hide all video divs
       document.querySelectorAll('.live-player').forEach(div => div.style.display = 'none');
+    
       // Remove active class
       document.querySelectorAll('.channel-card').forEach(card => card.classList.remove('active'));
+    
       // Pause all players
       for (const key in players) {
         if (players[key].pauseVideo) {
           players[key].pauseVideo();
         }
       }
+    
       // Show selected stream
       document.getElementById(id).style.display = 'block';
       if (element) element.classList.add('active');
+    
       // Play selected stream
       const player = players[`${id}-player`];
       if (player && player.playVideo) {
         player.playVideo();
       }
+    
+      // Update URL without reloading
+      const newUrl = `${window.location.pathname}?tvchannel=${id}`;
+      history.replaceState(null, '', newUrl);
     }
 
     // Auto-select based on ?tvchannel=ary etc.
