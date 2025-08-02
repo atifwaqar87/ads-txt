@@ -44,16 +44,21 @@
       document.getElementById("saveBtn").style.display = "none";
       document.getElementById("output").style.display = "none";
       document.getElementById("serverStatus").textContent = "";
+
+      // Auto-authenticate if token exists in localStorage
+      if (localStorage.getItem('bearerToken')) {
+        checkServerStatus();
+      }
     }
 
     function saveToken() {
       const token = document.getElementById('tokenInput').value;
-      sessionStorage.setItem('bearerToken', token);
+      localStorage.setItem('bearerToken', token);
       checkServerStatus();
     }
 
     async function checkServerStatus() {
-      const token = sessionStorage.getItem('bearerToken');
+      const token = localStorage.getItem('bearerToken');
       const status = document.getElementById('serverStatus');
 
       if (!token) {
