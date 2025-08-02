@@ -1,7 +1,9 @@
 ---
-layout: default
+layout: post
 title: "Ramzan Transmission Online: Watching Pakistani Ramzan Shows Abroad"
 date: 2025-08-02
+author: Atif Waqar
+image: /pakstream/images/blog-banner.png  # optional
 ---
 
 No matter where in the world you are, **Ramzan never feels complete without Pakistani Ramzan transmissions** — the iftar shows, naats, games, celebrity guests, and that emotional dua segment right before maghrib.
