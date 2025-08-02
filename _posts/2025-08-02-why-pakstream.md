@@ -10,7 +10,7 @@ image: /pakstream/images/blog-banner.png  # optional
 
 There’s something about the streets of Pakistan, the noisy honks, the colorful rickshaws, the echo of the azaan drifting through the air, and the FM radio stations playing both old melodies and political rants. These aren’t just background noises. They are the sounds of home.
 
-My name is Abid, and like many Pakistanis, I live abroad. Sweden has been home for a few years now. It’s a beautiful country, peaceful, organized, and scenic, but let’s be honest, nothing replaces the raw, vibrant energy of Pakistan. The longer you stay away, the more you begin to miss the little things.
+My name is Atif, and like many Pakistanis, I live abroad. Sweden has been home for a few years now. It’s a beautiful country, peaceful, organized, and scenic, but let’s be honest, nothing replaces the raw, vibrant energy of Pakistan. The longer you stay away, the more you begin to miss the little things.
 
 I found myself missing things I never thought I would: the frustrating Karachi traffic, the occasional “light chali gayi” updates, and above all, Pakistani radio.
 
