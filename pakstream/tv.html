@@ -319,6 +319,17 @@
       list.classList.toggle('open');
       btn.textContent = list.classList.contains('open') ? 'Close Channels' : 'Channels';
     }
+
+    // Determine default channel based on ?tvchannel= query parameter
+    window.addEventListener('DOMContentLoaded', () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const anchorKey = urlParams.get('tvchannel');
+      if (anchorKey && tvAnchorMap[anchorKey]) {
+        initialChannel = tvAnchorMap[anchorKey];
+        initialCard = Array.from(document.querySelectorAll('.channel-card'))
+          .find(card => card.textContent.toLowerCase().includes(anchorKey));
+      }
+    });
   </script>
 </body>
 </html>
