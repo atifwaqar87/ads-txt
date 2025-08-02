@@ -11,33 +11,80 @@ nav a {
   margin-right: 10px;
 }
 
-
+/* Post container */
 .post-container {
   padding: 20px;
   max-width: 800px;
   margin: auto;
+  box-sizing: border-box;
 }
 
+/* Post title */
 .post h1 {
   font-size: 2em;
   margin-bottom: 10px;
+  color: #263238;
 }
 
+/* Meta info and author */
 .post-meta, .post-author {
   color: #777;
   font-size: 0.9em;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
 }
 
+/* Featured image */
 .post-featured-image {
-  max-width: 100%;
+  width: 100%;
+  height: auto;
   margin: 20px 0;
-  border-radius: 10px;
+  border-radius: 8px;
 }
 
+/* Post content */
 .post-content {
-  line-height: 1.6;
+  line-height: 1.7;
+  font-size: 1em;
+  color: #333;
 }
+
+/* Social share section */
+.post-share {
+  margin-top: 30px;
+  font-size: 0.9em;
+  padding-top: 15px;
+  border-top: 1px solid #ddd;
+}
+
+.post-share a {
+  text-decoration: none;
+  margin-right: 10px;
+  color: #1E88E5;
+}
+
+.post-share a:hover {
+  text-decoration: underline;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .post h1 {
+    font-size: 1.5em;
+  }
+
+  .post-container {
+    padding: 15px;
+  }
+
+  .post-content {
+    font-size: 0.95em;
+  }
+
+  .post-featured-image {
+    margin: 15px 0;
+  }
+}
+
 
 .post-share {
   margin-top: 30px;
