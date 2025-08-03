@@ -207,12 +207,14 @@ footer {
 
 .youtube-section .channel-card.active {
   background: #e8e8e8;
+  font-weight: bold;
 }
 
 .youtube-section .video-section {
   flex: 2;
   display: flex;
   flex-direction: column;
+  padding-left: 20px;
 }
 
 .youtube-section .player-wrapper {
@@ -297,6 +299,13 @@ footer {
   .channel-toggle {
     display: block;
   }
+}
+
+/* Styles specific to the TV page */
+.live-player iframe {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border: none;
 }
 
 /* Styles specific to the radio list page */
