@@ -399,13 +399,17 @@ document.addEventListener('DOMContentLoaded', function() {
   let currentAudio = null;
 
   function updateFavoritesUI() {
-    document.querySelectorAll('table tbody tr').forEach(row => {
+    const tbody = document.querySelector('table tbody');
+    const rows = Array.from(tbody.querySelectorAll('tr')).slice(1); // skip header
+
+    rows.forEach(row => {
       const audio = row.querySelector('audio');
       const id = audio?.id;
       if (!id) return;
       const isFav = favorites.includes(id);
       row.classList.toggle('favorite', isFav);
     });
+
     if (currentAudio) {
       const isFav = favorites.includes(currentAudio.id);
       favBtn.textContent = isFav ? '★' : '☆';
@@ -416,8 +420,18 @@ document.addEventListener('DOMContentLoaded', function() {
       favBtn.classList.remove('favorited');
       favBtn.disabled = true;
     }
+
     const hasFavorites = favorites.length > 0;
     prevFavBtn.disabled = nextFavBtn.disabled = !hasFavorites;
+
+    // Move favorite rows to the top while preserving event listeners
+    rows
+      .sort((a, b) => {
+        const favA = favorites.includes(a.querySelector('audio').id);
+        const favB = favorites.includes(b.querySelector('audio').id);
+        return favB - favA; // favorites first
+      })
+      .forEach(row => tbody.appendChild(row));
   }
 
   function resetButton(btn) {
