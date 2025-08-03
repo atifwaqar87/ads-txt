@@ -7,8 +7,9 @@
 
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5427964157655690"
      crossorigin="anonymous"></script>
-  
+
   <link rel="stylesheet" href="css/style.css">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <body class="radio-list">
   <!-- Header with navigation -->
@@ -39,11 +40,11 @@
     <div id="player-container" class="radio-player">
       <h3 id="current-station">Select a station</h3>
       <div class="controls">
-        <button id="favorite-btn" class="favorite-btn" type="button" aria-label="Toggle favorite" disabled>☆</button>
-        <button id="prev-fav-btn" class="fav-nav-btn" type="button" aria-label="Previous favorite" disabled>&#9198;</button>
-        <button id="play-pause-btn" class="play-pause-btn" type="button" aria-label="Play or pause" disabled>▶</button>
-        <button id="next-fav-btn" class="fav-nav-btn" type="button" aria-label="Next favorite" disabled>&#9197;</button>
-        <button id="mute-btn" class="mute-btn" type="button" aria-label="Mute" disabled>🔊</button>
+        <button id="favorite-btn" class="favorite-btn material-icons" type="button" aria-label="Toggle favorite" disabled>favorite_border</button>
+        <button id="prev-fav-btn" class="fav-nav-btn material-icons" type="button" aria-label="Previous favorite" disabled>skip_previous</button>
+        <button id="play-pause-btn" class="play-pause-btn material-icons" type="button" aria-label="Play or pause" disabled>play_arrow</button>
+        <button id="next-fav-btn" class="fav-nav-btn material-icons" type="button" aria-label="Next favorite" disabled>skip_next</button>
+        <button id="mute-btn" class="mute-btn material-icons" type="button" aria-label="Mute" disabled>volume_up</button>
         <audio id="radio-player" autoplay></audio>
       </div>
     </div>
@@ -417,13 +418,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
     if (currentAudio) {
       const isFav = favorites.includes(currentAudio.id);
-      favBtn.textContent = isFav ? '★' : '☆';
+      favBtn.textContent = isFav ? 'favorite' : 'favorite_border';
       favBtn.classList.toggle('favorited', isFav);
       favBtn.disabled = false;
       playPauseBtn.disabled = false;
       muteBtn.disabled = false;
     } else {
-      favBtn.textContent = '☆';
+      favBtn.textContent = 'favorite_border';
       favBtn.classList.remove('favorited');
       favBtn.disabled = true;
       playPauseBtn.disabled = true;
@@ -433,8 +434,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const hasFavorites = favorites.length > 0;
     prevFavBtn.disabled = nextFavBtn.disabled = !hasFavorites;
 
-    playPauseBtn.textContent = mainPlayer.paused ? '▶' : '⏸';
-    muteBtn.textContent = mainPlayer.muted ? '🔇' : '🔊';
+    playPauseBtn.textContent = mainPlayer.paused ? 'play_arrow' : 'pause';
+    muteBtn.textContent = mainPlayer.muted ? 'volume_off' : 'volume_up';
 
     // Move favorite rows to the top while preserving event listeners
     rows
@@ -570,11 +571,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
   muteBtn.addEventListener('click', () => {
     mainPlayer.muted = !mainPlayer.muted;
-    muteBtn.textContent = mainPlayer.muted ? '🔇' : '🔊';
+    muteBtn.textContent = mainPlayer.muted ? 'volume_off' : 'volume_up';
   });
 
   mainPlayer.addEventListener('playing', () => {
-    playPauseBtn.textContent = '⏸';
+    playPauseBtn.textContent = 'pause';
     if (pendingBtn) {
       pendingBtn.classList.remove('loading');
       pendingBtn.querySelector('.label').textContent = 'Stop';
@@ -588,7 +589,7 @@ document.addEventListener('DOMContentLoaded', function() {
   mainPlayer.addEventListener('pause', () => {
     if (!mainPlayer.src) return;
     resetButton(currentBtn);
-    playPauseBtn.textContent = '▶';
+    playPauseBtn.textContent = 'play_arrow';
   });
 
   mainPlayer.addEventListener('error', () => {
