@@ -389,6 +389,27 @@ document.addEventListener('DOMContentLoaded', function() {
   const buttons = Array.from(document.querySelectorAll('.play-btn'));
   const favorites = JSON.parse(localStorage.getItem('radioFavorites') || '[]');
 
+  function reorderFavorites() {
+    const tbody = document.querySelector('table tbody');
+    const rows = Array.from(tbody.querySelectorAll('tr')).slice(1);
+    const favRows = [];
+    const otherRows = [];
+    rows.forEach(row => {
+      const id = row.querySelector('audio')?.id;
+      if (id && favorites.includes(id)) {
+        favRows.push(row);
+      } else {
+        otherRows.push(row);
+      }
+    });
+    favRows.sort((a, b) => {
+      const aId = a.querySelector('audio')?.id;
+      const bId = b.querySelector('audio')?.id;
+      return favorites.indexOf(aId) - favorites.indexOf(bId);
+    });
+    [...favRows, ...otherRows].forEach(row => tbody.appendChild(row));
+  }
+
   function updateFavoritesUI() {
     buttons.forEach(btn => {
       const audio = btn.previousElementSibling;
@@ -396,6 +417,7 @@ document.addEventListener('DOMContentLoaded', function() {
       if (!audio || !row) return;
       row.classList.toggle('favorite', favorites.includes(audio.id));
     });
+    reorderFavorites();
   }
 
   function updateFavButton(id) {
