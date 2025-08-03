@@ -229,17 +229,7 @@ footer {
   padding-left: 20px;
 }
 
-.youtube-section .player-wrapper {
-  width: 100%;
-}
-
-.youtube-section .player-wrapper iframe {
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  height: auto;
-  border: none;
-  display: block;
-}
+/* Player wrapper replaced by live-player for consistent sizing */
 
 .youtube-section .video-list {
   margin-top: 10px;
@@ -321,6 +311,8 @@ footer {
   width: 100%;
   aspect-ratio: 16 / 9;
   border: none;
+  height: auto;
+  display: block;
 }
 
 /* Styles specific to the radio list page */
