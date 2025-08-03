@@ -390,6 +390,41 @@ footer {
   text-align: center;
 }
 
+/* Radio page player and favorites */
+#player-container {
+  text-align: center;
+  margin: 20px auto;
+}
+
+#player-container audio {
+  width: 100%;
+  max-width: 400px;
+  display: block;
+  margin: 0 auto 10px;
+}
+
+#favorite-btn {
+  padding: 6px 12px;
+  font-size: 0.9em;
+  cursor: pointer;
+  background-color: #ffcc00;
+  border: none;
+  border-radius: 4px;
+}
+
+#favorite-btn.favorited {
+  background-color: #ffa000;
+}
+
+.radio-list tr.favorite {
+  background-color: #fff8e1;
+}
+
+.radio-list tr.favorite .station-name::before {
+  content: '\2605\0020'; /* Star with space */
+  color: goldenrod;
+}
+
 /* Blog Post Styles */
 .post-container {
   padding: 20px;
