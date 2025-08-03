@@ -415,6 +415,11 @@ footer {
   color: goldenrod;
 }
 
+#player-container .controls {
+  display: flex;
+  align-items: center;
+}
+
 .radio-list tr.favorite {
   background-color: #fff8e1;
 }
