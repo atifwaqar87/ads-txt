@@ -388,6 +388,8 @@ document.addEventListener('DOMContentLoaded', function() {
   const currentLabel = document.getElementById('current-station');
   const buttons = Array.from(document.querySelectorAll('.play-btn'));
   const favorites = JSON.parse(localStorage.getItem('radioFavorites') || '[]');
+  let currentBtn = null;
+  let pendingBtn = null;
 
   function reorderFavorites() {
     const tbody = document.querySelector('table tbody');
@@ -434,7 +436,28 @@ document.addEventListener('DOMContentLoaded', function() {
     favBtn.classList.toggle('favorited', isFav);
   }
 
-  function loadStation(audio, name) {
+  function resetButton(btn) {
+    if (!btn) return;
+    btn.classList.remove('loading');
+    const label = btn.querySelector('.label');
+    if (label) label.textContent = 'Play';
+  }
+
+  function stopStation() {
+    mainPlayer.pause();
+    mainPlayer.removeAttribute('src');
+    mainPlayer.load();
+    currentLabel.textContent = 'Select a station';
+    updateFavButton(null);
+    history.replaceState(null, '', window.location.pathname);
+    resetButton(currentBtn);
+    currentBtn = null;
+    pendingBtn = null;
+  }
+
+  function loadStation(audio, name, btn) {
+    pendingBtn = btn;
+    btn.classList.add('loading');
     mainPlayer.src = audio.src;
     mainPlayer.load();
     const playPromise = mainPlayer.play();
@@ -453,10 +476,38 @@ document.addEventListener('DOMContentLoaded', function() {
     btn.setAttribute('type', 'button');
     const audio = btn.previousElementSibling;
     const name = btn.closest('tr').querySelector('.station-name').textContent;
+    const text = btn.textContent.trim();
+    btn.innerHTML = `<span class="label">${text}</span><span class="spinner"></span>`;
     btn.addEventListener('click', (e) => {
       e.preventDefault();
-      loadStation(audio, name);
+      if (btn === currentBtn) {
+        stopStation();
+      } else {
+        resetButton(currentBtn);
+        loadStation(audio, name, btn);
+      }
     });
+  });
+
+  mainPlayer.addEventListener('playing', () => {
+    if (pendingBtn) {
+      pendingBtn.classList.remove('loading');
+      pendingBtn.querySelector('.label').textContent = 'Stop';
+      currentBtn = pendingBtn;
+      pendingBtn = null;
+    }
+  });
+
+  mainPlayer.addEventListener('pause', () => {
+    if (!mainPlayer.src) return;
+    resetButton(currentBtn);
+    currentBtn = null;
+  });
+
+  mainPlayer.addEventListener('error', () => {
+    resetButton(pendingBtn || currentBtn);
+    currentBtn = null;
+    pendingBtn = null;
   });
 
   favBtn.addEventListener('click', () => {
@@ -478,7 +529,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const audio = document.getElementById(initial);
     if (audio) {
       const name = audio.closest('tr').querySelector('.station-name').textContent;
-      loadStation(audio, name);
+      const btn = audio.nextElementSibling;
+      resetButton(currentBtn);
+      loadStation(audio, name, btn);
     }
   }
 });
