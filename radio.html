@@ -4,7 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>PakStream - Radio Stations</title>
-  <link rel="stylesheet" href="css/style.css">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5427964157655690"
+     crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="pakstream/css/style.css">
 </head>
 <body class="radio-list">
   <!-- Header with navigation -->
@@ -17,13 +19,14 @@
     <nav>
       <ul>
         <li><a href="index.html">Home</a></li>
-        <li><a href="youtube.html">YouTube</a></li>
-        <li><a href="tv.html">TV</a></li>
-        <li><a href="radio.html">Radio</a></li>
-        <li><a href="about.html">About</a></li>
-        <li><a href="contact.html">Contact</a></li>
-        <li><a href="privacy.html">Privacy</a></li>
-        <li><a href="terms.html">Terms</a></li>
+        <li><a href="pakstream/youtube.html">YouTube</a></li>
+        <li><a href="pakstream/tv.html">TV</a></li>
+        <li><a href="pakstream/radio.html">Radio</a></li>
+        <li><a href="blog.html">Blog</a></li>
+        <li><a href="pakstream/about.html">About</a></li>
+        <li><a href="pakstream/contact.html">Contact</a></li>
+        <li><a href="pakstream/privacy.html">Privacy</a></li>
+        <li><a href="pakstream/terms.html">Terms</a></li>
       </ul>
     </nav>
   </header>
@@ -461,6 +464,12 @@ document.addEventListener('DOMContentLoaded', function() {
     audio.preload = 'none';
     const button = audio.nextElementSibling;
     if (!button || !button.classList.contains('play-btn')) return;
+
+    // initialize button with label and hidden spinner
+    button.innerHTML = '<span class="label">Play</span><span class="spinner" aria-hidden="true"></span>';
+    const btnWidth = button.offsetWidth;
+    button.style.width = btnWidth + 'px';
+
     button.addEventListener('click', function() {
       // pause all other audio streams and reset their buttons
       players.forEach(function(other) {
@@ -468,27 +477,33 @@ document.addEventListener('DOMContentLoaded', function() {
           other.pause();
           const otherBtn = other.nextElementSibling;
           if (otherBtn && otherBtn.classList.contains('play-btn')) {
-            otherBtn.textContent = 'Play';
+            otherBtn.classList.remove('loading');
+            otherBtn.disabled = false;
+            const otherLabel = otherBtn.querySelector('.label');
+            if (otherLabel) otherLabel.textContent = 'Play';
           }
         }
       });
       // toggle play/pause on selected audio with loading indicator
       if (audio.paused) {
         // show loading state while the network request is in progress
-        button.textContent = 'Loading...';
+        button.classList.add('loading');
         button.disabled = true;
         const playPromise = audio.play();
         if (playPromise !== undefined) {
           playPromise.catch(function(err) {
             // handle autoplay restrictions or other errors
             button.disabled = false;
-            button.textContent = 'Play';
+            button.classList.remove('loading');
+            const label = button.querySelector('.label');
+            if (label) label.textContent = 'Play';
             console.error(err);
           });
         }
       } else {
         audio.pause();
-        button.textContent = 'Play';
+        const label = button.querySelector('.label');
+        if (label) label.textContent = 'Play';
       }
     });
     // when the audio starts playing, update the button text to Stop
@@ -496,7 +511,9 @@ document.addEventListener('DOMContentLoaded', function() {
       const btn = audio.nextElementSibling;
       if (btn && btn.classList.contains('play-btn')) {
         btn.disabled = false;
-        btn.textContent = 'Stop';
+        btn.classList.remove('loading');
+        const label = btn.querySelector('.label');
+        if (label) label.textContent = 'Stop';
       }
     });
     // when enough data has been downloaded to begin playing, update the button (canplay is often fired before playing)
@@ -504,7 +521,9 @@ document.addEventListener('DOMContentLoaded', function() {
       const btn = audio.nextElementSibling;
       if (btn && btn.classList.contains('play-btn')) {
         btn.disabled = false;
-        btn.textContent = audio.paused ? 'Play' : 'Stop';
+        btn.classList.remove('loading');
+        const label = btn.querySelector('.label');
+        if (label) label.textContent = audio.paused ? 'Play' : 'Stop';
       }
     });
     // also handle canplaythrough (buffered enough to play through to end without stalling)
@@ -512,7 +531,9 @@ document.addEventListener('DOMContentLoaded', function() {
       const btn = audio.nextElementSibling;
       if (btn && btn.classList.contains('play-btn')) {
         btn.disabled = false;
-        btn.textContent = audio.paused ? 'Play' : 'Stop';
+        btn.classList.remove('loading');
+        const label = btn.querySelector('.label');
+        if (label) label.textContent = audio.paused ? 'Play' : 'Stop';
       }
     });
     // when audio is waiting/buffering, show Loading
@@ -520,7 +541,7 @@ document.addEventListener('DOMContentLoaded', function() {
       const btn = audio.nextElementSibling;
       if (btn && btn.classList.contains('play-btn')) {
         btn.disabled = true;
-        btn.textContent = 'Loading...';
+        btn.classList.add('loading');
       }
     });
     // when the audio ends, reset button label
@@ -528,7 +549,9 @@ document.addEventListener('DOMContentLoaded', function() {
       const btn = audio.nextElementSibling;
       if (btn && btn.classList.contains('play-btn')) {
         btn.disabled = false;
-        btn.textContent = 'Play';
+        btn.classList.remove('loading');
+        const label = btn.querySelector('.label');
+        if (label) label.textContent = 'Play';
       }
     });
     // if paused by user, update label
@@ -538,7 +561,9 @@ document.addEventListener('DOMContentLoaded', function() {
         // if pause not due to ended event, show Play
         if (!audio.ended) {
           btn.disabled = false;
-          btn.textContent = 'Play';
+          btn.classList.remove('loading');
+          const label = btn.querySelector('.label');
+          if (label) label.textContent = 'Play';
         }
       }
     });
@@ -547,10 +572,14 @@ document.addEventListener('DOMContentLoaded', function() {
       const btn = audio.nextElementSibling;
       if (btn && btn.classList.contains('play-btn')) {
         // briefly show an error message before resetting to Play
-        btn.textContent = 'Unavailable';
-        setTimeout(function() {
-          btn.textContent = 'Play';
-        }, 4000);
+        btn.classList.remove('loading');
+        const label = btn.querySelector('.label');
+        if (label) {
+          label.textContent = 'Unavailable';
+          setTimeout(function() {
+            label.textContent = 'Play';
+          }, 4000);
+        }
       }
     });
   });
