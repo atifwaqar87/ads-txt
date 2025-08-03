@@ -39,6 +39,9 @@
     <div id="player-container" class="radio-player">
       <h3 id="current-station">Select a station</h3>
       <div class="controls">
+        <button id="prev-fav-btn" class="fav-nav-btn" type="button" aria-label="Previous favorite" disabled>&lt;</button>
+        <button id="favorite-btn" class="favorite-btn" type="button" aria-label="Toggle favorite" disabled>☆</button>
+        <button id="next-fav-btn" class="fav-nav-btn" type="button" aria-label="Next favorite" disabled>&gt;</button>
         <audio id="radio-player" controls autoplay></audio>
       </div>
     </div>
@@ -492,6 +495,38 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     });
   });
+
+  favBtn.addEventListener('click', () => {
+    if (!currentAudio) return;
+    const id = currentAudio.id;
+    const idx = favorites.indexOf(id);
+    if (idx >= 0) favorites.splice(idx, 1);
+    else favorites.push(id);
+    localStorage.setItem('radioFavorites', JSON.stringify(favorites));
+    updateFavoritesUI();
+  });
+
+  function playFavorite(offset) {
+    if (favorites.length === 0) return;
+    const currentId = currentAudio ? currentAudio.id : null;
+    let idx = currentId ? favorites.indexOf(currentId) : -1;
+    if (idx === -1) {
+      idx = offset > 0 ? 0 : favorites.length - 1;
+    } else {
+      idx = (idx + offset + favorites.length) % favorites.length;
+    }
+    const nextId = favorites[idx];
+    const audio = document.getElementById(nextId);
+    if (audio) {
+      const name = audio.closest('tr').querySelector('.station-name').textContent;
+      const btn = audio.parentElement.querySelector('.play-btn');
+      resetButton(currentBtn);
+      loadStation(audio, name, btn);
+    }
+  }
+
+  prevFavBtn.addEventListener('click', () => playFavorite(-1));
+  nextFavBtn.addEventListener('click', () => playFavorite(1));
 
   mainPlayer.addEventListener('playing', () => {
     if (pendingBtn) {
