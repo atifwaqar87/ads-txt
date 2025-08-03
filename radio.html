@@ -34,7 +34,11 @@
   <!-- Radio station listing -->
   <section>
     <h2>Online Pakistani Radio Stations</h2>
-    <p>This page lists 92 online radio stations from Pakistan. Each stream below has been verified as active using the Radio&nbsp;Browser API (data checked on 1&nbsp;Aug&nbsp;2025), sourced from StreamURL.link, or scraped from Radio&nbsp;Pakistan’s official live‑streaming page. Click the play button to listen. If a station fails to play, please try again later.</p>
+    <div id="player-container" class="radio-player">
+      <h3 id="current-station">Select a station</h3>
+      <audio id="radio-player" controls></audio>
+      <button id="favorite-btn" disabled>Add Favorite</button>
+    </div>
     <table>
       <tbody>
         <tr>
@@ -376,133 +380,74 @@
   </footer>
 
   <script>
-// Custom audio player controls: only one station plays at a time.
+// Central radio player with favorites and deep links
 document.addEventListener('DOMContentLoaded', function() {
-  const players = document.querySelectorAll('audio');
-  players.forEach(function(audio) {
-    // ensure audio streams do not preload
-    audio.preload = 'none';
-    const button = audio.nextElementSibling;
-    if (!button || !button.classList.contains('play-btn')) return;
+  const mainPlayer = document.getElementById('radio-player');
+  const favBtn = document.getElementById('favorite-btn');
+  const currentLabel = document.getElementById('current-station');
+  const buttons = Array.from(document.querySelectorAll('.play-btn'));
+  const favorites = JSON.parse(localStorage.getItem('radioFavorites') || '[]');
 
-    // initialize button with label and hidden spinner
-    button.innerHTML = '<span class="label">Play</span><span class="spinner" aria-hidden="true"></span>';
-    const btnWidth = button.offsetWidth;
-    button.style.width = btnWidth + 'px';
+  function updateFavoritesUI() {
+    buttons.forEach(btn => {
+      const audio = btn.previousElementSibling;
+      const row = btn.closest('tr');
+      if (!audio || !row) return;
+      row.classList.toggle('favorite', favorites.includes(audio.id));
+    });
+  }
 
-    button.addEventListener('click', function() {
-      // pause all other audio streams and reset their buttons
-      players.forEach(function(other) {
-        if (other !== audio) {
-          other.pause();
-          const otherBtn = other.nextElementSibling;
-          if (otherBtn && otherBtn.classList.contains('play-btn')) {
-            otherBtn.classList.remove('loading');
-            otherBtn.disabled = false;
-            const otherLabel = otherBtn.querySelector('.label');
-            if (otherLabel) otherLabel.textContent = 'Play';
-          }
-        }
-      });
-      // toggle play/pause on selected audio with loading indicator
-      if (audio.paused) {
-        // show loading state while the network request is in progress
-        button.classList.add('loading');
-        button.disabled = true;
-        const playPromise = audio.play();
-        if (playPromise !== undefined) {
-          playPromise.catch(function(err) {
-            // handle autoplay restrictions or other errors
-            button.disabled = false;
-            button.classList.remove('loading');
-            const label = button.querySelector('.label');
-            if (label) label.textContent = 'Play';
-            console.error(err);
-          });
-        }
-      } else {
-        audio.pause();
-        const label = button.querySelector('.label');
-        if (label) label.textContent = 'Play';
-      }
-    });
-    // when the audio starts playing, update the button text to Stop
-    audio.addEventListener('playing', function() {
-      const btn = audio.nextElementSibling;
-      if (btn && btn.classList.contains('play-btn')) {
-        btn.disabled = false;
-        btn.classList.remove('loading');
-        const label = btn.querySelector('.label');
-        if (label) label.textContent = 'Stop';
-      }
-    });
-    // when enough data has been downloaded to begin playing, update the button (canplay is often fired before playing)
-    audio.addEventListener('canplay', function() {
-      const btn = audio.nextElementSibling;
-      if (btn && btn.classList.contains('play-btn')) {
-        btn.disabled = false;
-        btn.classList.remove('loading');
-        const label = btn.querySelector('.label');
-        if (label) label.textContent = audio.paused ? 'Play' : 'Stop';
-      }
-    });
-    // also handle canplaythrough (buffered enough to play through to end without stalling)
-    audio.addEventListener('canplaythrough', function() {
-      const btn = audio.nextElementSibling;
-      if (btn && btn.classList.contains('play-btn')) {
-        btn.disabled = false;
-        btn.classList.remove('loading');
-        const label = btn.querySelector('.label');
-        if (label) label.textContent = audio.paused ? 'Play' : 'Stop';
-      }
-    });
-    // when audio is waiting/buffering, show Loading
-    audio.addEventListener('waiting', function() {
-      const btn = audio.nextElementSibling;
-      if (btn && btn.classList.contains('play-btn')) {
-        btn.disabled = true;
-        btn.classList.add('loading');
-      }
-    });
-    // when the audio ends, reset button label
-    audio.addEventListener('ended', function() {
-      const btn = audio.nextElementSibling;
-      if (btn && btn.classList.contains('play-btn')) {
-        btn.disabled = false;
-        btn.classList.remove('loading');
-        const label = btn.querySelector('.label');
-        if (label) label.textContent = 'Play';
-      }
-    });
-    // if paused by user, update label
-    audio.addEventListener('pause', function() {
-      const btn = audio.nextElementSibling;
-      if (btn && btn.classList.contains('play-btn')) {
-        // if pause not due to ended event, show Play
-        if (!audio.ended) {
-          btn.disabled = false;
-          btn.classList.remove('loading');
-          const label = btn.querySelector('.label');
-          if (label) label.textContent = 'Play';
-        }
-      }
-    });
-    // if there's an error loading the stream, inform the user
-    audio.addEventListener('error', function() {
-      const btn = audio.nextElementSibling;
-      if (btn && btn.classList.contains('play-btn')) {
-        // briefly show an error message before resetting to Play
-        btn.classList.remove('loading');
-        const label = btn.querySelector('.label');
-        if (label) {
-          label.textContent = 'Unavailable';
-          setTimeout(function() {
-            label.textContent = 'Play';
-          }, 4000);
-        }
-      }
-    });
+  function updateFavButton(id) {
+    if (!id) {
+      favBtn.disabled = true;
+      favBtn.textContent = 'Add Favorite';
+      favBtn.classList.remove('favorited');
+      return;
+    }
+    favBtn.disabled = false;
+    favBtn.dataset.id = id;
+    const isFav = favorites.includes(id);
+    favBtn.textContent = isFav ? 'Remove Favorite' : 'Add Favorite';
+    favBtn.classList.toggle('favorited', isFav);
+  }
+
+  function loadStation(audio, name) {
+    mainPlayer.src = audio.src;
+    mainPlayer.play();
+    currentLabel.textContent = name;
+    updateFavButton(audio.id);
+    const newUrl = `${window.location.pathname}?station=${audio.id}`;
+    history.replaceState(null, '', newUrl);
+  }
+
+  buttons.forEach(btn => {
+    const audio = btn.previousElementSibling;
+    const name = btn.closest('tr').querySelector('.station-name').textContent;
+    btn.addEventListener('click', () => loadStation(audio, name));
   });
+
+  favBtn.addEventListener('click', () => {
+    const id = favBtn.dataset.id;
+    if (!id) return;
+    const idx = favorites.indexOf(id);
+    if (idx >= 0) favorites.splice(idx, 1);
+    else favorites.push(id);
+    localStorage.setItem('radioFavorites', JSON.stringify(favorites));
+    updateFavButton(id);
+    updateFavoritesUI();
+  });
+
+  updateFavoritesUI();
+
+  const params = new URLSearchParams(window.location.search);
+  const initial = params.get('station');
+  if (initial) {
+    const audio = document.getElementById(initial);
+    if (audio) {
+      const name = audio.closest('tr').querySelector('.station-name').textContent;
+      loadStation(audio, name);
+    }
+  }
 });
   </script>
   <script src="pakstream/js/menu.js"></script>
