@@ -242,6 +242,15 @@
       list.classList.toggle('open');
       btn.textContent = list.classList.contains('open') ? 'Close Channels' : 'Channels';
     }
+
+    document.addEventListener('click', function(e) {
+      const list = document.querySelector('.channel-list');
+      const btn = document.getElementById('toggle-channels');
+      if (list.classList.contains('open') && !list.contains(e.target) && !btn.contains(e.target)) {
+        list.classList.remove('open');
+        btn.textContent = 'Channels';
+      }
+    });
   </script>
   <script src="js/menu.js"></script>
 </body>

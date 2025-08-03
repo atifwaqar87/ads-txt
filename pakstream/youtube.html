@@ -210,6 +210,15 @@
     btn.textContent = list.classList.contains('open') ? 'Close Channels' : 'Channels';
   }
 
+  document.addEventListener('click', function(e) {
+    const list = document.querySelector('.channel-list');
+    const btn = document.getElementById('toggle-channels');
+    if (list.classList.contains('open') && !list.contains(e.target) && !btn.contains(e.target)) {
+      list.classList.remove('open');
+      btn.textContent = 'Channels';
+    }
+  });
+
   // Read anchor from URL
   const urlParams = new URLSearchParams(window.location.search);
   const anchorKey = urlParams.get('newsanchor');
