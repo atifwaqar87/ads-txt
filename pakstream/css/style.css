@@ -59,6 +59,19 @@ nav a:hover {
   color: #cc0000;
 }
 
+/* Screen-reader-only utility */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 .hero {
   text-align: center;
   padding: 40px 20px;
@@ -203,19 +216,15 @@ footer {
 }
 
 .youtube-section .player-wrapper {
-  position: relative;
   width: 100%;
-  padding-bottom: 56.25%;
   background: #000;
 }
 
 .youtube-section .player-wrapper iframe {
-  position: absolute;
-  top: 0;
-  left: 0;
   width: 100%;
-  height: 100%;
-  border: 0;
+  aspect-ratio: 16 / 9;
+  border: none;
+  display: block;
 }
 
 .youtube-section .video-list {
@@ -247,7 +256,7 @@ footer {
 
 .youtube-section .video-item img {
   width: 120px;
-  height: 67px;
+  aspect-ratio: 16 / 9;
   object-fit: cover;
   border-radius: 4px;
 }
