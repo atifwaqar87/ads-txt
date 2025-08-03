@@ -39,10 +39,12 @@
     <div id="player-container" class="radio-player">
       <h3 id="current-station">Select a station</h3>
       <div class="controls">
-        <button id="prev-fav-btn" class="fav-nav-btn" type="button" aria-label="Previous favorite" disabled>&#9198;</button>
         <button id="favorite-btn" class="favorite-btn" type="button" aria-label="Toggle favorite" disabled>☆</button>
+        <button id="prev-fav-btn" class="fav-nav-btn" type="button" aria-label="Previous favorite" disabled>&#9198;</button>
+        <button id="play-pause-btn" class="play-pause-btn" type="button" aria-label="Play or pause" disabled>▶</button>
         <button id="next-fav-btn" class="fav-nav-btn" type="button" aria-label="Next favorite" disabled>&#9197;</button>
-        <audio id="radio-player" controls autoplay></audio>
+        <button id="mute-btn" class="mute-btn" type="button" aria-label="Mute" disabled>🔊</button>
+        <audio id="radio-player" autoplay></audio>
       </div>
     </div>
     <table>
@@ -392,7 +394,9 @@ document.addEventListener('DOMContentLoaded', function() {
   const playButtons = Array.from(document.querySelectorAll('.play-btn'));
   const favBtn = document.getElementById('favorite-btn');
   const prevFavBtn = document.getElementById('prev-fav-btn');
+  const playPauseBtn = document.getElementById('play-pause-btn');
   const nextFavBtn = document.getElementById('next-fav-btn');
+  const muteBtn = document.getElementById('mute-btn');
   const favorites = JSON.parse(localStorage.getItem('radioFavorites') || '[]');
   let currentBtn = null;
   let pendingBtn = null;
@@ -416,14 +420,21 @@ document.addEventListener('DOMContentLoaded', function() {
       favBtn.textContent = isFav ? '★' : '☆';
       favBtn.classList.toggle('favorited', isFav);
       favBtn.disabled = false;
+      playPauseBtn.disabled = false;
+      muteBtn.disabled = false;
     } else {
       favBtn.textContent = '☆';
       favBtn.classList.remove('favorited');
       favBtn.disabled = true;
+      playPauseBtn.disabled = true;
+      muteBtn.disabled = true;
     }
 
     const hasFavorites = favorites.length > 0;
     prevFavBtn.disabled = nextFavBtn.disabled = !hasFavorites;
+
+    playPauseBtn.textContent = mainPlayer.paused ? '▶' : '⏸';
+    muteBtn.textContent = mainPlayer.muted ? '🔇' : '🔊';
 
     // Move favorite rows to the top while preserving event listeners
     rows
@@ -547,19 +558,37 @@ document.addEventListener('DOMContentLoaded', function() {
   prevFavBtn.addEventListener('click', () => playFavorite(-1));
   nextFavBtn.addEventListener('click', () => playFavorite(1));
 
+  playPauseBtn.addEventListener('click', () => {
+    if (mainPlayer.paused) {
+      const label = currentBtn?.querySelector('.label');
+      if (label) label.textContent = 'Stop';
+      mainPlayer.play();
+    } else {
+      mainPlayer.pause();
+    }
+  });
+
+  muteBtn.addEventListener('click', () => {
+    mainPlayer.muted = !mainPlayer.muted;
+    muteBtn.textContent = mainPlayer.muted ? '🔇' : '🔊';
+  });
+
   mainPlayer.addEventListener('playing', () => {
+    playPauseBtn.textContent = '⏸';
     if (pendingBtn) {
       pendingBtn.classList.remove('loading');
       pendingBtn.querySelector('.label').textContent = 'Stop';
       currentBtn = pendingBtn;
       pendingBtn = null;
+    } else if (currentBtn) {
+      currentBtn.querySelector('.label').textContent = 'Stop';
     }
   });
 
   mainPlayer.addEventListener('pause', () => {
     if (!mainPlayer.src) return;
     resetButton(currentBtn);
-    currentBtn = null;
+    playPauseBtn.textContent = '▶';
   });
 
   mainPlayer.addEventListener('error', () => {
