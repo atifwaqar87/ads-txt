@@ -38,7 +38,7 @@
     <h2>Online Pakistani Radio Stations</h2>
     <div id="player-container" class="radio-player">
       <h3 id="current-station">Select a station</h3>
-      <audio id="radio-player" controls></audio>
+      <audio id="radio-player" controls autoplay></audio>
       <button id="favorite-btn" disabled>Add Favorite</button>
     </div>
     <table>
@@ -414,7 +414,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
   function loadStation(audio, name) {
     mainPlayer.src = audio.src;
-    mainPlayer.play();
+    mainPlayer.load();
+    const playPromise = mainPlayer.play();
+    if (playPromise !== undefined) {
+      playPromise.catch(() => {
+        mainPlayer.autoplay = true;
+      });
+    }
     currentLabel.textContent = name;
     updateFavButton(audio.id);
     const newUrl = `${window.location.pathname}?station=${audio.id}`;
