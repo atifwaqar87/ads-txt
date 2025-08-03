@@ -462,19 +462,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const playPromise = mainPlayer.play();
     if (playPromise !== undefined) {
       playPromise.catch(() => {
-        // Autoplay may be blocked on some devices (e.g. mobile).
-        // Reset the button state and wait for the first user interaction
-        // before trying to play again.
-        resetButton(btn);
-        pendingBtn = null;
-
-        const resume = () => {
-          btn.click();
-          document.removeEventListener('click', resume);
-          document.removeEventListener('touchstart', resume);
-        };
-        document.addEventListener('click', resume, { once: true });
-        document.addEventListener('touchstart', resume, { once: true });
+        mainPlayer.autoplay = true;
       });
     }
     currentAudio = audio;
