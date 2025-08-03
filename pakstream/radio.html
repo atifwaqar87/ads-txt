@@ -389,57 +389,36 @@
 document.addEventListener('DOMContentLoaded', function() {
   const mainPlayer = document.getElementById('radio-player');
   const currentLabel = document.getElementById('current-station');
+  const playButtons = Array.from(document.querySelectorAll('.play-btn'));
+  const favBtn = document.getElementById('favorite-btn');
+  const prevFavBtn = document.getElementById('prev-fav-btn');
+  const nextFavBtn = document.getElementById('next-fav-btn');
   const favorites = JSON.parse(localStorage.getItem('radioFavorites') || '[]');
-  const tbody = document.querySelector('table tbody');
+  let currentBtn = null;
+  let pendingBtn = null;
+  let currentAudio = null;
 
   function updateFavoritesUI() {
-    const rows = Array.from(tbody.querySelectorAll('tr')).slice(1);
-    rows.forEach(row => {
+    document.querySelectorAll('table tbody tr').forEach(row => {
       const audio = row.querySelector('audio');
-      const favToggle = row.querySelector('.favorite-btn');
       const id = audio?.id;
       if (!id) return;
       const isFav = favorites.includes(id);
       row.classList.toggle('favorite', isFav);
-      if (favToggle) {
-        favToggle.textContent = isFav ? '★' : '☆';
-        favToggle.classList.toggle('favorited', isFav);
-      }
     });
-    rows.sort((a, b) => {
-      const aFav = favorites.includes(a.querySelector('audio')?.id);
-      const bFav = favorites.includes(b.querySelector('audio')?.id);
-      return aFav === bFav ? 0 : aFav ? -1 : 1;
-    }).forEach(row => tbody.appendChild(row));
+    if (currentAudio) {
+      const isFav = favorites.includes(currentAudio.id);
+      favBtn.textContent = isFav ? '★' : '☆';
+      favBtn.classList.toggle('favorited', isFav);
+      favBtn.disabled = false;
+    } else {
+      favBtn.textContent = '☆';
+      favBtn.classList.remove('favorited');
+      favBtn.disabled = true;
+    }
+    const hasFavorites = favorites.length > 0;
+    prevFavBtn.disabled = nextFavBtn.disabled = !hasFavorites;
   }
-
-  const rows = Array.from(tbody.querySelectorAll('tr')).slice(1);
-  rows.forEach(row => {
-    const playBtn = row.querySelector('.play-btn');
-    const audio = row.querySelector('audio');
-    if (!playBtn || !audio) return;
-    const favBtn = document.createElement('button');
-    favBtn.className = 'favorite-btn';
-    favBtn.type = 'button';
-    favBtn.textContent = '☆';
-    playBtn.parentNode.insertBefore(favBtn, playBtn);
-    favBtn.addEventListener('click', (e) => {
-      e.preventDefault();
-      const id = audio.id;
-      const idx = favorites.indexOf(id);
-      if (idx >= 0) favorites.splice(idx, 1);
-      else favorites.push(id);
-      localStorage.setItem('radioFavorites', JSON.stringify(favorites));
-      updateFavoritesUI();
-    });
-  });
-
-  updateFavoritesUI();
-
-  const playButtons = Array.from(document.querySelectorAll('.play-btn'));
-  let currentBtn = null;
-  let pendingBtn = null;
-  let currentAudio = null;
 
   function resetButton(btn) {
     if (!btn) return;
@@ -480,7 +459,7 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   playButtons.forEach(btn => {
-    const audio = btn.parentElement.querySelector('audio');
+    const audio = btn.previousElementSibling;
     const name = btn.closest('tr').querySelector('.station-name').textContent;
     const text = btn.textContent.trim();
     btn.setAttribute('type', 'button');
@@ -550,6 +529,8 @@ document.addEventListener('DOMContentLoaded', function() {
     currentAudio = null;
     updateFavoritesUI();
   });
+
+  updateFavoritesUI();
 
   const params = new URLSearchParams(window.location.search);
   const initial = params.get('station');
