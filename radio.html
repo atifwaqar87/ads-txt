@@ -413,6 +413,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   function loadStation(audio, name) {
     mainPlayer.src = audio.src;
+
     mainPlayer.load();
     const tryPlay = () => {
       const promise = mainPlayer.play();
