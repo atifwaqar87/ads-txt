@@ -23,9 +23,10 @@ header h1 {
   color: #cc0000;
 }
 
-/* Hide checkbox for hamburger toggle */
+/* Visually hide checkbox but keep it focusable for accessibility */
 #nav-toggle {
-  display: none;
+  position: absolute;
+  opacity: 0;
 }
 
 /* Hamburger icon */
