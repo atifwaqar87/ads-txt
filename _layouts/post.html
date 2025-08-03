@@ -61,13 +61,17 @@
         <a href="https://wa.me/?text={{ page.title }}%20{{ page.url | absolute_url }}" target="_blank">WhatsApp</a>
       </div>
 
-      <!-- Comments -->
-      <div id="hyvor-talk-view"></div>
-      <script async src="https://talk.hyvor.com/embed/embed.js" type="module"></script>
-      <hyvor-talk-comments
-        website-id="13824"
-        page-id="{{ page.url | slugify }}"
-      ></hyvor-talk-comments>
+      <!-- Cusdis Comments -->
+      <div id="cusdis_thread"
+           data-host="https://cusdis.com"
+           data-app-id="58c778ce-255f-47eb-bd76-b878ed2f33e4"
+           data-page-id="{{ page.url }}"
+           data-page-url="{{ site.url }}{{ page.url }}"
+           data-page-title="{{ page.title }}">
+      </div>
+      
+      <script async defer src="https://cusdis.com/js/cusdis.es.js"></script>
+
     </article>
   </main>
 
