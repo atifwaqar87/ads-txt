@@ -39,7 +39,6 @@
     <div id="player-container" class="radio-player">
       <h3 id="current-station">Select a station</h3>
       <audio id="radio-player" controls autoplay></audio>
-      <button id="favorite-btn" disabled>Add Favorite</button>
     </div>
     <table>
       <tbody>
@@ -384,10 +383,10 @@
 // Central radio player with favorites and deep links
 document.addEventListener('DOMContentLoaded', function() {
   const mainPlayer = document.getElementById('radio-player');
-  const favBtn = document.getElementById('favorite-btn');
   const currentLabel = document.getElementById('current-station');
-  const buttons = Array.from(document.querySelectorAll('.play-btn'));
+  const playButtons = Array.from(document.querySelectorAll('.play-btn'));
   const favorites = JSON.parse(localStorage.getItem('radioFavorites') || '[]');
+  const favButtons = [];
   let currentBtn = null;
   let pendingBtn = null;
 
@@ -413,27 +412,16 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   function updateFavoritesUI() {
-    buttons.forEach(btn => {
-      const audio = btn.previousElementSibling;
-      const row = btn.closest('tr');
-      if (!audio || !row) return;
-      row.classList.toggle('favorite', favorites.includes(audio.id));
+    favButtons.forEach(favBtn => {
+      const id = favBtn.dataset.id;
+      const row = favBtn.closest('tr');
+      if (!id || !row) return;
+      const isFav = favorites.includes(id);
+      favBtn.textContent = isFav ? '★' : '☆';
+      favBtn.classList.toggle('favorited', isFav);
+      row.classList.toggle('favorite', isFav);
     });
     reorderFavorites();
-  }
-
-  function updateFavButton(id) {
-    if (!id) {
-      favBtn.disabled = true;
-      favBtn.textContent = 'Add Favorite';
-      favBtn.classList.remove('favorited');
-      return;
-    }
-    favBtn.disabled = false;
-    favBtn.dataset.id = id;
-    const isFav = favorites.includes(id);
-    favBtn.textContent = isFav ? 'Remove Favorite' : 'Add Favorite';
-    favBtn.classList.toggle('favorited', isFav);
   }
 
   function resetButton(btn) {
@@ -448,7 +436,6 @@ document.addEventListener('DOMContentLoaded', function() {
     mainPlayer.removeAttribute('src');
     mainPlayer.load();
     currentLabel.textContent = 'Select a station';
-    updateFavButton(null);
     history.replaceState(null, '', window.location.pathname);
     resetButton(currentBtn);
     currentBtn = null;
@@ -467,16 +454,24 @@ document.addEventListener('DOMContentLoaded', function() {
       });
     }
     currentLabel.textContent = name;
-    updateFavButton(audio.id);
     const newUrl = `${window.location.pathname}?station=${audio.id}`;
     history.replaceState(null, '', newUrl);
   }
 
-  buttons.forEach(btn => {
-    btn.setAttribute('type', 'button');
+  playButtons.forEach(btn => {
     const audio = btn.previousElementSibling;
     const name = btn.closest('tr').querySelector('.station-name').textContent;
     const text = btn.textContent.trim();
+
+    const fav = document.createElement('button');
+    fav.className = 'favorite-btn';
+    fav.type = 'button';
+    fav.dataset.id = audio.id;
+    fav.textContent = '☆';
+    btn.parentNode.insertBefore(fav, btn);
+    favButtons.push(fav);
+
+    btn.setAttribute('type', 'button');
     btn.innerHTML = `<span class="label">${text}</span><span class="spinner"></span>`;
     btn.addEventListener('click', (e) => {
       e.preventDefault();
@@ -486,6 +481,16 @@ document.addEventListener('DOMContentLoaded', function() {
         resetButton(currentBtn);
         loadStation(audio, name, btn);
       }
+    });
+
+    fav.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const id = fav.dataset.id;
+      const idx = favorites.indexOf(id);
+      if (idx >= 0) favorites.splice(idx, 1);
+      else favorites.push(id);
+      localStorage.setItem('radioFavorites', JSON.stringify(favorites));
+      updateFavoritesUI();
     });
   });
 
@@ -510,17 +515,6 @@ document.addEventListener('DOMContentLoaded', function() {
     pendingBtn = null;
   });
 
-  favBtn.addEventListener('click', () => {
-    const id = favBtn.dataset.id;
-    if (!id) return;
-    const idx = favorites.indexOf(id);
-    if (idx >= 0) favorites.splice(idx, 1);
-    else favorites.push(id);
-    localStorage.setItem('radioFavorites', JSON.stringify(favorites));
-    updateFavButton(id);
-    updateFavoritesUI();
-  });
-
   updateFavoritesUI();
 
   const params = new URLSearchParams(window.location.search);
@@ -529,7 +523,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const audio = document.getElementById(initial);
     if (audio) {
       const name = audio.closest('tr').querySelector('.station-name').textContent;
-      const btn = audio.nextElementSibling;
+      const btn = audio.parentElement.querySelector('.play-btn');
       resetButton(currentBtn);
       loadStation(audio, name, btn);
     }
