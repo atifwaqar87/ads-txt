@@ -217,12 +217,13 @@ footer {
 
 .youtube-section .player-wrapper {
   width: 100%;
+  padding-top: 56.25%;
   background: #000;
 }
 
 .youtube-section .player-wrapper iframe {
   width: 100%;
-  aspect-ratio: 16 / 9;
+  height: 100%;
   border: none;
   display: block;
 }
