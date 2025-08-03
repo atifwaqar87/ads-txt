@@ -396,6 +396,7 @@ document.addEventListener('DOMContentLoaded', function() {
   const favorites = JSON.parse(localStorage.getItem('radioFavorites') || '[]');
   let currentBtn = null;
   let pendingBtn = null;
+  let resumeHandler = null;
   let currentAudio = null;
 
   function updateFavoritesUI() {
@@ -455,6 +456,12 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   function loadStation(audio, name, btn) {
+    // Clean up any previous resume handler
+    if (resumeHandler) {
+      document.removeEventListener('click', resumeHandler);
+      document.removeEventListener('touchstart', resumeHandler);
+      resumeHandler = null;
+    }
     pendingBtn = btn;
     btn.classList.add('loading');
     mainPlayer.src = audio.src;
@@ -462,7 +469,26 @@ document.addEventListener('DOMContentLoaded', function() {
     const playPromise = mainPlayer.play();
     if (playPromise !== undefined) {
       playPromise.catch(() => {
-        mainPlayer.autoplay = true;
+        // Autoplay may be blocked on some devices (e.g. mobile).
+        // Reset the button state and wait for the first user interaction
+        // before trying to play again.
+        resetButton(btn);
+
+        resumeHandler = () => {
+          btn.classList.add('loading');
+          const pp = mainPlayer.play();
+          if (pp !== undefined) {
+            pp.catch(() => {
+              resetButton(btn);
+              pendingBtn = null;
+            });
+          }
+          document.removeEventListener('click', resumeHandler);
+          document.removeEventListener('touchstart', resumeHandler);
+          resumeHandler = null;
+        };
+        document.addEventListener('click', resumeHandler, { once: true });
+        document.addEventListener('touchstart', resumeHandler, { once: true });
       });
     }
     currentAudio = audio;
