@@ -450,9 +450,13 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   buttons.forEach(btn => {
+    btn.setAttribute('type', 'button');
     const audio = btn.previousElementSibling;
     const name = btn.closest('tr').querySelector('.station-name').textContent;
-    btn.addEventListener('click', () => loadStation(audio, name));
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      loadStation(audio, name);
+    });
   });
 
   favBtn.addEventListener('click', () => {
