@@ -11,7 +11,27 @@
   <link rel="stylesheet" href="/pakstream/css/style.css">
 </head>
 <body>
-  <div id="nav-placeholder"></div>
+  <header class="top-bar">
+    <input type="checkbox" id="nav-toggle">
+    <label for="nav-toggle" class="nav-toggle-label">☰</label>
+    <div class="logo-title">
+      <h1>PakStream</h1>
+    </div>
+    <nav>
+      <ul class="nav-links">
+        <li><a href="/index.html">Home</a></li>
+        <li><a href="/pakstream/youtube.html">YouTube</a></li>
+        <li><a href="/pakstream/tv.html">TV</a></li>
+        <li><a href="/pakstream/radio.html">Radio</a></li>
+        <li><a href="/blog.html">Blog</a></li>
+        <li><a href="/pakstream/about.html">About</a></li>
+        <li><a href="/pakstream/contact.html">Contact</a></li>
+        <li><a href="/pakstream/privacy.html">Privacy</a></li>
+        <li><a href="/pakstream/terms.html">Terms</a></li>
+      </ul>
+    </nav>
+    <label for="nav-toggle" class="nav-overlay"></label>
+  </header>
 
   <!-- Hero section with image and tagline -->
   <div class="hero">
@@ -40,6 +60,6 @@
   <footer>
     <p>© 2025 PakStream. All rights reserved.</p>
   </footer>
-  <script src="/pakstream/js/load-nav.js"></script>
+  <script src="/pakstream/js/menu.js"></script>
 </body>
 </html>
