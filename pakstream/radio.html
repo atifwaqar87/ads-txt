@@ -39,7 +39,7 @@
     <h2>Pakistani Radio Stations</h2>
     <div id="player-container" class="radio-player">
       <div class="station-info">
-        <img id="station-logo" alt="Station logo" hidden>
+        <img id="station-logo" src="/pakstream/images/default_radio.png" alt="Station logo">
         <h3 id="current-station" class="station-title">Select a station</h3>
         <div id="live-badge" class="live-badge" hidden><span class="dot"></span>Live</div>
       </div>
@@ -397,6 +397,7 @@ document.addEventListener('DOMContentLoaded', function() {
   const mainPlayer = document.getElementById('radio-player');
   const currentLabel = document.getElementById('current-station');
   const stationLogo = document.getElementById('station-logo');
+  const defaultLogo = '/pakstream/images/default_radio.png';
   const liveBadge = document.getElementById('live-badge');
   const playButtons = Array.from(document.querySelectorAll('.play-btn'));
   const favBtn = document.getElementById('favorite-btn');
@@ -465,7 +466,9 @@ document.addEventListener('DOMContentLoaded', function() {
     mainPlayer.removeAttribute('src');
     mainPlayer.load();
     currentLabel.textContent = 'Select a station';
-    stationLogo.hidden = true;
+    stationLogo.onerror = null;
+    stationLogo.src = defaultLogo;
+    stationLogo.hidden = false;
     liveBadge.hidden = true;
     history.replaceState(null, '', window.location.pathname);
     resetButton(currentBtn);
@@ -484,7 +487,11 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     pendingBtn = btn;
     btn.classList.add('loading');
-    stationLogo.src = audio.dataset.logo || 'https://via.placeholder.com/80?text=Logo';
+    stationLogo.onerror = () => {
+      stationLogo.onerror = null;
+      stationLogo.src = defaultLogo;
+    };
+    stationLogo.src = audio.dataset.logo || defaultLogo;
     stationLogo.hidden = false;
     liveBadge.hidden = true;
     mainPlayer.src = audio.src;
@@ -621,7 +628,9 @@ document.addEventListener('DOMContentLoaded', function() {
     pendingBtn = null;
     currentAudio = null;
     liveBadge.hidden = true;
-    stationLogo.hidden = true;
+    stationLogo.onerror = null;
+    stationLogo.src = defaultLogo;
+    stationLogo.hidden = false;
     updateFavoritesUI();
   });
 
