@@ -2,15 +2,27 @@
 <html>
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body { font-family: sans-serif; padding: 2rem; text-align: center; }
     input, button, textarea { font-size: 1rem; padding: 0.4rem; margin: 0.4rem; }
     pre { background: #f4f4f4; padding: 1rem; border-radius: 8px; max-width: 800px; margin: 1rem auto; text-align: left; }
-    .edit-box { display: flex; flex-direction: column; gap: 8px; margin: 1rem auto; width: 80%; max-width: 600px; }
-    .edit-box div { display: flex; gap: 1rem; align-items: center; }
-    .edit-box label { width: 180px; text-align: right; }
+    .edit-box { display: flex; flex-direction: column; gap: 12px; margin: 1rem auto; width: 80%; max-width: 600px; }
+    .translation-row { display: flex; gap: 1rem; align-items: center; background: #fff; border: 1px solid #ddd; border-radius: 8px; padding: 0.8rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+    .translation-row input { flex: 1; }
+    .row-top { display: flex; align-items: center; gap: 0.5rem; }
+    .row-top label { width: 180px; text-align: right; }
     .output-success { color: green; }
     #mainControls, #translationsEditor, #saveBtn, #output { display: none; }
+
+    @media (max-width: 600px) {
+      body { padding: 1rem; }
+      .edit-box { width: 100%; }
+      .translation-row { flex-direction: column; align-items: stretch; }
+      .row-top { width: 100%; justify-content: space-between; }
+      .row-top label { width: auto; text-align: left; }
+      input, textarea { width: 100%; box-sizing: border-box; }
+    }
   </style>
 </head>
 <body onload="initUI()">
@@ -148,9 +160,10 @@
             const value = parsed[key] ?? '';
             const isReadOnly = key === 'wordClass' || key === 'en_US word';
             const row = document.createElement('div');
+            row.className = 'translation-row';
 
-            const labelEl = document.createElement('label');
-            labelEl.textContent = key;
+            const top = document.createElement('div');
+            top.className = 'row-top';
 
             const inputEl = document.createElement('input');
             inputEl.type = 'text';
@@ -163,9 +176,14 @@
             playBtn.textContent = '▶';
             playBtn.addEventListener('click', () => playText(key, inputEl.value));
 
-            row.appendChild(labelEl);
+            const labelEl = document.createElement('label');
+            labelEl.textContent = key;
+
+            top.appendChild(labelEl);
+            top.appendChild(playBtn);
+
+            row.appendChild(top);
             row.appendChild(inputEl);
-            row.appendChild(playBtn);
             editor.appendChild(row);
           });
 
