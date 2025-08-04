@@ -17,14 +17,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
   var themeToggle = document.getElementById('theme-toggle');
   if (themeToggle) {
-    var savedTheme = localStorage.getItem('theme');
-    if (savedTheme === 'dark') {
-      document.body.classList.add('dark-mode');
-    }
+    var savedTheme = localStorage.getItem('theme') || 'light';
+    document.documentElement.setAttribute('data-theme', savedTheme);
     themeToggle.addEventListener('click', function () {
-      document.body.classList.toggle('dark-mode');
-      var mode = document.body.classList.contains('dark-mode') ? 'dark' : 'light';
-      localStorage.setItem('theme', mode);
+      var current = document.documentElement.getAttribute('data-theme');
+      var next = current === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', next);
+      localStorage.setItem('theme', next);
     });
   }
 });

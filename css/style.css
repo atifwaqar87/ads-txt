@@ -1,26 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
 
-:root {
-  --md-primary: #1E88E5;
-  --md-on-primary: #ffffff;
-  --md-surface: #ffffff;
-  --md-background: #f9f9f9;
-  --md-on-surface: #333333;
-}
-
-body.dark-mode {
-  --md-primary: #263238;
-  --md-on-primary: #ffffff;
-  --md-surface: #37474f;
-  --md-background: #263238;
-  --md-on-surface: #e0e0e0;
-}
-
 
 body {
   font-family: 'Roboto', sans-serif;
-  background: var(--md-background);
-  color: var(--md-on-surface);
+  background: var(--background);
+  color: var(--on-surface);
   padding: 0;
   margin: 0;
   transition: background 0.3s, color 0.3s;
@@ -43,8 +27,8 @@ h3 {
 
 /* Top app bar */
 .top-bar {
-  background: var(--md-primary);
-  color: var(--md-on-primary);
+  background: var(--primary);
+  color: var(--on-primary);
   display: flex;
   align-items: center;
   padding: 0 16px;
@@ -60,7 +44,7 @@ h3 {
 }
 
 .nav-toggle-label {
-  color: var(--md-on-primary);
+  color: var(--on-primary);
   font-size: 1.5rem;
   margin-right: 16px;
   cursor: pointer;
@@ -83,7 +67,7 @@ nav li {
 }
 
 nav a {
-  color: var(--md-on-primary);
+  color: var(--on-primary);
   text-decoration: none;
   font-weight: 500;
 }
@@ -100,7 +84,7 @@ nav a:hover {
 .theme-toggle {
   background: none;
   border: none;
-  color: var(--md-on-primary);
+  color: var(--on-primary);
   cursor: pointer;
   font-size: 1.25rem;
   margin-left: 16px;
@@ -108,7 +92,7 @@ nav a:hover {
 
 /* Generic sections */
 section {
-  background: var(--md-surface);
+  background: var(--surface);
   margin: 20px auto;
   padding: 16px;
   border-radius: 4px;
@@ -138,7 +122,7 @@ section {
   left: 50%;
   transform: translate(-50%, -50%);
   background: rgba(0,0,0,0.4);
-  color: var(--md-on-primary);
+  color: var(--on-primary);
   padding: 20px;
   border-radius: 8px;
 }
@@ -153,7 +137,7 @@ section {
 }
 
 .feature-card {
-  background: var(--md-surface);
+  background: var(--surface);
   border-radius: 8px;
   padding: 20px;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
@@ -163,7 +147,7 @@ section {
 
 .feature-card .material-icons {
   font-size: 48px;
-  color: var(--md-primary);
+  color: var(--primary);
   margin-bottom: 10px;
 }
 
@@ -175,7 +159,7 @@ section {
 }
 
 .channel-card {
-  background: var(--md-surface);
+  background: var(--surface);
   padding: 8px 12px;
   border-radius: 4px;
   box-shadow: 0 1px 3px rgba(0,0,0,0.2);
@@ -188,8 +172,8 @@ section {
 }
 
 .channel-card.active {
-  background: var(--md-primary);
-  color: var(--md-on-primary);
+  background: var(--primary);
+  color: var(--on-primary);
 }
 
 .video-section {
@@ -227,8 +211,8 @@ section {
 button,
 .channel-toggle,
 .play-btn {
-  background: var(--md-primary);
-  color: var(--md-on-primary);
+  background: var(--primary);
+  color: var(--on-primary);
   border: none;
   border-radius: 4px;
   padding: 8px 16px;
@@ -243,7 +227,7 @@ button:hover,
 
 /* Radio player controls */
 .radio-player {
-  background: var(--md-surface);
+  background: var(--surface);
   padding: 16px;
   border-radius: 4px;
   box-shadow: 0 1px 3px rgba(0,0,0,0.2);
@@ -284,7 +268,7 @@ th {
 }
 
 .post {
-  background: var(--md-surface);
+  background: var(--surface);
   padding: 16px;
   border-radius: 4px;
   box-shadow: 0 1px 3px rgba(0,0,0,0.2);
@@ -354,7 +338,7 @@ th {
   nav ul {
     flex-direction: column;
     display: none;
-    background: var(--md-primary);
+    background: var(--primary);
     position: absolute;
     top: 56px;
     left: 0;
@@ -428,7 +412,7 @@ footer {
   text-align: center;
   padding: 16px;
   margin-top: 40px;
-  color: var(--md-on-surface);
+  color: var(--on-surface);
 }
 
 footer nav {
@@ -436,7 +420,7 @@ footer nav {
 }
 
 footer nav a {
-  color: var(--md-on-surface);
+  color: var(--on-surface);
   margin: 0 8px;
   text-decoration: none;
 }
@@ -451,16 +435,16 @@ footer nav a:hover {
 }
 body {
   font-family: 'Roboto', sans-serif;
-  background: var(--md-background);
-  color: var(--md-on-surface);
+  background: var(--background);
+  color: var(--on-surface);
   padding: 0;
   margin: 0;
 }
 
 /* Top app bar */
 .top-bar {
-  background: var(--md-primary);
-  color: var(--md-on-primary);
+  background: var(--primary);
+  color: var(--on-primary);
   display: flex;
   align-items: center;
   padding: 0 16px;
@@ -475,7 +459,7 @@ body {
 }
 
 .nav-toggle-label {
-  color: var(--md-on-primary);
+  color: var(--on-primary);
   font-size: 1.5rem;
   margin-right: 16px;
   cursor: pointer;
@@ -498,7 +482,7 @@ nav li {
 }
 
 nav a {
-  color: var(--md-on-primary);
+  color: var(--on-primary);
   text-decoration: none;
   font-weight: 500;
 }
@@ -521,7 +505,7 @@ nav a:hover {
 }
 
 .channel-card {
-  background: var(--md-surface);
+  background: var(--surface);
   padding: 8px 12px;
   border-radius: 4px;
   box-shadow: 0 1px 3px rgba(0,0,0,0.2);
@@ -534,8 +518,8 @@ nav a:hover {
 }
 
 .channel-card.active {
-  background: var(--md-primary);
-  color: var(--md-on-primary);
+  background: var(--primary);
+  color: var(--on-primary);
 }
 
 .video-section {
@@ -573,8 +557,8 @@ nav a:hover {
 button,
 .channel-toggle,
 .play-btn {
-  background: var(--md-primary);
-  color: var(--md-on-primary);
+  background: var(--primary);
+  color: var(--on-primary);
   border: none;
   border-radius: 4px;
   padding: 8px 16px;
@@ -589,7 +573,7 @@ button:hover,
 
 /* Radio player controls */
 .radio-player {
-  background: var(--md-surface);
+  background: var(--surface);
   padding: 16px;
   border-radius: 4px;
   box-shadow: 0 1px 3px rgba(0,0,0,0.2);
@@ -631,7 +615,7 @@ th {
 }
 
 .post {
-  background: var(--md-surface);
+  background: var(--surface);
   padding: 16px;
   border-radius: 4px;
   box-shadow: 0 1px 3px rgba(0,0,0,0.2);
@@ -701,7 +685,7 @@ th {
   nav ul {
     flex-direction: column;
     display: none;
-    background: var(--md-primary);
+    background: var(--primary);
     position: absolute;
     top: 56px;
     left: 0;
@@ -775,7 +759,7 @@ footer {
   text-align: center;
   padding: 16px;
   margin-top: 40px;
-  color: var(--md-on-surface);
+  color: var(--on-surface);
 }
 
 .ad-container {
