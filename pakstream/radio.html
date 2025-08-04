@@ -511,17 +511,6 @@ document.addEventListener('DOMContentLoaded', function() {
   const nextFavBtn = document.getElementById('next-fav-btn');
   const muteBtn = document.getElementById('mute-btn');
   const favorites = JSON.parse(localStorage.getItem('radioFavorites') || '[]');
-
-  // Insert station logos into each row before the play button
-  document.querySelectorAll('audio[data-logo]').forEach(audio => {
-    const btn = audio.parentElement.querySelector('.play-btn');
-    if (!btn) return;
-    const img = document.createElement('img');
-    img.src = audio.dataset.logo || defaultLogo;
-    img.alt = '';
-    img.className = 'station-row-logo';
-    audio.parentElement.insertBefore(img, btn);
-  });
   let currentBtn = null;
   let pendingBtn = null;
   let resumeHandler = null;
