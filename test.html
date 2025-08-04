@@ -28,14 +28,14 @@
 <body onload="initUI()">
   <!-- Token input and auth -->
   <div id="tokenInputContainer">
-    <input type="password" id="tokenInput" placeholder="Enter Bearer Token" />
+    <input type="password" id="tokenInput" placeholder="Enter Bearer Token" autocomplete="one-time-code" />
     <button onclick="saveToken()">Authorize</button>
   </div>
 
   <!-- Controls (hidden initially) -->
   <div id="mainControls">
     <button onclick="getPrevWord()">Get Previous Word</button>
-    <input type="text" id="wordId" placeholder="Enter ID or Word" />
+    <input type="text" id="wordId" placeholder="Enter ID or Word" autocomplete="off" />
     <button onclick="getWord()">Get Word</button>
     <button onclick="getNextWord()">Get Next Word</button>
   </div>
