@@ -2,7 +2,6 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body { font-family: sans-serif; padding: 2rem; text-align: center; }
     input, button, textarea { font-size: 1rem; padding: 0.4rem; margin: 0.4rem; }
@@ -12,14 +11,6 @@
     .edit-box label { width: 180px; text-align: right; }
     .output-success { color: green; }
     #mainControls, #translationsEditor, #saveBtn, #output { display: none; }
-
-    @media (max-width: 600px) {
-      body { padding: 1rem; }
-      .edit-box { width: 100%; }
-      .edit-box div { flex-direction: column; align-items: stretch; }
-      .edit-box label { width: 100%; text-align: left; }
-      input, button, textarea { width: 100%; box-sizing: border-box; }
-    }
   </style>
 </head>
 <body onload="initUI()">
