@@ -125,6 +125,30 @@
     playerFrame.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`;
   }
 
+  function timeAgo(dateString) {
+    const seconds = Math.floor((Date.now() - new Date(dateString).getTime()) / 1000);
+    const intervals = [
+      { label: 'year', seconds: 31536000 },
+      { label: 'month', seconds: 2592000 },
+      { label: 'day', seconds: 86400 },
+      { label: 'hour', seconds: 3600 },
+      { label: 'minute', seconds: 60 }
+    ];
+    for (const interval of intervals) {
+      const count = Math.floor(seconds / interval.seconds);
+      if (count >= 1) {
+        return `${count} ${interval.label}${count > 1 ? 's' : ''} ago`;
+      }
+    }
+    return 'Just now';
+  }
+
+  async function fetchVideoDetails(videoId) {
+    const resp = await fetch(`https://noembed.com/embed?url=https://www.youtube.com/watch?v=${videoId}`);
+    if (!resp.ok) throw new Error('Failed to load video details');
+    return resp.json();
+  }
+
   async function fetchLatestVideos(channelId) {
     const feedUrl = `https://www.youtube.com/feeds/videos.xml?channel_id=${channelId}`;
     const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(feedUrl)}`;
@@ -160,7 +184,7 @@
       }
   
       videoListEl.innerHTML = '';
-      videos.forEach((video, index) => {
+      for (const [index, video] of videos.entries()) {
         let videoId = '';
         if (video.guid && video.guid.startsWith('yt:video:')) {
           videoId = video.guid.split(':').pop();
@@ -168,13 +192,25 @@
           const vMatch = video.link.match(/[?&]v=([^&]+)/);
           if (vMatch) videoId = vMatch[1];
         }
-        if (!videoId) return;
-  
+        if (!videoId) continue;
+
+        let details = {};
+        try {
+          details = await fetchVideoDetails(videoId);
+        } catch (e) {
+          console.error(e);
+        }
+        const viewsText = details.view_count ? `${Number(details.view_count).toLocaleString()} views` : 'Views unavailable';
+        const ageText = timeAgo(video.pubDate);
+
         const itemEl = document.createElement('div');
         itemEl.className = 'video-item';
         itemEl.innerHTML = `
           <img src="${video.thumbnail}" alt="${video.title}" loading="lazy">
-          <div class="video-title">${video.title}</div>
+          <div class="video-details">
+            <div class="video-title">${video.title}</div>
+            <div class="video-meta">${viewsText} • ${ageText}</div>
+          </div>
         `;
         itemEl.addEventListener('click', () => {
           loadVideo(videoId);
@@ -185,7 +221,7 @@
           loadVideo(videoId);
           setActiveVideo(itemEl);
         }
-      });
+      }
     } catch (err) {
       console.error(err);
       videoListEl.innerHTML = '<p>Error loading videos.</p>';

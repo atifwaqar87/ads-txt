@@ -213,6 +213,16 @@ section {
   background: rgba(0,100,0,0.1);
 }
 
+.video-list .video-item .video-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.video-list .video-item .video-meta {
+  font-size: 0.875rem;
+  color: #777;
+}
+
 /* Responsive behaviour for channel list */
 @media (max-width: 768px) {
   .youtube-section {
