@@ -222,16 +222,31 @@
 
     function playText(key, text) {
       if (!window.speechSynthesis) return;
-      const utter = new SpeechSynthesisUtterance(text);
-      let lang = 'en-US';
+
       const prefix = key.split(' ')[0];
-      if (prefix.includes('_')) {
-        lang = prefix.replace('_', '-');
-      }
-      utter.lang = lang;
+      const requestedLang = prefix.includes('_')
+        ? prefix.replace('_', '-')
+        : 'en-US';
+
       const voices = speechSynthesis.getVoices();
-      const voice = voices.find(v => v.lang === lang);
-      if (voice) utter.voice = voice;
+      if (!voices.length) {
+        speechSynthesis.onvoiceschanged = () => playText(key, text);
+        return;
+      }
+
+      const utter = new SpeechSynthesisUtterance(text);
+      let voice = voices.find(v => v.lang === requestedLang);
+      if (!voice) {
+        const base = requestedLang.split('-')[0];
+        voice = voices.find(v => v.lang.startsWith(base));
+      }
+      if (voice) {
+        utter.voice = voice;
+        utter.lang = voice.lang;
+      } else {
+        utter.lang = requestedLang;
+      }
+
       speechSynthesis.cancel();
       speechSynthesis.speak(utter);
     }
