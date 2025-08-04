@@ -361,6 +361,20 @@ footer {
   color: var(--md-on-surface);
 }
 
+footer nav {
+  margin-bottom: 8px;
+}
+
+footer nav a {
+  color: var(--md-on-surface);
+  margin: 0 8px;
+  text-decoration: none;
+}
+
+footer nav a:hover {
+  text-decoration: underline;
+}
+
 .ad-container {
   margin: 20px 0;
   text-align: center;
