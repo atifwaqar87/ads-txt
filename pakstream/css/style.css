@@ -375,6 +375,10 @@ th {
   text-align: left;
 }
 
+table tbody tr:not(:first-child) {
+  cursor: pointer;
+}
+
 /* Post layout */
 .post-container {
   padding: 20px;
