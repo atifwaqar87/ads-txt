@@ -38,11 +38,7 @@
   <section>
     <h2>Pakistani Radio Stations</h2>
     <div id="player-container" class="radio-player">
-      <div class="station-info">
-        <img id="station-logo" alt="Station logo" hidden>
-        <h3 id="current-station" class="station-title">Select a station</h3>
-        <div id="live-badge" class="live-badge" hidden><span class="dot"></span>Live</div>
-      </div>
+      <h3 id="current-station">Select a station</h3>
       <div class="controls">
         <button id="favorite-btn" class="favorite-btn material-icons" type="button" aria-label="Toggle favorite" disabled>favorite_border</button>
         <button id="prev-fav-btn" class="fav-nav-btn material-icons" type="button" aria-label="Previous favorite" disabled>skip_previous</button>
@@ -396,8 +392,6 @@
 document.addEventListener('DOMContentLoaded', function() {
   const mainPlayer = document.getElementById('radio-player');
   const currentLabel = document.getElementById('current-station');
-  const stationLogo = document.getElementById('station-logo');
-  const liveBadge = document.getElementById('live-badge');
   const playButtons = Array.from(document.querySelectorAll('.play-btn'));
   const favBtn = document.getElementById('favorite-btn');
   const prevFavBtn = document.getElementById('prev-fav-btn');
@@ -465,8 +459,6 @@ document.addEventListener('DOMContentLoaded', function() {
     mainPlayer.removeAttribute('src');
     mainPlayer.load();
     currentLabel.textContent = 'Select a station';
-    stationLogo.hidden = true;
-    liveBadge.hidden = true;
     history.replaceState(null, '', window.location.pathname);
     resetButton(currentBtn);
     currentBtn = null;
@@ -484,9 +476,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     pendingBtn = btn;
     btn.classList.add('loading');
-    stationLogo.src = audio.dataset.logo || 'https://via.placeholder.com/80?text=Logo';
-    stationLogo.hidden = false;
-    liveBadge.hidden = true;
     mainPlayer.src = audio.src;
     mainPlayer.load();
     const playPromise = mainPlayer.play();
@@ -587,7 +576,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
   mainPlayer.addEventListener('playing', () => {
     playPauseBtn.textContent = 'pause';
-    liveBadge.hidden = false;
     if (pendingBtn) {
       pendingBtn.classList.remove('loading');
       pendingBtn.querySelector('.label').textContent = 'Stop';
@@ -602,7 +590,6 @@ document.addEventListener('DOMContentLoaded', function() {
     if (!mainPlayer.src) return;
     resetButton(currentBtn);
     playPauseBtn.textContent = 'play_arrow';
-    liveBadge.hidden = true;
   });
 
   mainPlayer.addEventListener('error', () => {
@@ -610,8 +597,6 @@ document.addEventListener('DOMContentLoaded', function() {
     currentBtn = null;
     pendingBtn = null;
     currentAudio = null;
-    liveBadge.hidden = true;
-    stationLogo.hidden = true;
     updateFavoritesUI();
   });
 
