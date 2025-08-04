@@ -13,7 +13,8 @@
     .row-top { display: flex; align-items: center; gap: 0.3rem; }
     .row-top label { width: 150px; text-align: right; }
     .output-success { color: green; }
-    #mainControls, #translationsEditor, #saveBtn, #output { display: none; }
+    #mainControls { display: none; align-items: center; gap: 0.3rem; justify-content: center; }
+    #translationsEditor, #saveBtn, #output { display: none; }
 
     @media (max-width: 600px) {
       body { padding: 1rem; }
@@ -22,9 +23,8 @@
       .row-top { width: 100%; justify-content: space-between; }
       .row-top label { width: auto; text-align: left; }
       input, textarea { width: 100%; box-sizing: border-box; }
-      #mainControls { display: flex; flex-wrap: wrap; justify-content: center; }
-      #mainControls input { order: 1; flex-basis: 100%; }
-      #mainControls button { order: 2; flex: 1; }
+      #mainControls { flex-wrap: nowrap; }
+      #mainControls input { width: auto; flex: 1 1 auto; }
     }
   </style>
 </head>
@@ -36,12 +36,12 @@
   </div>
 
   <!-- Controls (hidden initially) -->
-  <div id="mainControls">
-    <button onclick="getPrevWord()">Previous Word</button>
-    <input type="text" id="wordId" placeholder="Enter ID or Word" autocomplete="off" />
-    <button onclick="getWord()">Get Word</button>
-    <button onclick="getNextWord()">Next Word</button>
-  </div>
+    <div id="mainControls">
+      <button onclick="getPrevWord()">⏪</button>
+      <input type="text" id="wordId" placeholder="Enter ID or Word" autocomplete="off" />
+      <button onclick="getWord()">Get Word</button>
+      <button onclick="getNextWord()">⏩</button>
+    </div>
 
   <!-- Editor -->
   <div id="translationsEditor" class="edit-box"></div>
@@ -88,10 +88,10 @@
         });
 
         if (res.ok) {
-          document.getElementById("tokenInputContainer").style.display = "none";
-          document.getElementById("mainControls").style.display = "block";
-          status.textContent = "✅ Connected to server.";
-          status.style.color = "green";
+            document.getElementById("tokenInputContainer").style.display = "none";
+            document.getElementById("mainControls").style.display = "flex";
+            status.textContent = "✅ Connected to server.";
+            status.style.color = "green";
         } else {
           status.textContent = "❌ Server is down. Contact Atif the Admin.";
           status.style.color = "red";
