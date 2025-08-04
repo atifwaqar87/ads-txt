@@ -536,6 +536,12 @@ document.addEventListener('DOMContentLoaded', function() {
         loadStation(audio, name, btn);
       }
     });
+
+    const row = btn.closest('tr');
+    row.addEventListener('click', (e) => {
+      if (e.target.closest('button')) return;
+      btn.click();
+    });
   });
 
   favBtn.addEventListener('click', () => {
