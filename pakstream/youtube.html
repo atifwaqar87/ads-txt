@@ -218,6 +218,13 @@
   
     setActiveCard(card);
     videoListEl.innerHTML = '<p>Loading videos…</p>';
+
+    // Close channel list immediately on small screens
+    if (window.innerWidth <= 768) {
+      const list = document.querySelector('.channel-list');
+      list.classList.remove('open');
+      document.getElementById('toggle-channels').textContent = 'Channels';
+    }
   
     if (!channelId) {
       videoListEl.innerHTML = '<p>No channel ID provided.</p>';
@@ -275,12 +282,6 @@
       videoListEl.innerHTML = '<p>Error loading videos.</p>';
     }
 
-    // Close channel list on small screens
-    if (window.innerWidth <= 768) {
-      const list = document.querySelector('.channel-list');
-      list.classList.remove('open');
-      document.getElementById('toggle-channels').textContent = 'Channels';
-    }
   }
 
   cards.forEach(card => {
