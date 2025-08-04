@@ -631,6 +631,16 @@ document.addEventListener('DOMContentLoaded', function() {
       resetButton(currentBtn);
       loadStation(audio, name, btn);
     }
+  } else {
+    const rows = document.querySelectorAll('table tbody tr');
+    if (rows.length > 1) {
+      const firstRow = rows[1]; // first station after the header row
+      const audio = firstRow.querySelector('audio');
+      const btn = firstRow.querySelector('.play-btn');
+      const name = firstRow.querySelector('.station-name').textContent;
+      resetButton(currentBtn);
+      loadStation(audio, name, btn);
+    }
   }
 });
   </script>
