@@ -148,10 +148,24 @@
             const value = parsed[key] ?? '';
             const isReadOnly = key === 'wordClass' || key === 'en_US word';
             const row = document.createElement('div');
-            row.innerHTML = `
-              <label>${key}</label>
-              <input type="text" name="${key}" value="${value}" ${isReadOnly ? 'readonly' : ''} />
-            `;
+
+            const labelEl = document.createElement('label');
+            labelEl.textContent = key;
+
+            const inputEl = document.createElement('input');
+            inputEl.type = 'text';
+            inputEl.name = key;
+            inputEl.value = value;
+            if (isReadOnly) inputEl.setAttribute('readonly', true);
+
+            const playBtn = document.createElement('button');
+            playBtn.type = 'button';
+            playBtn.textContent = '▶';
+            playBtn.addEventListener('click', () => playText(key, inputEl.value));
+
+            row.appendChild(labelEl);
+            row.appendChild(inputEl);
+            row.appendChild(playBtn);
             editor.appendChild(row);
           });
 
@@ -204,6 +218,22 @@
         output.style.display = "block";
         output.textContent = "❌ Error: " + err.message;
       }
+    }
+
+    function playText(key, text) {
+      if (!window.speechSynthesis) return;
+      const utter = new SpeechSynthesisUtterance(text);
+      let lang = 'en-US';
+      const prefix = key.split(' ')[0];
+      if (prefix.includes('_')) {
+        lang = prefix.replace('_', '-');
+      }
+      utter.lang = lang;
+      const voices = speechSynthesis.getVoices();
+      const voice = voices.find(v => v.lang === lang);
+      if (voice) utter.voice = voice;
+      speechSynthesis.cancel();
+      speechSynthesis.speak(utter);
     }
 
     document.addEventListener("DOMContentLoaded", () => {
