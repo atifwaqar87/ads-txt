@@ -14,4 +14,17 @@ document.addEventListener('DOMContentLoaded', function () {
       navToggle.checked = false;
     }
   });
+
+  var themeToggle = document.getElementById('theme-toggle');
+  if (themeToggle) {
+    var savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark') {
+      document.body.classList.add('dark-mode');
+    }
+    themeToggle.addEventListener('click', function () {
+      document.body.classList.toggle('dark-mode');
+      var mode = document.body.classList.contains('dark-mode') ? 'dark' : 'light';
+      localStorage.setItem('theme', mode);
+    });
+  }
 });
