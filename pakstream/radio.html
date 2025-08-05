@@ -81,7 +81,7 @@
     <h2>Pakistani Radio Stations</h2>
     <div id="player-container" class="radio-player">
       <div class="station-info">
-        <img id="station-logo" src="/pakstream/images/default_radio.png" alt="Station logo">
+        <img id="station-logo" src="/pakstream/images/default_radio.png" alt="Station logo" loading="lazy">
         <h3 id="current-station" class="station-title">Select a station</h3>
         <div id="live-badge" class="live-badge" hidden><span class="dot"></span>Live</div>
         <div id="not-live-badge" class="not-live-badge"><span class="dot"></span>Not live</div>
@@ -783,6 +783,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
   </script>
   <script src="/pakstream/js/menu.js"></script>
+  <script src="/pakstream/js/lazyload.js"></script>
 </body>
 </html>
 

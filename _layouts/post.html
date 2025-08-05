@@ -90,7 +90,7 @@
       {% endif %}
 
       {% if page.image %}
-        <img src="{{ page.image }}" alt="Featured image" class="post-featured-image" />
+        <img src="{{ page.image }}" alt="Featured image" class="post-featured-image" loading="lazy" />
       {% endif %}
 
       <div class="post-content">
@@ -129,5 +129,6 @@
     <p>© 2025 PakStream. All rights reserved.</p>
   </footer>
   <script src="/pakstream/js/menu.js"></script>
+  <script src="/pakstream/js/lazyload.js"></script>
 </body>
 </html>
