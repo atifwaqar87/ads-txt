@@ -73,10 +73,12 @@ PakStream is my small contribution to this community, to remind us that no matte
 This is just the beginning. Here’s what I’m planning next:
 
 - **More Radio Stations** – including regional and niche ones  
-- **Live TV Channels** – so you can watch Geo, ARY, or PTV directly  
-- **Political Commentary** – from popular YouTubers and journalists  
-- **Blog Posts** – sharing stories like this one, contributed by fellow Pakistanis abroad  
+- **Live TV Channels** – so you can watch Geo, ARY, or PTV directly
+- **Political Commentary** – from popular YouTubers and journalists
+- **Blog Posts** – sharing stories like this one, contributed by fellow Pakistanis abroad
 - **User Suggestions Section** – so you can tell me what else you want added
+
+If you're looking to [watch Pakistani TV channels live](/pakstream/tv.html), check out our TV section where you can stream Urdu news and dramas online. We've also written about [popular Pakistani YouTubers that every expat should follow](/blog/2025/07/31/youtubers-for-news.html).
 
 If the site grows and people find value in it, I may even consider adding native mobile apps or features like saving your favorite stations, scheduling reminders for programs, and more.
 

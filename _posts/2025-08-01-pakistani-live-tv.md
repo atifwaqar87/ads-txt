@@ -52,8 +52,10 @@ Right now, the live TV section includes the channels I personally check most oft
 
 Each one opens in a separate, mobile-friendly player, so whether you’re at work, on your commute, or chilling at home, you’re just one click away from the headlines.
 
-👉 **Explore the TV section now:**  
+👉 **Explore the TV section now:**
 [https://www.pakstream.com](https://www.pakstream.com)
+
+Looking for commentary beyond TV? Visit our [YouTube news section](/pakstream/youtube.html) or read about [Pakistani YouTubers for news that every expat should follow](/blog/2025/07/31/youtubers-for-news.html).
 
 ## Built for People Like Us
 
