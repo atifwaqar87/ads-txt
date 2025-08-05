@@ -4,6 +4,14 @@ document.addEventListener('DOMContentLoaded', function () {
   var label = document.querySelector('.nav-toggle-label');
   if (!navToggle || !nav || !label) return;
 
+  var currentPath = window.location.pathname.replace(/\/$/, '/index.html');
+  var links = document.querySelectorAll('.nav-links a');
+  links.forEach(function (link) {
+    if (link.getAttribute('href') === currentPath) {
+      link.classList.add('active');
+    }
+  });
+
   label.addEventListener('click', function (e) {
     e.preventDefault();
     navToggle.checked = !navToggle.checked;
