@@ -96,6 +96,8 @@ In a world full of misinformation and political noise, finding real, honest repo
 
 Visit [PakStream](https://www.pakstream.com), explore the YouTube section, and see if it makes your daily news experience smoother and smarter. And if it does, share it with your friends abroad. Let’s help each other stay informed and connected.
 
+If you're looking to [watch Pakistani TV channels live](/pakstream/tv.html), check out our TV section where you can stream Urdu news and dramas online. We’ve also shared why we added [Pakistani live TV channels to PakStream](/blog/2025/08/01/pakistani-live-tv.html).
+
 ---
 
 **Your Turn:**  
