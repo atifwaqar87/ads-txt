@@ -469,6 +469,16 @@ table tbody tr:not(:first-child) {
 table tbody tr.favorite {
   background-color: var(--favorite-row);
 }
+/* Hover highlight for station rows on desktops */
+@media (hover: hover) and (pointer: fine) {
+  .radio-list table tbody tr:not(:first-child) {
+    transition: background-color 0.2s ease-in-out;
+  }
+
+  .radio-list table tbody tr:not(:first-child):hover {
+    background-color: var(--surface-variant);
+  }
+}
 
 .radio-list td:first-child {
   display: flex;
