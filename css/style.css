@@ -415,6 +415,12 @@ button:hover,
   align-items: center;
 }
 
+.radio-list #player-container {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
 .station-info {
   text-align: center;
 }
