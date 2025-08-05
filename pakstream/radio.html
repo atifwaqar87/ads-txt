@@ -752,6 +752,9 @@ document.addEventListener('DOMContentLoaded', function() {
       navigator.mediaSession.playbackState = 'playing';
     }
     if (pendingBtn) {
+      if (currentBtn && currentBtn !== pendingBtn) {
+        resetButton(currentBtn);
+      }
       pendingBtn.classList.remove('loading');
       pendingBtn.querySelector('.label').textContent = 'stop';
       pendingBtn.setAttribute('aria-label', 'Stop');
@@ -764,12 +767,13 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 
-  mainPlayer.addEventListener('waiting', () => {
-    liveBadge.hidden = true;
-    notLiveBadge.hidden = false;
-    playPauseBtn.classList.add('loading');
-    currentBtn?.classList.add('loading');
-  });
+    mainPlayer.addEventListener('waiting', () => {
+      liveBadge.hidden = true;
+      notLiveBadge.hidden = false;
+      playPauseBtn.classList.add('loading');
+      const targetBtn = pendingBtn || currentBtn;
+      targetBtn?.classList.add('loading');
+    });
 
   mainPlayer.addEventListener('pause', () => {
     if (!mainPlayer.src) return;
