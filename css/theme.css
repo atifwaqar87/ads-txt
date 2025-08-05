@@ -18,6 +18,8 @@
 
   --error: #D32F2F;
   --on-error: #FFFFFF;
+  --error-container: #FFEBEE;
+  --on-error-container: #B71C1C;
 
   --outline: #BDBDBD;
   --surface-variant: #EEEEEE;
@@ -28,6 +30,8 @@
   --accent-success: #43A047;
   --accent-info: #4FC3F7;
   --favorite-row: #e8f5e9;
+  --hover-primary: #004d00;
+  --hover-link: #1565C0;
 }
 
 /* -------- Dark Theme -------- */
@@ -48,6 +52,8 @@
 
   --error: #EF9A9A;
   --on-error: #3C0404;
+  --error-container: #5C0000;
+  --on-error-container: #FFCDD2;
 
   --outline: #424242;
   --surface-variant: #2C2C2C;
@@ -58,4 +64,6 @@
   --accent-success: #66BB6A;
   --accent-info: #81D4FA;
   --favorite-row: #1B5E20;
+  --hover-primary: #00695C;
+  --hover-link: #64B5F6;
 }
