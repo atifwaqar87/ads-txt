@@ -618,11 +618,18 @@ document.addEventListener('DOMContentLoaded', function() {
       stationLogo.onerror = null;
       stationLogo.src = defaultLogo;
     };
-    stationLogo.src = audio.dataset.logo || defaultLogo;
+    const logoSrc = audio.dataset.logo || defaultLogo;
+    stationLogo.src = logoSrc;
     stationLogo.hidden = false;
     liveBadge.hidden = true;
     notLiveBadge.hidden = false;
     mainPlayer.src = audio.src;
+    if ('mediaSession' in navigator) {
+      navigator.mediaSession.metadata = new MediaMetadata({
+        title: name,
+        artwork: [{ src: logoSrc }]
+      });
+    }
     mainPlayer.load();
     const playPromise = mainPlayer.play();
     if (playPromise !== undefined) {
@@ -712,6 +719,11 @@ document.addEventListener('DOMContentLoaded', function() {
   prevBtn.addEventListener('click', () => playStation(-1));
   nextBtn.addEventListener('click', () => playStation(1));
 
+  if ('mediaSession' in navigator) {
+    navigator.mediaSession.setActionHandler('previoustrack', () => playStation(-1));
+    navigator.mediaSession.setActionHandler('nexttrack', () => playStation(1));
+  }
+
   playPauseBtn.addEventListener('click', () => {
     if (mainPlayer.paused) {
       const label = currentBtn?.querySelector('.label');
@@ -736,6 +748,9 @@ document.addEventListener('DOMContentLoaded', function() {
     playPauseBtn.setAttribute('aria-label', 'Pause');
     liveBadge.hidden = false;
     notLiveBadge.hidden = true;
+    if ('mediaSession' in navigator) {
+      navigator.mediaSession.playbackState = 'playing';
+    }
     if (pendingBtn) {
       pendingBtn.classList.remove('loading');
       pendingBtn.querySelector('.label').textContent = 'stop';
@@ -764,6 +779,9 @@ document.addEventListener('DOMContentLoaded', function() {
     playPauseBtn.setAttribute('aria-label', 'Play');
     liveBadge.hidden = true;
     notLiveBadge.hidden = false;
+    if ('mediaSession' in navigator) {
+      navigator.mediaSession.playbackState = 'paused';
+    }
   });
 
   mainPlayer.addEventListener('error', () => {
