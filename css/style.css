@@ -203,6 +203,7 @@ section {
 
 .blog-post-item a:hover {
   text-decoration: underline;
+  color: var(--hover-link);
 }
 
 .blog-post-item .post-date {
@@ -467,7 +468,7 @@ button:hover,
 }
 
 .controls button:hover {
-  background: var(--primary-container);
+  background: var(--hover-primary);
 }
 
 .controls button:disabled {
@@ -504,7 +505,7 @@ table tbody tr.favorite {
   }
 
   .radio-list table tbody tr:not(:first-child):hover {
-    background-color: var(--surface-variant);
+    background-color: var(--hover-primary);
   }
 }
 
@@ -584,6 +585,7 @@ table tbody tr.favorite {
 
 .post-share a:hover {
   text-decoration: underline;
+  color: var(--hover-link);
 }
 
 /* Responsive adjustments */
@@ -740,6 +742,7 @@ footer nav a {
 
 footer nav a:hover {
   text-decoration: underline;
+  color: var(--hover-link);
 }
 
 .ad-container {
