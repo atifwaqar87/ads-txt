@@ -340,8 +340,7 @@ section {
 
 /* Buttons */
 button,
-.channel-toggle,
-.play-btn {
+.channel-toggle {
   background: var(--primary);
   color: var(--on-primary);
   border: none;
@@ -351,9 +350,26 @@ button,
 }
 
 button:hover,
-.channel-toggle:hover,
-.play-btn:hover {
+.channel-toggle:hover {
   background: #004d00;
+}
+
+.play-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: none;
+  border-radius: 50%;
+  background: #009688;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.play-btn:hover {
+  background: #00796b;
 }
 
 /* Radio player controls */
@@ -650,18 +666,13 @@ table tbody tr.favorite {
 }
 
 /* Spinner styles for radio play buttons */
-.play-btn {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 60px;
-}
-
 .play-btn .spinner {
   position: absolute;
   width: 16px;
   height: 16px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   border: 2px solid currentColor;
   border-top-color: transparent;
   border-radius: 50%;
