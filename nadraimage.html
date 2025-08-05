@@ -76,7 +76,7 @@
   <button id="captureBtn">📸 Capture</button>
 
   <canvas id="canvas" width="640" height="480" style="display:none;"></canvas>
-  <img id="preview" alt="Captured image appears here" /><br>
+  <img id="preview" alt="Captured image appears here" loading="lazy" /><br>
   <button id="downloadBtn" style="display:none;">🪄 Resize & Download</button>
 
   <script src="https://cdn.jsdelivr.net/npm/file-saver@2.0.5/dist/FileSaver.min.js"></script>
@@ -144,7 +144,8 @@
     };
   </script>
   <script src="/pakstream/js/menu.js"></script>
-<footer>
+  <script src="/pakstream/js/lazyload.js"></script>
+  <footer>
     <nav class="footer-nav">
       <a href="/pakstream/about.html">About Us</a>
       <a href="/pakstream/contact.html">Contact</a>
