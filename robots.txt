@@ -1,2 +1,4 @@
 User-agent: *
-Allow: /ads.txt
+Allow: /
+
+Sitemap: https://neurolingo.cc/sitemap.xml
