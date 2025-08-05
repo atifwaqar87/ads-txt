@@ -368,6 +368,10 @@ button:hover,
   cursor: pointer;
 }
 
+.play-pause-btn {
+  position: relative;
+}
+
 .play-btn:hover {
   background: #00796b;
 }
@@ -665,11 +669,12 @@ table tbody tr.favorite {
   }
 }
 
-/* Spinner styles for radio play buttons */
-.play-btn .spinner {
+/* Spinner styles for radio play buttons and main player */
+.play-btn .spinner,
+.play-pause-btn .spinner {
   position: absolute;
-  width: 16px;
-  height: 16px;
+  width: 20px;
+  height: 20px;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -680,11 +685,13 @@ table tbody tr.favorite {
   display: none;
 }
 
-.play-btn.loading .spinner {
+.play-btn.loading .spinner,
+.play-pause-btn.loading .spinner {
   display: inline-block;
 }
 
-.play-btn.loading .label {
+.play-btn.loading .label,
+.play-pause-btn.loading .label {
   visibility: hidden;
 }
 
