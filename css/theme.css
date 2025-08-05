@@ -30,7 +30,7 @@
   --accent-success: #43A047;
   --accent-info: #4FC3F7;
   --favorite-row: #e8f5e9;
-  --hover-primary: #00695C;
+  --hover-primary: #004d00;
   --hover-link: #1565C0;
 }
 
@@ -63,42 +63,7 @@
   --accent-link: #90CAF9;
   --accent-success: #66BB6A;
   --accent-info: #81D4FA;
-  --favorite-row: #2E7D32;
+  --favorite-row: #1B5E20;
   --hover-primary: #00695C;
   --hover-link: #64B5F6;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --primary: #80CBC4;
-    --on-primary: #00332C;
-    --primary-container: #004D40;
-    --on-primary-container: #B2DFDB;
-
-    --secondary: #EF9A9A;
-    --on-secondary: #3C0404;
-
-    --background: #121212;
-    --on-background: #E0E0E0;
-
-    --surface: #1E1E1E;
-    --on-surface: #F5F5F5;
-
-    --error: #EF9A9A;
-    --on-error: #3C0404;
-    --error-container: #5C0000;
-    --on-error-container: #FFCDD2;
-
-    --outline: #424242;
-    --surface-variant: #2C2C2C;
-    --on-surface-variant: #DDDDDD;
-
-    --accent-live: #FFB74D;
-    --accent-link: #90CAF9;
-    --accent-success: #66BB6A;
-    --accent-info: #81D4FA;
-    --favorite-row: #2E7D32;
-    --hover-primary: #00695C;
-    --hover-link: #64B5F6;
-  }
 }
