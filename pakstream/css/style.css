@@ -42,6 +42,13 @@ body {
   cursor: pointer;
 }
 
+.back-button {
+  color: var(--on-primary);
+  font-size: 1.25rem;
+  margin-right: 16px;
+  text-decoration: none;
+}
+
 nav {
   flex-grow: 1;
 }
@@ -585,7 +592,8 @@ table tbody tr.favorite {
     background: var(--surface);
     color: var(--on-surface);
     transform: translateX(-100%);
-    transition: transform 0.3s ease;
+    transition: transform 0.3s ease-in-out;
+    will-change: transform;
     box-shadow: 2px 0 5px rgba(0,0,0,0.3);
     z-index: 1001;
   }
@@ -627,6 +635,9 @@ table tbody tr.favorite {
 
 @media (min-width: 601px) {
   .nav-toggle-label {
+    display: none;
+  }
+  .back-button {
     display: none;
   }
   nav {

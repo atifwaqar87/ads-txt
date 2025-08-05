@@ -12,6 +12,24 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   });
 
+  var topBar = document.querySelector('.top-bar');
+  var homePaths = ['/index.html', '/pakstream/index.html'];
+  if (topBar && label && homePaths.indexOf(currentPath) === -1) {
+    var backBtn = document.createElement('a');
+    backBtn.href = '/index.html';
+    backBtn.className = 'back-button';
+    backBtn.textContent = '←';
+    backBtn.addEventListener('click', function (e) {
+      e.preventDefault();
+      if (window.history.length > 1) {
+        window.history.back();
+      } else {
+        window.location.href = '/index.html';
+      }
+    });
+    topBar.insertBefore(backBtn, label.nextSibling);
+  }
+
   label.addEventListener('click', function (e) {
     e.preventDefault();
     navToggle.checked = !navToggle.checked;
