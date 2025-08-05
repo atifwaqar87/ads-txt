@@ -409,7 +409,7 @@ button:hover,
 
 /* Radio player controls */
 .radio-player {
-  background: linear-gradient(180deg, var(--surface), var(--surface-variant));
+  background: linear-gradient(180deg, #1E1E1E, #2C2C2C);
   padding: 16px;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
@@ -532,6 +532,7 @@ table tbody tr:not(:first-child) {
 
 table tbody tr.favorite {
   background-color: var(--favorite-row);
+  color: #FFFFFF;
 }
 /* Hover highlight for station rows on desktops */
 @media (hover: hover) and (pointer: fine) {
