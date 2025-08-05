@@ -140,6 +140,11 @@ section {
   border-radius: 8px;
 }
 
+/* Improve contrast for tagline in dark mode */
+[data-theme="dark"] .hero-text {
+  color: var(--on-primary-container);
+}
+
 /* Featured card layout */
 .feature-cards {
   display: flex;
