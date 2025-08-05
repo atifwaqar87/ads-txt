@@ -466,7 +466,7 @@ table tbody tr:not(:first-child) {
 }
 
 table tbody tr.favorite {
-  background-color: #e8f5e9;
+  background-color: var(--favorite-row);
 }
 
 .radio-list td:first-child {
