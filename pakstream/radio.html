@@ -89,7 +89,10 @@
       <div class="controls">
         <button id="favorite-btn" class="favorite-btn material-icons" type="button" aria-label="Toggle favorite" disabled>favorite_border</button>
         <button id="prev-btn" class="fav-nav-btn material-icons" type="button" aria-label="Previous station" disabled>skip_previous</button>
-        <button id="play-pause-btn" class="play-pause-btn material-icons" type="button" aria-label="Play or pause" disabled>play_arrow</button>
+        <button id="play-pause-btn" class="play-pause-btn" type="button" aria-label="Play or pause" disabled>
+          <span class="material-icons label">play_arrow</span>
+          <span class="spinner"></span>
+        </button>
         <button id="next-btn" class="fav-nav-btn material-icons" type="button" aria-label="Next station" disabled>skip_next</button>
         <button id="mute-btn" class="mute-btn material-icons" type="button" aria-label="Mute" disabled>volume_up</button>
         <audio id="radio-player" autoplay></audio>
@@ -508,6 +511,7 @@ document.addEventListener('DOMContentLoaded', function() {
   const favBtn = document.getElementById('favorite-btn');
   const prevBtn = document.getElementById('prev-btn');
   const playPauseBtn = document.getElementById('play-pause-btn');
+  const playPauseLabel = playPauseBtn.querySelector('.label');
   const nextBtn = document.getElementById('next-btn');
   const muteBtn = document.getElementById('mute-btn');
   const favorites = JSON.parse(localStorage.getItem('radioFavorites') || '[]');
@@ -560,7 +564,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const hasStations = playButtons.length > 0;
     prevBtn.disabled = nextBtn.disabled = !hasStations;
 
-    playPauseBtn.textContent = mainPlayer.paused ? 'play_arrow' : 'pause';
+    playPauseLabel.textContent = mainPlayer.paused ? 'play_arrow' : 'pause';
+    playPauseBtn.setAttribute('aria-label', mainPlayer.paused ? 'Play' : 'Pause');
     muteBtn.textContent = mainPlayer.muted ? 'volume_off' : 'volume_up';
 
     // Move favorite rows to the top while preserving event listeners
@@ -608,6 +613,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     pendingBtn = btn;
     btn.classList.add('loading');
+    playPauseBtn.classList.add('loading');
     stationLogo.onerror = () => {
       stationLogo.onerror = null;
       stationLogo.src = defaultLogo;
@@ -625,9 +631,11 @@ document.addEventListener('DOMContentLoaded', function() {
         // Reset the button state and wait for the first user interaction
         // before trying to play again.
         resetButton(btn);
+        playPauseBtn.classList.remove('loading');
 
         resumeHandler = () => {
           btn.classList.add('loading');
+          playPauseBtn.classList.add('loading');
           const pp = mainPlayer.play();
           if (pp !== undefined) {
             pp.catch(() => {
@@ -709,6 +717,8 @@ document.addEventListener('DOMContentLoaded', function() {
       const label = currentBtn?.querySelector('.label');
       if (label) label.textContent = 'stop';
       currentBtn?.setAttribute('aria-label', 'Stop');
+      playPauseBtn.classList.add('loading');
+      currentBtn?.classList.add('loading');
       mainPlayer.play();
     } else {
       mainPlayer.pause();
@@ -721,7 +731,9 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 
   mainPlayer.addEventListener('playing', () => {
-    playPauseBtn.textContent = 'pause';
+    playPauseLabel.textContent = 'pause';
+    playPauseBtn.classList.remove('loading');
+    playPauseBtn.setAttribute('aria-label', 'Pause');
     liveBadge.hidden = false;
     notLiveBadge.hidden = true;
     if (pendingBtn) {
@@ -731,6 +743,7 @@ document.addEventListener('DOMContentLoaded', function() {
       currentBtn = pendingBtn;
       pendingBtn = null;
     } else if (currentBtn) {
+      currentBtn.classList.remove('loading');
       currentBtn.querySelector('.label').textContent = 'stop';
       currentBtn.setAttribute('aria-label', 'Stop');
     }
@@ -739,18 +752,25 @@ document.addEventListener('DOMContentLoaded', function() {
   mainPlayer.addEventListener('waiting', () => {
     liveBadge.hidden = true;
     notLiveBadge.hidden = false;
+    playPauseBtn.classList.add('loading');
+    currentBtn?.classList.add('loading');
   });
 
   mainPlayer.addEventListener('pause', () => {
     if (!mainPlayer.src) return;
     resetButton(currentBtn);
-    playPauseBtn.textContent = 'play_arrow';
+    playPauseLabel.textContent = 'play_arrow';
+    playPauseBtn.classList.remove('loading');
+    playPauseBtn.setAttribute('aria-label', 'Play');
     liveBadge.hidden = true;
     notLiveBadge.hidden = false;
   });
 
   mainPlayer.addEventListener('error', () => {
     resetButton(pendingBtn || currentBtn);
+    playPauseBtn.classList.remove('loading');
+    playPauseLabel.textContent = 'play_arrow';
+    playPauseBtn.setAttribute('aria-label', 'Play');
     currentBtn = null;
     pendingBtn = null;
     currentAudio = null;
