@@ -405,7 +405,7 @@ button:hover,
 
 /* Radio player controls */
 .radio-player {
-  background: linear-gradient(180deg, #1E1E1E, #2C2C2C);
+  background: linear-gradient(180deg, var(--surface), var(--surface-variant));
   padding: 16px;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
