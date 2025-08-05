@@ -64,7 +64,8 @@ nav a {
   font-weight: 500;
 }
 
-nav a:hover {
+nav a:hover,
+nav a.active {
   text-decoration: underline;
   color: #c5e1a5;
 }
