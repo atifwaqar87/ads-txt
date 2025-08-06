@@ -229,9 +229,9 @@
 
     function loadPlayer(id) {
       const iframe = document.getElementById(`${id}-player`);
-      if (iframe.dataset.src && !iframe.src) {
+      
         iframe.src = iframe.dataset.src;
-      }
+      
       players[iframe.id] = new YT.Player(iframe.id, {
         playerVars: { autoplay: 1 },
         events: {
